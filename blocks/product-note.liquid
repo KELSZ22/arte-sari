@@ -1,0 +1,80 @@
+<div class="product-note-field" {{ block.shopify_attributes }}>
+    <div class="product-note-icon">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g clip-path="url(#clip0_2156_13419)">
+        <path d="M7.33331 2.66602H2.66665C2.31302 2.66602 1.97389 2.80649 1.72384 3.05654C1.47379 3.30659 1.33331 3.64573 1.33331 3.99935V13.3327C1.33331 13.6863 1.47379 14.0254 1.72384 14.2755C1.97389 14.5255 2.31302 14.666 2.66665 14.666H12C12.3536 14.666 12.6927 14.5255 12.9428 14.2755C13.1928 14.0254 13.3333 13.6863 13.3333 13.3327V8.66602" stroke="#969696" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M12.3333 1.66617C12.5985 1.40095 12.9582 1.25195 13.3333 1.25195C13.7084 1.25195 14.0681 1.40095 14.3333 1.66617C14.5985 1.93138 14.7475 2.29109 14.7475 2.66617C14.7475 3.04124 14.5985 3.40095 14.3333 3.66617L7.99998 9.9995L5.33331 10.6662L5.99998 7.9995L12.3333 1.66617Z" stroke="#969696" stroke-linecap="round" stroke-linejoin="round"/>
+        </g>
+        <defs>
+        <clipPath id="clip0_2156_13419">
+        <rect width="16" height="16" fill="white"/>
+        </clipPath>
+        </defs>
+        </svg>
+    </div>
+    <input
+        id="product-note-{{ section.id }}"
+        class="product-note-input"
+        type="text"
+        name="properties[Product Note]"
+        placeholder="Add note to your order"
+        autocomplete="off"
+        autocorrect="off"
+        autocapitalize="off"
+        spellcheck="false"
+    >
+</div>
+
+{% style %}
+    .product-note-field {
+        border: 1px solid #0C0C0D1A;
+        padding: 10px 20px;
+        display: grid;
+        grid-template-columns: 20px 1fr;
+        gap: 5px;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+    .product-note-input {
+        width: 100%;
+        padding: 10px;
+        padding-left: 0;
+        background: none;
+        border: none;
+        outline: none;
+        box-shadow: none;
+
+        font-family: Agrandir;
+        font-weight: 400;
+        font-style: Regular;
+        font-size: 16px;
+        leading-trim: NONE;
+        line-height: 24px;
+        letter-spacing: 0%;
+    }
+    .product-note-input::placeholder {
+        color: #CFCFCD;
+        opacity: 1;
+    }
+    textarea, input:not([type=checkbox],[type=radio]).product-note-input,
+    .product-note-input:focus,
+    .product-note-input:focus-visible {
+        background: none;
+        border: none;
+        outline: none;
+        box-shadow: none;
+    }
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "Product Note",
+  "tag": null,
+  "settings": [],
+  "presets": [
+    {
+        "name": "Product Note",
+    }
+  ]
+}
+{% endschema %}

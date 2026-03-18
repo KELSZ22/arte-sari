@@ -1,0 +1,1243 @@
+{% liquid
+  assign overlay_opacity = section.settings.background_overlay | divided_by: 100.0
+  assign product_1 = section.settings.product_1
+  assign product_2 = section.settings.product_2
+
+  assign subtitle_font_family = section.settings.subtitle_font_family
+  assign title_font_family = section.settings.title_font_family
+  assign text_font_family = section.settings.text_font_family
+  assign button_font_family = section.settings.button_font_family
+  assign product_title_font_family = section.settings.product_title_font_family
+  assign product_price_font_family = section.settings.product_price_font_family
+
+  assign subtitle_font = subtitle_font_family | default: 'inherit'
+  assign title_font = title_font_family | default: 'inherit'
+  assign text_font = text_font_family | default: 'inherit'
+  assign button_font = button_font_family | default: 'inherit'
+  assign product_title_font = product_title_font_family | default: 'inherit'
+  assign product_price_font = product_price_font_family | default: 'inherit'
+
+  if subtitle_font == 'agrandir'
+    assign subtitle_font_value = 'Agrandir'
+  elsif subtitle_font == 'ss-bruney'
+    assign subtitle_font_value = 'SS Bruney'
+  elsif subtitle_font == 'facelio'
+    assign subtitle_font_value = 'Facelio'
+  elsif subtitle_font == 'fraunces'
+    assign subtitle_font_value = 'var(--font-heading-family)'
+  else
+    assign subtitle_font_value = 'inherit'
+  endif
+
+  if title_font == 'agrandir'
+    assign title_font_value = 'Agrandir'
+  elsif title_font == 'ss-bruney'
+    assign title_font_value = 'SS Bruney'
+  elsif title_font == 'facelio'
+    assign title_font_value = 'Facelio'
+  elsif title_font == 'fraunces'
+    assign title_font_value = 'var(--font-heading-family)'
+  else
+    assign title_font_value = 'inherit'
+  endif
+
+  if text_font == 'agrandir'
+    assign text_font_value = 'Agrandir'
+  elsif text_font == 'ss-bruney'
+    assign text_font_value = 'SS Bruney'
+  elsif text_font == 'facelio'
+    assign text_font_value = 'Facelio'
+  elsif text_font == 'fraunces'
+    assign text_font_value = 'var(--font-heading-family)'
+  else
+    assign text_font_value = 'inherit'
+  endif
+
+  if button_font == 'agrandir'
+    assign button_font_value = 'Agrandir'
+  elsif button_font == 'ss-bruney'
+    assign button_font_value = 'SS Bruney'
+  elsif button_font == 'facelio'
+    assign button_font_value = 'Facelio'
+  elsif button_font == 'fraunces'
+    assign button_font_value = 'var(--font-heading-family)'
+  else
+    assign button_font_value = 'inherit'
+  endif
+
+  if product_title_font == 'agrandir'
+    assign product_title_font_value = 'Agrandir'
+  elsif product_title_font == 'ss-bruney'
+    assign product_title_font_value = 'SS Bruney'
+  elsif product_title_font == 'facelio'
+    assign product_title_font_value = 'Facelio'
+  elsif product_title_font == 'fraunces'
+    assign product_title_font_value = 'var(--font-heading-family)'
+  else
+    assign product_title_font_value = 'inherit'
+  endif
+
+  if product_price_font == 'agrandir'
+    assign product_price_font_value = 'Agrandir'
+  elsif product_price_font == 'ss-bruney'
+    assign product_price_font_value = 'SS Bruney'
+  elsif product_price_font == 'facelio'
+    assign product_price_font_value = 'Facelio'
+  elsif product_price_font == 'fraunces'
+    assign product_price_font_value = 'var(--font-heading-family)'
+  else
+    assign product_price_font_value = 'inherit'
+  endif
+
+  if section.settings.background_image_mobile != blank
+    assign mobile_bg_image = section.settings.background_image_mobile | image_url: width: 1200
+  elsif section.settings.background_image != blank
+    assign mobile_bg_image = section.settings.background_image | image_url: width: 1200
+  else
+    assign mobile_bg_image = nil
+  endif
+
+  if section.settings.mobile_paper_image != blank
+    assign mobile_paper_src = section.settings.mobile_paper_image | image_url: width: 800
+  else
+    assign mobile_paper_src = nil
+  endif
+%}
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<section
+  class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }} featured-artisan spacing-style"
+  style="
+    {% render 'spacing-style', settings: section.settings %}
+    --featured-artisan-overlay: {{ overlay_opacity }};
+    --featured-artisan-bg-size: {{ section.settings.background_size }};
+    --featured-artisan-bg-position: {{ section.settings.background_position }};
+    --featured-artisan-subtitle-color: {{ section.settings.subtitle_color }};
+    --featured-artisan-title-color: {{ section.settings.title_color }};
+    --featured-artisan-text-color: {{ section.settings.text_color }};
+    --featured-artisan-button-bg: {{ section.settings.button_bg_color }};
+    --featured-artisan-button-color: {{ section.settings.button_text_color }};
+    --featured-artisan-subtitle-font: {{ subtitle_font_value }};
+    --featured-artisan-subtitle-size: {{ section.settings.subtitle_font_size }}px;
+    --featured-artisan-subtitle-weight: {{ section.settings.subtitle_font_weight }};
+    --featured-artisan-title-font: {{ title_font_value }};
+    --featured-artisan-title-size: {{ section.settings.title_font_size }}px;
+    --featured-artisan-title-weight: {{ section.settings.title_font_weight }};
+    --featured-artisan-text-font: {{ text_font_value }};
+    --featured-artisan-text-size: {{ section.settings.text_font_size }}px;
+    --featured-artisan-text-weight: {{ section.settings.text_font_weight }};
+    --featured-artisan-button-font: {{ button_font_value }};
+    --featured-artisan-button-size: {{ section.settings.button_font_size }}px;
+    --featured-artisan-button-weight: {{ section.settings.button_font_weight }};
+    --featured-artisan-product-title-font: {{ product_title_font_value }};
+    --featured-artisan-product-title-size: {{ section.settings.product_title_font_size }}px;
+    --featured-artisan-product-title-weight: {{ section.settings.product_title_font_weight }};
+    --featured-artisan-product-title-color: {{ section.settings.product_title_color | default: '#5D5C5A' }};
+    --featured-artisan-product-price-font: {{ product_price_font_value }};
+    --featured-artisan-product-price-size: {{ section.settings.product_price_font_size }}px;
+    --featured-artisan-product-price-weight: {{ section.settings.product_price_font_weight }};
+    --featured-artisan-product-price-color: {{ section.settings.product_price_color | default: '#969696' }};
+    --featured-artisan-products-padding-top: {{ section.settings.products_padding_top }}px;
+    --featured-artisan-products-padding-bottom: {{ section.settings.products_padding_bottom }}px;
+    --featured-artisan-products-padding-left: {{ section.settings.products_padding_left }}px;
+    --featured-artisan-products-padding-right: {{ section.settings.products_padding_right }}px;
+    --featured-artisan-mobile-paper-max-width: {{ section.settings.mobile_paper_max_width }}px;
+    {% if section.settings.section_height == 'custom' %}
+      --featured-artisan-height: {{ section.settings.section_height_custom }}svh;
+    {% elsif section.settings.section_height == 'full-screen' %}
+      --featured-artisan-height: 100svh;
+    {% elsif section.settings.section_height != blank and section.settings.section_height != '' %}
+      --featured-artisan-height: var(--section-height-{{ section.settings.section_height }});
+    {% else %}
+      --featured-artisan-height: auto;
+    {% endif %}
+    {% if section.settings.background_image != blank %}
+      --featured-artisan-bg-image: url('{{ section.settings.background_image | image_url: width: 2800 }}');
+    {% else %}
+      --featured-artisan-bg-image: none;
+    {% endif %}
+    {% if mobile_bg_image != nil %}
+      --featured-artisan-bg-image-mobile: url('{{ mobile_bg_image }}');
+    {% else %}
+      --featured-artisan-bg-image-mobile: var(--featured-artisan-bg-image);
+    {% endif %}
+  "
+>
+  <div class="featured-artisan__background"></div>
+
+  <div class="featured-artisan__inner">
+    <div class="featured-artisan__content">
+      {% if section.settings.subtitle != blank %}
+        <p class="featured-artisan__subtitle">{{ section.settings.subtitle }}</p>
+      {% endif %}
+
+      {% if section.settings.title != blank %}
+        <h2 class="featured-artisan__title">{{ section.settings.title }}</h2>
+      {% endif %}
+
+      {% if section.settings.text != blank %}
+        <div class="featured-artisan__text">
+          {{ section.settings.text }}
+        </div>
+      {% endif %}
+
+      {% if section.settings.button_label != blank %}
+        <div class="featured-artisan__footer">
+          <a
+            {% if section.settings.button_link != blank %}
+              href="{{ section.settings.button_link }}"
+            {% else %}
+              role="link"
+              aria-disabled="true"
+            {% endif %}
+            class="featured-artisan__button"
+          >
+            {{ section.settings.button_label }}
+          </a>
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="featured-artisan__products-wrap">
+      <ul class="featured-artisan__products featured-artisan__products--desktop" role="list">
+        <!-- Product 1 -->
+        <li class="featured-artisan__item">
+          {% if product_1 != blank %}
+            {% assign collection_label_1 = product_1.metafields.custom.collection.value %}
+            <a href="{{ product_1.url }}" class="featured-artisan__card">
+              <span class="featured-artisan__card-image-wrap">
+                {% if product_1.featured_image != blank %}
+                  {{
+                    product_1.featured_image
+                    | image_url: width: 600
+                    | image_tag: class: 'featured-artisan__card-image', loading: 'lazy'
+                  }}
+                {% else %}
+                  <span class="featured-artisan__card-image featured-artisan__card-image--placeholder"></span>
+                {% endif %}
+              </span>
+              {% if collection_label_1 != blank %}
+                <span class="featured-artisan__card-collection-label">{{ collection_label_1 }}</span>
+              {% endif %}
+              <span class="featured-artisan__card-title">{{ product_1.title }}</span>
+              <span class="featured-artisan__card-price">{{ product_1.price | money }}</span>
+            </a>
+          {% else %}
+            <div class="featured-artisan__card featured-artisan__card--placeholder">
+              <span class="featured-artisan__card-image-wrap">
+                <span class="featured-artisan__card-image featured-artisan__card-image--placeholder"></span>
+              </span>
+              <span class="featured-artisan__card-title">Product title</span>
+              <span class="featured-artisan__card-price">{{ 1999 | money }}</span>
+            </div>
+          {% endif %}
+        </li>
+        
+        <!-- Product 2 -->
+        <li class="featured-artisan__item">
+          {% if product_2 != blank %}
+            {% assign collection_label_2 = product_2.metafields.custom.collection.value %}
+            <a href="{{ product_2.url }}" class="featured-artisan__card">
+              <span class="featured-artisan__card-image-wrap">
+                {% if product_2.featured_image != blank %}
+                  {{
+                    product_2.featured_image
+                    | image_url: width: 600
+                    | image_tag: class: 'featured-artisan__card-image', loading: 'lazy'
+                  }}
+                {% else %}
+                  <span class="featured-artisan__card-image featured-artisan__card-image--placeholder"></span>
+                {% endif %}
+              </span>
+              {% if collection_label_2 != blank %}
+                <span class="featured-artisan__card-collection-label">{{ collection_label_2 }}</span>
+              {% endif %}
+              <span class="featured-artisan__card-title">{{ product_2.title }}</span>
+              <span class="featured-artisan__card-price">{{ product_2.price | money }}</span>
+            </a>
+          {% else %}
+            <div class="featured-artisan__card featured-artisan__card--placeholder">
+              <span class="featured-artisan__card-image-wrap">
+                <span class="featured-artisan__card-image featured-artisan__card-image--placeholder"></span>
+              </span>
+              <span class="featured-artisan__card-title">Product title</span>
+              <span class="featured-artisan__card-price">{{ 1999 | money }}</span>
+            </div>
+          {% endif %}
+        </li>
+      </ul>
+
+      <!-- Mobile with Products -->
+      {% if mobile_paper_src != nil %}
+        <div class="featured-artisan__mobile-paper">
+          <img
+            src="{{ mobile_paper_src }}"
+            alt=""
+            class="featured-artisan__mobile-paper-image"
+            loading="lazy"
+            width="800"
+            height="auto"
+          >
+          <div class="featured-artisan__mobile-paper-content">
+            <ul class="featured-artisan__products featured-artisan__products--mobile" role="list">
+              <!-- Product 1 (mobile) -->
+              <li class="featured-artisan__item">
+                {% if product_1 != blank %}
+                  {% assign collection_label_1 = product_1.metafields.custom.collection.value %}
+                  <a href="{{ product_1.url }}" class="featured-artisan__card">
+                    <span class="featured-artisan__card-image-wrap">
+                      {% if product_1.featured_image != blank %}
+                        {{
+                          product_1.featured_image
+                          | image_url: width: 600
+                          | image_tag: class: 'featured-artisan__card-image', loading: 'lazy'
+                        }}
+                      {% else %}
+                        <span class="featured-artisan__card-image featured-artisan__card-image--placeholder"></span>
+                      {% endif %}
+                    </span>
+                    {% if collection_label_1 != blank %}
+                      <span class="featured-artisan__card-collection-label">{{ collection_label_1 }}</span>
+                    {% endif %}
+                    <span class="featured-artisan__card-title">{{ product_1.title }}</span>
+                    <span class="featured-artisan__card-price">{{ product_1.price | money }}</span>
+                  </a>
+                {% else %}
+                  <div class="featured-artisan__card featured-artisan__card--placeholder">
+                    <span class="featured-artisan__card-image-wrap">
+                      <span class="featured-artisan__card-image featured-artisan__card-image--placeholder"></span>
+                    </span>
+                    <span class="featured-artisan__card-title">Product title</span>
+                    <span class="featured-artisan__card-price">{{ 1999 | money }}</span>
+                  </div>
+                {% endif %}
+              </li>
+              
+              <!-- Product 2 (mobile) -->
+              <li class="featured-artisan__item">
+                {% if product_2 != blank %}
+                  {% assign collection_label_2 = product_2.metafields.custom.collection.value %}
+                  <a href="{{ product_2.url }}" class="featured-artisan__card">
+                    <span class="featured-artisan__card-image-wrap">
+                      {% if product_2.featured_image != blank %}
+                        {{
+                          product_2.featured_image
+                          | image_url: width: 600
+                          | image_tag: class: 'featured-artisan__card-image', loading: 'lazy'
+                        }}
+                      {% else %}
+                        <span class="featured-artisan__card-image featured-artisan__card-image--placeholder"></span>
+                      {% endif %}
+                    </span>
+                    {% if collection_label_2 != blank %}
+                      <span class="featured-artisan__card-collection-label">{{ collection_label_2 }}</span>
+                    {% endif %}
+                    <span class="featured-artisan__card-title">{{ product_2.title }}</span>
+                    <span class="featured-artisan__card-price">{{ product_2.price | money }}</span>
+                  </a>
+                {% else %}
+                  <div class="featured-artisan__card featured-artisan__card--placeholder">
+                    <span class="featured-artisan__card-image-wrap">
+                      <span class="featured-artisan__card-image featured-artisan__card-image--placeholder"></span>
+                    </span>
+                    <span class="featured-artisan__card-title">Product title</span>
+                    <span class="featured-artisan__card-price">{{ 1999 | money }}</span>
+                  </div>
+                {% endif %}
+              </li>
+            </ul>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  @font-face {
+    font-family: 'Agrandir';
+    src: url('https://cdn.shopify.com/s/files/1/0728/1321/5942/files/Agrandir-Regular.woff2?v=1771643523') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'SS Bruney';
+    src: url('https://cdn.shopify.com/s/files/1/0728/1321/5942/files/SS_Bruney.woff2?v=1771643523') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Facelio';
+    src: url('https://cdn.shopify.com/s/files/1/0728/1321/5942/files/Facelio.woff2?v=1771643523') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  .featured-artisan {
+    position: relative;
+    overflow: visible;
+    isolation: isolate;
+    min-height: var(--featured-artisan-height);
+  }
+
+  .featured-artisan__background {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 100vw;
+    margin-left: -50vw;
+    z-index: -1;
+    background-image: var(--featured-artisan-bg-image);
+    background-size: var(--featured-artisan-bg-size);
+    background-position: var(--featured-artisan-bg-position);
+    background-repeat: no-repeat;
+  }
+
+  .featured-artisan__background::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, var(--featured-artisan-overlay));
+  }
+
+  .featured-artisan__inner {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    margin: 0;
+    margin-right: auto;
+    padding: 40px 24px 48px 48px;
+    display: flex;
+    flex-direction: column;
+    gap: 150px;
+  }
+
+  .featured-artisan__content {
+    max-width: 560px;
+    margin-bottom: 32px;
+  }
+
+  .featured-artisan__subtitle {
+    margin: 0 0 8px;
+    font-family: var(--featured-artisan-subtitle-font);
+    font-size: var(--featured-artisan-subtitle-size);
+    font-weight: var(--featured-artisan-subtitle-weight);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--featured-artisan-subtitle-color);
+  }
+
+  .featured-artisan__title {
+    margin: 0 0 16px;
+    font-family: var(--featured-artisan-title-font);
+    font-size: var(--featured-artisan-title-size);
+    font-weight: var(--featured-artisan-title-weight);
+    line-height: 1.2;
+    color: var(--featured-artisan-title-color);
+  }
+
+  .featured-artisan__text {
+    margin: 0 0 24px;
+    font-family: var(--featured-artisan-text-font);
+    font-size: var(--featured-artisan-text-size);
+    font-weight: var(--featured-artisan-text-weight);
+    line-height: 1.6;
+    color: var(--featured-artisan-text-color);
+  }
+
+  .featured-artisan__text p {
+    margin: 0 0 0.5em;
+  }
+
+  .featured-artisan__text p:last-child {
+    margin-bottom: 0;
+  }
+
+  .featured-artisan__footer {
+    margin-top: 24px;
+  }
+
+  .featured-artisan__button {
+    display: inline-flex;
+    width: 220px;
+    height: 47px;
+    padding: 0 16px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    background: var(--featured-artisan-button-bg);
+    color: var(--featured-artisan-button-color);
+    border: 0;
+    border-radius: 0;
+    font-family: var(--featured-artisan-button-font);
+    font-size: var(--featured-artisan-button-size);
+    font-weight: var(--featured-artisan-button-weight);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+
+  .featured-artisan__button:hover {
+    opacity: 0.9;
+  }
+
+  .featured-artisan__products-wrap {
+    margin-top: -180px;
+    padding-top: var(--featured-artisan-products-padding-top);
+    padding-bottom: var(--featured-artisan-products-padding-bottom);
+    padding-left: var(--featured-artisan-products-padding-left);
+    padding-right: var(--featured-artisan-products-padding-right);
+  }
+
+  .featured-artisan__products {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 24px;
+    grid-template-columns: repeat(2, minmax(0, 256px));
+    max-width: 536px;
+  }
+
+  .featured-artisan__products--mobile {
+    display: none;
+  }
+
+  .featured-artisan__item {
+    min-width: 0;
+  }
+
+  .featured-artisan__card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    color: inherit;
+    text-decoration: none;
+    max-width: 256px;
+  }
+
+  .featured-artisan__card-image-wrap {
+    display: block;
+    border: 1px solid rgba(104, 106, 84, 0.4);
+    overflow: hidden;
+  }
+
+  .featured-artisan__card-image {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    background: rgba(255, 255, 255, 0.15);
+  }
+
+  .featured-artisan__card-image--placeholder {
+    aspect-ratio: 1;
+    display: block;
+    background: #f5f5f5;
+  }
+
+  .featured-artisan__card-collection-label {
+    color: #969696;
+    font-family: Agrandir;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .featured-artisan__card-title {
+    font-family: var(--featured-artisan-product-title-font);
+    font-size: var(--featured-artisan-product-title-size);
+    font-weight: var(--featured-artisan-product-title-weight);
+    line-height: 1.3;
+    color: var(--featured-artisan-product-title-color);
+  }
+
+  .featured-artisan__card-price {
+    font-family: 'Agrandir';
+    font-size: var(--featured-artisan-product-price-size);
+    font-weight: var(--featured-artisan-product-price-weight);
+    line-height: 1.3;
+    color: var(--featured-artisan-product-price-color);
+  }
+
+  .featured-artisan__mobile-paper {
+    display: none;
+  }
+
+  @media screen and (min-width: 750px) {
+    .featured-artisan__background {
+      background-position: var(--featured-artisan-bg-position);
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .featured-artisan__inner {
+      padding: 24px 16px 32px 24px;
+    }
+
+    .featured-artisan__background {
+      background-image: var(--featured-artisan-bg-image-mobile);
+      background-position: left;
+    }
+
+    .featured-artisan__content {
+      padding-top: 250px;
+    }
+
+    .featured-artisan__text p {
+      font-size: 14px;
+      padding-right: 90px;
+    }
+
+    .featured-artisan__products--desktop {
+      display: none !important;
+    }
+
+    .featured-artisan__mobile-paper {
+      display: block;
+      position: relative;
+      width: 100%;
+      max-width: var(--featured-artisan-mobile-paper-max-width);
+      margin: 50px auto 0;
+      text-align: center;
+    }
+
+    .featured-artisan__mobile-paper-image {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .featured-artisan__mobile-paper-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 85%;
+    }
+
+    .featured-artisan__products--mobile {
+      display: grid !important;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      max-width: 100%;
+    }
+
+    .featured-artisan__products--mobile .featured-artisan__card {
+      max-width: 100%;
+      background: white;
+      padding: 12px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    .featured-artisan__mobile-paper-content {
+      width: 90%;
+    }
+    
+    .featured-artisan__products--mobile .featured-artisan__card {
+      padding: 8px;
+    }
+  }
+{% endstylesheet %}
+
+<!-- Create a snippet for the product card to avoid duplication -->
+{% comment %}
+  Create a file called "featured-artisan-product-card.liquid" in the snippets folder with this content:
+  
+  {% assign product = product %}
+  {% if product != blank %}
+    {% assign collection_label = product.metafields.custom.collection.value %}
+    <li class="featured-artisan__item">
+      <a href="{{ product.url }}" class="featured-artisan__card">
+        <span class="featured-artisan__card-image-wrap">
+          {% if product.featured_image != blank %}
+            {{
+              product.featured_image
+              | image_url: width: 600
+              | image_tag: class: 'featured-artisan__card-image', loading: 'lazy'
+            }}
+          {% else %}
+            <span class="featured-artisan__card-image featured-artisan__card-image--placeholder"></span>
+          {% endif %}
+        </span>
+        {% if collection_label != blank %}
+          <span class="featured-artisan__card-collection-label">{{ collection_label }}</span>
+        {% endif %}
+        <span class="featured-artisan__card-title">{{ product.title }}</span>
+        <span class="featured-artisan__card-price">{{ product.price | money }}</span>
+      </a>
+    </li>
+  {% else %}
+    <li class="featured-artisan__item">
+      <div class="featured-artisan__card featured-artisan__card--placeholder">
+        <span class="featured-artisan__card-image-wrap">
+          <span class="featured-artisan__card-image featured-artisan__card-image--placeholder"></span>
+        </span>
+        <span class="featured-artisan__card-title">Product title</span>
+        <span class="featured-artisan__card-price">{{ 1999 | money }}</span>
+      </div>
+    </li>
+  {% endif %}
+{% endcomment %}
+
+{% schema %}
+{
+  "name": "Featured artisan",
+  "class": "featured-artisan-section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Featured Artisan"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Christian Cera"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Known for creating handcrafted leather bags that highlight artistry and function. His brand focuses on small-batch, design-driven pieces that celebrate Filipino craftsmanship.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Read the blog"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Subtitle Typography"
+    },
+    {
+      "type": "select",
+      "id": "subtitle_font_family",
+      "label": "Subtitle font",
+      "options": [
+        { "value": "agrandir", "label": "Agrandir" },
+        { "value": "ss-bruney", "label": "SS Bruney" },
+        { "value": "facelio", "label": "Facelio" },
+        { "value": "fraunces", "label": "Fraunces" },
+        { "value": "inherit", "label": "Default" }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "range",
+      "id": "subtitle_font_size",
+      "label": "Subtitle font size",
+      "min": 10,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "select",
+      "id": "subtitle_font_weight",
+      "label": "Subtitle font weight",
+      "options": [
+        { "value": "100", "label": "Thin" },
+        { "value": "200", "label": "Extra Light" },
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi Bold" },
+        { "value": "700", "label": "Bold" },
+        { "value": "800", "label": "Extra Bold" },
+        { "value": "900", "label": "Black" }
+      ],
+      "default": "500"
+    },
+    {
+      "type": "header",
+      "content": "Title Typography"
+    },
+    {
+      "type": "select",
+      "id": "title_font_family",
+      "label": "Title font",
+      "options": [
+        { "value": "agrandir", "label": "Agrandir" },
+        { "value": "ss-bruney", "label": "SS Bruney" },
+        { "value": "facelio", "label": "Facelio" },
+        { "value": "fraunces", "label": "Fraunces" },
+        { "value": "inherit", "label": "Default" }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "range",
+      "id": "title_font_size",
+      "label": "Title font size",
+      "min": 12,
+      "max": 120,
+      "step": 2,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "select",
+      "id": "title_font_weight",
+      "label": "Title font weight",
+      "options": [
+        { "value": "100", "label": "Thin" },
+        { "value": "200", "label": "Extra Light" },
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi Bold" },
+        { "value": "700", "label": "Bold" },
+        { "value": "800", "label": "Extra Bold" },
+        { "value": "900", "label": "Black" }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "header",
+      "content": "Text Typography"
+    },
+    {
+      "type": "select",
+      "id": "text_font_family",
+      "label": "Text font",
+      "options": [
+        { "value": "agrandir", "label": "Agrandir" },
+        { "value": "ss-bruney", "label": "SS Bruney" },
+        { "value": "facelio", "label": "Facelio" },
+        { "value": "fraunces", "label": "Fraunces" },
+        { "value": "inherit", "label": "Default" }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "range",
+      "id": "text_font_size",
+      "label": "Text font size",
+      "min": 10,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "select",
+      "id": "text_font_weight",
+      "label": "Text font weight",
+      "options": [
+        { "value": "100", "label": "Thin" },
+        { "value": "200", "label": "Extra Light" },
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi Bold" },
+        { "value": "700", "label": "Bold" },
+        { "value": "800", "label": "Extra Bold" },
+        { "value": "900", "label": "Black" }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "header",
+      "content": "Button Typography"
+    },
+    {
+      "type": "select",
+      "id": "button_font_family",
+      "label": "Button font",
+      "options": [
+        { "value": "agrandir", "label": "Agrandir" },
+        { "value": "ss-bruney", "label": "SS Bruney" },
+        { "value": "facelio", "label": "Facelio" },
+        { "value": "fraunces", "label": "Fraunces" },
+        { "value": "inherit", "label": "Default" }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "range",
+      "id": "button_font_size",
+      "label": "Button font size",
+      "min": 10,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "select",
+      "id": "button_font_weight",
+      "label": "Button font weight",
+      "options": [
+        { "value": "100", "label": "Thin" },
+        { "value": "200", "label": "Extra Light" },
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi Bold" },
+        { "value": "700", "label": "Bold" },
+        { "value": "800", "label": "Extra Bold" },
+        { "value": "900", "label": "Black" }
+      ],
+      "default": "500"
+    },
+    {
+      "type": "header",
+      "content": "Product title typography"
+    },
+    {
+      "type": "select",
+      "id": "product_title_font_family",
+      "label": "Product title font",
+      "options": [
+        { "value": "agrandir", "label": "Agrandir" },
+        { "value": "ss-bruney", "label": "SS Bruney" },
+        { "value": "facelio", "label": "Facelio" },
+        { "value": "fraunces", "label": "Fraunces" },
+        { "value": "inherit", "label": "Default" }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "range",
+      "id": "product_title_font_size",
+      "label": "Product title font size",
+      "min": 10,
+      "max": 48,
+      "step": 1,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "select",
+      "id": "product_title_font_weight",
+      "label": "Product title font weight",
+      "options": [
+        { "value": "100", "label": "Thin" },
+        { "value": "200", "label": "Extra Light" },
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi Bold" },
+        { "value": "700", "label": "Bold" },
+        { "value": "800", "label": "Extra Bold" },
+        { "value": "900", "label": "Black" }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "color",
+      "id": "product_title_color",
+      "label": "Product title color",
+      "default": "#5D5C5A"
+    },
+    {
+      "type": "header",
+      "content": "Product price typography"
+    },
+    {
+      "type": "select",
+      "id": "product_price_font_family",
+      "label": "Product price font",
+      "options": [
+        { "value": "agrandir", "label": "Agrandir" },
+        { "value": "ss-bruney", "label": "SS Bruney" },
+        { "value": "facelio", "label": "Facelio" },
+        { "value": "fraunces", "label": "Fraunces" },
+        { "value": "inherit", "label": "Default" }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "range",
+      "id": "product_price_font_size",
+      "label": "Product price font size",
+      "min": 10,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "select",
+      "id": "product_price_font_weight",
+      "label": "Product price font weight",
+      "options": [
+        { "value": "100", "label": "Thin" },
+        { "value": "200", "label": "Extra Light" },
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi Bold" },
+        { "value": "700", "label": "Bold" },
+        { "value": "800", "label": "Extra Bold" },
+        { "value": "900", "label": "Black" }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "color",
+      "id": "product_price_color",
+      "label": "Product price color",
+      "default": "#969696"
+    },
+    {
+      "type": "header",
+      "content": "Featured products"
+    },
+    {
+      "type": "product",
+      "id": "product_1",
+      "label": "Product 1"
+    },
+    {
+      "type": "product",
+      "id": "product_2",
+      "label": "Product 2"
+    },
+    {
+      "type": "header",
+      "content": "Featured products padding"
+    },
+    {
+      "type": "range",
+      "id": "products_padding_top",
+      "label": "Top",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "products_padding_bottom",
+      "label": "Bottom",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "products_padding_left",
+      "label": "Left",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "products_padding_right",
+      "label": "Right",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Mobile paper overlay"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_paper_image",
+      "label": "Paper image (mobile only)",
+      "info": "Wraps the product cards on mobile. If not set, no paper overlay is shown."
+    },
+    {
+      "type": "range",
+      "id": "mobile_paper_max_width",
+      "label": "Paper max width (mobile)",
+      "min": 200,
+      "max": 800,
+      "step": 10,
+      "unit": "px",
+      "default": 400
+    },
+    {
+      "type": "header",
+      "content": "Background image"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background image (desktop)"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image_mobile",
+      "label": "Background image (mobile)",
+      "info": "Shown on screens below 750px. Falls back to desktop image if not set."
+    },
+    {
+      "type": "range",
+      "id": "background_overlay",
+      "label": "Background overlay",
+      "min": 0,
+      "max": 70,
+      "step": 5,
+      "unit": "%",
+      "default": 0
+    },
+    {
+      "type": "select",
+      "id": "background_size",
+      "label": "Background image size",
+      "options": [
+        { "value": "cover", "label": "Cover" },
+        { "value": "contain", "label": "Contain" },
+        { "value": "100% 100%", "label": "Fill" }
+      ],
+      "default": "cover"
+    },
+    {
+      "type": "select",
+      "id": "background_position",
+      "label": "Background image position",
+      "options": [
+        { "value": "center center", "label": "Center" },
+        { "value": "center top", "label": "Top" },
+        { "value": "center bottom", "label": "Bottom" }
+      ],
+      "default": "center center"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Subtitle color",
+      "default": "#9a9a9a"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title color",
+      "default": "#2d2d2d"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text and product labels",
+      "default": "#6b6b6b"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Button background",
+      "default": "#686A54"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "select",
+      "id": "section_height",
+      "label": "Section height",
+      "options": [
+        { "value": "", "label": "Auto" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" },
+        { "value": "full-screen", "label": "Full screen" },
+        { "value": "custom", "label": "Custom" }
+      ],
+      "default": "large"
+    },
+    {
+      "type": "range",
+      "id": "section_height_custom",
+      "label": "Custom height (viewport)",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 80,
+      "info": "Used when Section height is set to Custom"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        { "value": "page-width", "label": "Page" },
+        { "value": "full-width", "label": "Full" }
+      ],
+      "default": "full-width"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 48
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured artisan"
+    }
+  ]
+}
+{% endschema %}

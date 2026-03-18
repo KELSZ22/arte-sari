@@ -1,0 +1,237 @@
+
+<section class="reviews-section">
+  <div class="reviews-section-wrapper page-width">
+
+    <h2 class="reviews-heading">
+      {{ section.settings.heading }}
+    </h2>
+
+    <div class="swiper reviews-swiper">
+      <div class="swiper-wrapper">
+
+        {% for block in section.blocks %}
+          <div class="swiper-slide" {{ block.shopify_attributes }}>
+            <div class="review-card">
+
+              <div class="review-grid">
+                <div>
+                  <div class="review-name">
+                    {{ block.settings.name }}
+                  </div>
+
+                  <div class="review-stars">
+                    {% for i in (1..5) %}
+                      {% comment %} {% if i <= block.settings.rating %}
+                        ★
+                      {% else %}
+                        ☆
+                      {% endif %} {% endcomment %}
+                       <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10 0L13.09 6.26L20 7.27L15 12.14L16.18 19.02L10 15.77L3.82 19.02L5 12.14L0 7.27L6.91 6.26L10 0Z" fill="#B7A160"/>
+                        </svg>
+                    {% endfor %}
+                  </div>
+                </div>
+
+                <div>
+                    {% if block.settings.review_image != blank %}
+                    <div class="review-image">
+                        <img 
+                        src="{{ block.settings.review_image | image_url: width: 300 }}" 
+                        alt="{{ block.settings.name }}"
+                        loading="lazy"
+                        width="150"
+                        height="150"
+                        >
+                    </div>
+                    {% endif %}
+                    <div class="review-text">
+                        {{ block.settings.review_text }}
+                    </div>
+                </div>
+              </div>
+
+
+            </div>
+          </div>
+        {% endfor %}
+
+      </div>
+
+      <div class="swiper-pagination"></div>
+    </div>
+
+  </div>
+</section>
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+/>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+{% javascript %}
+  new Swiper(".reviews-swiper", {
+    slidesPerView: 1.2,
+    spaceBetween: 30,
+    loop: true,
+    pagination: {
+      el: ".swiper-pagination",
+      clickable: true
+    },
+    breakpoints: {
+      768: {
+        slidesPerView: 2
+      }
+    }
+  });
+{% endjavascript %}
+
+{% style %}
+.reviews-section {
+  padding: 80px 20px;
+}
+.reviews-section-wrapper {
+    max-width: 1190px;
+    margin: auto;
+}
+.reviews-heading {
+    font-family: Facelio;
+    font-weight: 400;
+    font-style: Regular;
+    font-size: 48px;
+    leading-trim: NONE;
+    line-height: 100%;
+    letter-spacing: 4%;
+    color: #686A54;
+  margin-bottom: 50px;
+}
+
+.review-card {
+  background: #efe7de;
+  border: 1px solid #d8cec3;
+  padding: 40px;
+  height: 100%;
+  min-height: 305px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.review-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.review-name {
+    font-family: Fraunces;
+    font-weight: 400;
+    font-style: Regular;
+    font-size: 20px;
+    leading-trim: NONE;
+    line-height: 100%;
+    letter-spacing: 4%;
+    color: #000000;
+    margin-bottom: 6px;
+}
+
+.review-stars {
+  color: #b08a3c;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  display: flex;
+  margin-top: 5px;
+  gap: 4px;
+}
+
+.review-image {
+  width: 120px;
+  height: 120px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.review-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.review-text {
+    font-family: Agrandir;
+    font-weight: 400;
+    font-style: Regular;
+    font-size: 16px;
+    leading-trim: NONE;
+    line-height: 100%;
+    letter-spacing: 0%;
+    vertical-align: bottom;
+    color: #5D5C5A;
+}
+
+.swiper-pagination-bullet {
+  background: #6f725f;
+  opacity: 0.3;
+}
+
+.swiper-pagination-bullet-active {
+  opacity: 1;
+}
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "Reviews Carousel",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "REVIEWS"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Kris"
+        },
+        {
+          "type": "range",
+          "id": "rating",
+          "label": "Rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5
+        },
+        {
+          "type": "textarea",
+          "id": "review_text",
+          "label": "Review Text",
+          "default": "Very elegant looking without sacrificing my wallet."
+        },
+        {
+          "type": "image_picker",
+          "id": "review_image",
+          "label": "Review Image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Reviews Carousel"
+    }
+  ]
+}
+{% endschema %}

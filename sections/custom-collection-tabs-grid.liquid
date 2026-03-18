@@ -1,0 +1,881 @@
+{% liquid
+  assign overlay_opacity = section.settings.background_overlay | divided_by: 100.0
+  assign tab_blocks = section.blocks | where: 'type', 'tab'
+  assign first_tab_block = tab_blocks.first
+
+  assign heading_font_family = section.settings.heading_font_family
+  assign tab_font_family = section.settings.tab_font_family
+  assign button_font_family = section.settings.button_font_family
+
+  if heading_font_family == 'agrandir'
+    assign heading_font_family_value = 'Agrandir'
+  elsif heading_font_family == 'ss-bruney'
+    assign heading_font_family_value = 'SS Bruney'
+  elsif heading_font_family == 'facelio'
+    assign heading_font_family_value = 'Facelio'
+  elsif heading_font_family == 'fraunces'
+    assign heading_font_family_value = 'var(--font-heading-family)'
+  else
+    assign heading_font_family_value = 'inherit'
+  endif
+
+  if tab_font_family == 'agrandir'
+    assign tab_font_family_value = 'Agrandir'
+  elsif tab_font_family == 'ss-bruney'
+    assign tab_font_family_value = 'SS Bruney'
+  elsif tab_font_family == 'facelio'
+    assign tab_font_family_value = 'Facelio'
+  elsif tab_font_family == 'fraunces'
+    assign tab_font_family_value = 'var(--font-heading-family)'
+  else
+    assign tab_font_family_value = 'inherit'
+  endif
+
+  if button_font_family == 'agrandir'
+    assign button_font_family_value = 'Agrandir'
+  elsif button_font_family == 'ss-bruney'
+    assign button_font_family_value = 'SS Bruney'
+  elsif button_font_family == 'facelio'
+    assign button_font_family_value = 'Facelio'
+  elsif button_font_family == 'fraunces'
+    assign button_font_family_value = 'var(--font-heading-family)'
+  else
+    assign button_font_family_value = 'inherit'
+  endif
+%}
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<section
+  class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }} custom-collection-tabs-grid spacing-style"
+  style="
+    {% render 'spacing-style', settings: section.settings %}
+    --tabs-grid-overlay-opacity: {{ overlay_opacity }};
+    --tabs-grid-bg-size: {{ section.settings.background_size }};
+    --tabs-grid-bg-position: {{ section.settings.background_position }};
+    --tabs-grid-heading-align: {{ section.settings.heading_alignment }};
+    --tabs-grid-tab-align: {{ section.settings.tabs_alignment }};
+    --tabs-grid-tab-color: {{ section.settings.tab_text_color }};
+    --tabs-grid-tab-active-color: {{ section.settings.tab_active_color }};
+    --tabs-grid-button-bg: {{ section.settings.button_bg_color }};
+    --tabs-grid-button-color: {{ section.settings.button_text_color }};
+    --tabs-grid-height: {{ section.settings.section_height }}px;
+    --tabs-grid-heading-font: {{ heading_font_family_value }};
+    --tabs-grid-heading-size: {{ section.settings.heading_font_size }}px;
+    --tabs-grid-heading-weight: {{ section.settings.heading_font_weight }};
+    --tabs-grid-heading-color: {{ section.settings.heading_color | default: '#000000' }};
+    --tabs-grid-tab-font: {{ tab_font_family_value }};
+    --tabs-grid-tab-size: {{ section.settings.tab_font_size }}px;
+    --tabs-grid-tab-weight: {{ section.settings.tab_font_weight }};
+    --tabs-grid-button-font: {{ button_font_family_value }};
+    --tabs-grid-button-size: {{ section.settings.button_font_size }}px;
+    --tabs-grid-button-weight: {{ section.settings.button_font_weight }};
+    {% if section.settings.background_image != blank %}
+      --tabs-grid-bg-image: url('{{ section.settings.background_image | image_url: width: 2800 }}');
+    {% else %}
+      --tabs-grid-bg-image: none;
+    {% endif %}
+  "
+>
+  <div class="custom-collection-tabs-grid__background"></div>
+
+  <div class="custom-collection-tabs-grid__inner">
+    {% if section.settings.heading != blank %}
+      <header class="custom-collection-tabs-grid__header">
+        <h2 class="custom-collection-tabs-grid__title" style="font-family: var(--tabs-grid-heading-font); font-size: var(--tabs-grid-heading-size); font-weight: var(--tabs-grid-heading-weight); color: var(--tabs-grid-heading-color);">{{ section.settings.heading }}</h2>
+      </header>
+    {% endif %}
+
+    {% if tab_blocks.size > 0 %}
+      <div class="custom-collection-tabs-grid__tabs" role="tablist" aria-label="{{ section.settings.heading | default: 'Collection tabs' }}">
+        {% for block in tab_blocks %}
+          {% liquid
+            assign tab_collection = block.settings.collection
+            assign tab_label = block.settings.tab_label
+            if tab_label == blank and tab_collection != blank
+              assign tab_label = tab_collection.title
+            endif
+            if tab_label == blank
+              assign tab_label = 'Collection'
+            endif
+
+            assign panel_id = 'tabs-panel-' | append: section.id | append: '-' | append: forloop.index0
+            assign tab_id = 'tabs-tab-' | append: section.id | append: '-' | append: forloop.index0
+            assign is_first = false
+            if block.id == first_tab_block.id
+              assign is_first = true
+            endif
+          %}
+          <button
+            type="button"
+            id="{{ tab_id }}"
+            class="custom-collection-tabs-grid__tab{% if is_first %} is-active{% endif %}"
+            role="tab"
+            aria-controls="{{ panel_id }}"
+            aria-selected="{% if is_first %}true{% else %}false{% endif %}"
+            tabindex="{% if is_first %}0{% else %}-1{% endif %}"
+            data-tab-index="{{ forloop.index0 }}"
+            {{ block.shopify_attributes }}
+          >
+            {{ tab_label }}
+          </button>
+        {% endfor %}
+      </div>
+
+      <div class="custom-collection-tabs-grid__panels">
+        {% for block in tab_blocks %}
+          {% liquid
+            assign tab_collection = block.settings.collection
+            assign panel_id = 'tabs-panel-' | append: section.id | append: '-' | append: forloop.index0
+            assign tab_id = 'tabs-tab-' | append: section.id | append: '-' | append: forloop.index0
+            assign is_first = false
+            if block.id == first_tab_block.id
+              assign is_first = true
+            endif
+          %}
+          <div
+            id="{{ panel_id }}"
+            class="custom-collection-tabs-grid__panel"
+            role="tabpanel"
+            aria-labelledby="{{ tab_id }}"
+            data-panel-index="{{ forloop.index0 }}"
+            {% unless is_first %}hidden{% endunless %}
+          >
+            <ul class="custom-collection-tabs-grid__products" role="list">
+              {% if tab_collection != blank and tab_collection.products_count > 0 %}
+                {% for product in tab_collection.products limit: 8 %}
+                  {% assign collection_label = product.metafields.custom.collection.value %}
+                  <li class="custom-collection-tabs-grid__item">
+                    <a href="{{ product.url }}" class="custom-collection-tabs-grid__fallback-card">
+                      {% if product.featured_image != blank %}
+                        {{
+                          product.featured_image
+                          | image_url: width: 900
+                          | image_tag: class: 'custom-collection-tabs-grid__fallback-image', loading: 'lazy'
+                        }}
+                      {% endif %}
+                      {% if collection_label != blank %}
+                        <span class="custom-collection-tabs-grid__collection-label">{{ collection_label }}</span>
+                      {% endif %}
+                      <span class="custom-collection-tabs-grid__fallback-title">{{ product.title }}</span>
+                      <span class="custom-collection-tabs-grid__fallback-price">{{ product.price | money }}</span>
+                    </a>
+                  </li>
+                {% endfor %}
+              {% else %}
+                {% for i in (1..8) %}
+                  <li class="custom-collection-tabs-grid__item">
+                    <div class="custom-collection-tabs-grid__fallback-card custom-collection-tabs-grid__fallback-card--placeholder">
+                      <div class="custom-collection-tabs-grid__fallback-image custom-collection-tabs-grid__fallback-image--placeholder"></div>
+                      <span class="custom-collection-tabs-grid__fallback-title">Product title</span>
+                      <span class="custom-collection-tabs-grid__fallback-price">{{ 1999 | money }}</span>
+                    </div>
+                  </li>
+                {% endfor %}
+              {% endif %}
+            </ul>
+
+            {% if block.settings.button_label != blank %}
+            <div class="custom-collection-tabs-grid__footer">
+              
+                {% if block.settings.button_link != blank %}
+                <a  href="{{ block.settings.button_link }}"
+                {% else %}
+                  role="link"
+                  aria-disabled="true"
+                {% endif %}
+                class="button custom-collection-tabs-grid__button"
+              >
+                {{ block.settings.button_label }}
+              </a>
+            </div>
+          {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+
+      <script>
+        (function() {
+          function initCollectionTabs(container) {
+            if (!container) return;
+            if (container.getAttribute('data-tabs-js-inited') === 'true') {
+              return;
+            }
+            var tabs = container.querySelectorAll('.custom-collection-tabs-grid__tab[data-tab-index]');
+            var panels = container.querySelectorAll('.custom-collection-tabs-grid__panel[data-panel-index]');
+            if (!tabs.length || !panels.length) return;
+
+            container.setAttribute('data-tabs-js-inited', 'true');
+
+            function showTab(index) {
+              var i = parseInt(index, 10);
+              tabs.forEach(function(t, idx) {
+                var active = idx === i;
+                t.classList.toggle('is-active', active);
+                t.setAttribute('aria-selected', active ? 'true' : 'false');
+                t.setAttribute('tabindex', active ? '0' : '-1');
+              });
+              panels.forEach(function(p, idx) {
+                p.hidden = idx !== i;
+              });
+            }
+
+            tabs.forEach(function(btn) {
+              btn.addEventListener('click', function() {
+                showTab(btn.getAttribute('data-tab-index'));
+              });
+            });
+
+            container.addEventListener('keydown', function(e) {
+              var current = e.target.closest('.custom-collection-tabs-grid__tab[data-tab-index]');
+              if (!current) return;
+              var list = Array.prototype.slice.call(tabs);
+              var idx = list.indexOf(current);
+              if (idx === -1) return;
+              var next = idx;
+              if (e.key === 'ArrowRight') next = idx >= list.length - 1 ? 0 : idx + 1;
+              else if (e.key === 'ArrowLeft') next = idx <= 0 ? list.length - 1 : idx - 1;
+              else if (e.key === 'Home') next = 0;
+              else if (e.key === 'End') next = list.length - 1;
+              else return;
+              e.preventDefault();
+              showTab(list[next].getAttribute('data-tab-index'));
+              list[next].focus();
+            });
+          }
+
+          var section = document.currentScript && document.currentScript.closest('section.custom-collection-tabs-grid');
+          if (section) initCollectionTabs(section);
+
+          if (typeof document !== 'undefined') {
+            document.addEventListener('shopify:section:load', function(e) {
+              var el = e.target;
+              if (!el) return;
+              var section = el.classList && el.classList.contains('custom-collection-tabs-grid') ? el : (el.querySelector && el.querySelector('section.custom-collection-tabs-grid'));
+              if (section) initCollectionTabs(section);
+            });
+            document.addEventListener('shopify:block:select', function(e) {
+              var tab = e.target && e.target.closest && e.target.closest('.custom-collection-tabs-grid__tab[data-tab-index]');
+              if (!tab) return;
+              var sec = tab.closest('section.custom-collection-tabs-grid');
+              if (sec) initCollectionTabs(sec);
+              tab.click();
+              if (tab.focus) tab.focus();
+            });
+          }
+        })();
+      </script>
+    {% else %}
+      <p class="custom-collection-tabs-grid__empty">Add Collection tab blocks and choose a collection for each tab.</p>
+    {% endif %}
+  </div>
+</section>
+
+{% stylesheet %}
+  @font-face {
+    font-family: 'Agrandir';
+    src: url('https://cdn.shopify.com/s/files/1/0728/1321/5942/files/Agrandir-Regular.woff2?v=1771643523') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'SS Bruney';
+    src: url('https://cdn.shopify.com/s/files/1/0728/1321/5942/files/SS_Bruney.woff2?v=1771643523') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Facelio';
+    src: url('https://cdn.shopify.com/s/files/1/0728/1321/5942/files/Facelio.woff2?v=1771643523') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  .custom-collection-tabs-grid {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    min-height: var(--tabs-grid-height);
+  }
+
+  .custom-collection-tabs-grid__background {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-image: var(--tabs-grid-bg-image);
+    background-size: var(--tabs-grid-bg-size);
+    background-position: var(--tabs-grid-bg-position);
+    background-repeat: no-repeat;
+  }
+
+  .custom-collection-tabs-grid__background::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, var(--tabs-grid-overlay-opacity));
+  }
+
+  .custom-collection-tabs-grid__inner {
+    position: relative;
+    z-index: 1;
+  }
+
+  .custom-collection-tabs-grid__header {
+    text-align: var(--tabs-grid-heading-align);
+    margin-bottom: 40px;
+  }
+
+  .custom-collection-tabs-grid__title {
+    margin: 0;
+  }
+
+  .custom-collection-tabs-grid__tabs {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: var(--tabs-grid-tab-align);
+    gap: 14px 24px;
+    margin-bottom: 24px;
+  }
+
+  .custom-collection-tabs-grid__tab {
+    border: 0;
+    background: transparent;
+    color: var(--tabs-grid-tab-color);
+    cursor: pointer;
+    font-family: var(--tabs-grid-tab-font);
+    font-size: var(--tabs-grid-tab-size);
+    font-weight: var(--tabs-grid-tab-weight);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 0;
+  }
+
+  .custom-collection-tabs-grid__tab.is-active {
+    color: var(--tabs-grid-tab-active-color);
+    font-weight: 600;
+  }
+
+  .custom-collection-tabs-grid__products {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    column-gap: 16px;
+    row-gap: 16px;
+    grid-template-columns: repeat(2, minmax(0, 256px));
+    justify-content: center;
+  }
+
+  .custom-collection-tabs-grid__item {
+    width: 256px;
+    max-width: 100%;
+  }
+
+  .custom-collection-tabs-grid__fallback-card {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    color: inherit;
+    text-decoration: none;
+    width: 256px;
+    max-width: 100%;
+  }
+
+  .custom-collection-tabs-grid__fallback-image {
+    width: 256px;
+    display: block;
+    object-fit: contain;
+    background: rgba(255, 255, 255, 0.2);
+    max-width: 100%;
+  }
+
+  .custom-collection-tabs-grid__fallback-image--placeholder {
+    aspect-ratio: auto;
+  }
+
+  .custom-collection-tabs-grid__collection-label {
+    color: #969696;
+    font-family: Agrandir;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .custom-collection-tabs-grid__fallback-title {
+    color: #5D5C5A;
+    font-family: var(--font-heading-family);
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+
+  .custom-collection-tabs-grid__fallback-price {
+    color: #969696;
+    font-family: Agrandir;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+  }
+
+  .custom-collection-tabs-grid__footer {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .custom-collection-tabs-grid__button {
+    display: flex;
+    width: 220px;
+    height: 47px;
+    padding: 0 16px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    background: #686A54;
+    color: var(--tabs-grid-button-color);
+    border-color: #686A54;
+    border-radius: 0;
+    text-decoration: none;
+    font-family: var(--tabs-grid-button-font);
+    font-size: var(--tabs-grid-button-size);
+    font-weight: var(--tabs-grid-button-weight);
+  }
+
+  .custom-collection-tabs-grid__button:hover {
+    opacity: 0.9;
+  }
+
+  .custom-collection-tabs-grid__empty {
+    margin: 0;
+    text-align: center;
+  }
+
+  @media screen and (min-width: 750px) {
+    .custom-collection-tabs-grid__products {
+      grid-template-columns: repeat(4, minmax(0, 256px));
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    .custom-collection-tabs-grid__tabs {
+      gap: 14px 10px;
+    }
+    .custom-collection-tabs-grid__fallback-title {
+      display: block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-size: 14px;
+    }
+    .custom-collection-tabs-grid__fallback-image {
+      height: 200px;
+    }
+    .custom-collection-tabs-grid__button {
+      width: 150px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Collection tabs grid",
+  "class": "ui-test-collection-tabs-grid",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "blocks": [
+    {
+      "type": "@app"
+    },
+    {
+      "type": "tab",
+      "name": "Collection tab",
+      "limit": 8,
+      "settings": [
+        {
+          "type": "text",
+          "id": "tab_label",
+          "label": "Tab label"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "header",
+          "content": "Button"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label",
+          "default": "Shop all"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Weaving Filipino Artistry"
+    },
+    {
+      "type": "header",
+      "content": "Heading Typography"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_family",
+      "label": "Heading font",
+      "options": [
+        { "value": "agrandir", "label": "Agrandir" },
+        { "value": "ss-bruney", "label": "SS Bruney" },
+        { "value": "facelio", "label": "Facelio" },
+        { "value": "fraunces", "label": "Fraunces" },
+        { "value": "inherit", "label": "Default" }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "range",
+      "id": "heading_font_size",
+      "label": "Heading font size",
+      "min": 12,
+      "max": 120,
+      "step": 2,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "select",
+      "id": "heading_font_weight",
+      "label": "Heading font weight",
+      "options": [
+        { "value": "100", "label": "Thin" },
+        { "value": "200", "label": "Extra Light" },
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi Bold" },
+        { "value": "700", "label": "Bold" },
+        { "value": "800", "label": "Extra Bold" },
+        { "value": "900", "label": "Black" }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#000000"
+    },
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "label": "Heading alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "tabs_alignment",
+      "label": "Tabs alignment",
+      "options": [
+        {
+          "value": "flex-start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "color",
+      "id": "tab_text_color",
+      "label": "Tab text color",
+      "default": "#888888"
+    },
+    {
+      "type": "color",
+      "id": "tab_active_color",
+      "label": "Active tab color",
+      "default": "#B69A55"
+    },
+    {
+      "type": "header",
+      "content": "Tab Typography"
+    },
+    {
+      "type": "select",
+      "id": "tab_font_family",
+      "label": "Tab font",
+      "options": [
+        { "value": "agrandir", "label": "Agrandir" },
+        { "value": "ss-bruney", "label": "SS Bruney" },
+        { "value": "facelio", "label": "Facelio" },
+        { "value": "fraunces", "label": "Fraunces" },
+        { "value": "inherit", "label": "Default" }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "range",
+      "id": "tab_font_size",
+      "label": "Tab font size",
+      "min": 10,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "select",
+      "id": "tab_font_weight",
+      "label": "Tab font weight",
+      "options": [
+        { "value": "100", "label": "Thin" },
+        { "value": "200", "label": "Extra Light" },
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi Bold" },
+        { "value": "700", "label": "Bold" },
+        { "value": "800", "label": "Extra Bold" },
+        { "value": "900", "label": "Black" }
+      ],
+      "default": "500"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background image"
+    },
+    {
+      "type": "range",
+      "id": "background_overlay",
+      "label": "Background overlay",
+      "min": 0,
+      "max": 70,
+      "step": 5,
+      "unit": "%",
+      "default": 0
+    },
+    {
+      "type": "select",
+      "id": "background_size",
+      "label": "Background image size",
+      "options": [
+        {
+          "value": "cover",
+          "label": "Cover"
+        },
+        {
+          "value": "contain",
+          "label": "Contain"
+        }
+      ],
+      "default": "cover"
+    },
+    {
+      "type": "select",
+      "id": "background_position",
+      "label": "Background image position",
+      "options": [
+        {
+          "value": "center center",
+          "label": "Center"
+        },
+        {
+          "value": "center top",
+          "label": "Top"
+        },
+        {
+          "value": "center bottom",
+          "label": "Bottom"
+        }
+      ],
+      "default": "center center"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Button background",
+      "default": "#6E735E"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Button Typography"
+    },
+    {
+      "type": "select",
+      "id": "button_font_family",
+      "label": "Button font",
+      "options": [
+        { "value": "agrandir", "label": "Agrandir" },
+        { "value": "ss-bruney", "label": "SS Bruney" },
+        { "value": "facelio", "label": "Facelio" },
+        { "value": "fraunces", "label": "Fraunces" },
+        { "value": "inherit", "label": "Default" }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "range",
+      "id": "button_font_size",
+      "label": "Button font size",
+      "min": 10,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 13
+    },
+    {
+      "type": "select",
+      "id": "button_font_weight",
+      "label": "Button font weight",
+      "options": [
+        { "value": "100", "label": "Thin" },
+        { "value": "200", "label": "Extra Light" },
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi Bold" },
+        { "value": "700", "label": "Bold" },
+        { "value": "800", "label": "Extra Bold" },
+        { "value": "900", "label": "Black" }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "range",
+      "id": "section_height",
+      "label": "Section height",
+      "min": 300,
+      "max": 1000,
+      "step": 20,
+      "unit": "px",
+      "default": 480
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "Page"
+        },
+        {
+          "value": "full-width",
+          "label": "Full"
+        }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 40
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection tabs grid",
+      "blocks": {
+        "tab_1": {
+          "type": "tab",
+          "settings": {
+            "tab_label": "Bags"
+          }
+        },
+        "tab_2": {
+          "type": "tab",
+          "settings": {
+            "tab_label": "Earrings"
+          }
+        },
+        "tab_3": {
+          "type": "tab",
+          "settings": {
+            "tab_label": "Necklaces"
+          }
+        },
+        "tab_4": {
+          "type": "tab",
+          "settings": {
+            "tab_label": "Bracelets"
+          }
+        },
+        "tab_5": {
+          "type": "tab",
+          "settings": {
+            "tab_label": "Rings"
+          }
+        }
+      },
+      "block_order": ["tab_1", "tab_2", "tab_3", "tab_4", "tab_5"]
+    }
+  ]
+}
+{% endschema %}

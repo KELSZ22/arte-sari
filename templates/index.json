@@ -1,0 +1,566 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "hero_slider_C7Jiew": {
+      "type": "hero-slider",
+      "blocks": {
+        "slide_CCWtpb": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/Banner.jpg",
+            "image_mobile": "shopify://shop_images/hero_banner_background.png",
+            "overlay_opacity": 0
+          }
+        },
+        "slide_Ly8JLj": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/Untitled_Artwork_2.png",
+            "overlay_opacity": 0
+          }
+        },
+        "slide_aeaQHi": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/Frame_124.png",
+            "overlay_opacity": 0
+          }
+        },
+        "paper_overlay_G7j6Tt": {
+          "type": "paper_overlay",
+          "settings": {
+            "paper_image": "shopify://shop_images/vecteezy_free-download-ripped-transparent-paper-texture_47464352_1_1.png",
+            "max_width": 1200,
+            "paper_image_mobile": "shopify://shop_images/Group_78_aa32de18-377f-4784-a2aa-d7f14905db70.png",
+            "max_width_mobile": 800,
+            "heading": "Experience Richness of Filipino Artistry",
+            "heading_size": "h1",
+            "heading_font_family": "ss-bruney",
+            "heading_font_size": 58,
+            "heading_font_weight": "400",
+            "heading_color": "#686a54",
+            "subheading": "Thoughtfully curated from the Philippines for America",
+            "subheading_font_family": "fraunces",
+            "subheading_font_size": 20,
+            "subheading_font_weight": "400",
+            "subheading_color": "#686a54",
+            "button_label": "DISCOVER NOW",
+            "button_link": "#",
+            "button_style": "primary",
+            "button_font_family": "agrandir",
+            "button_font_size": 13,
+            "button_font_weight": "600",
+            "button_color": "#ffffff"
+          }
+        }
+      },
+      "block_order": [
+        "slide_CCWtpb",
+        "slide_Ly8JLj",
+        "slide_aeaQHi",
+        "paper_overlay_G7j6Tt"
+      ],
+      "custom_css": [
+        "@media screen and (max-width: 768px) {h2 {font-size: 28px !important; padding-left: 60px; padding-right: 60px; }}"
+      ],
+      "name": "Hero Slider",
+      "settings": {
+        "slider_height": 90,
+        "slider_height_mobile": 60,
+        "enable_autoplay": true,
+        "autoplay_delay": 5,
+        "show_arrows": true,
+        "section_width": "page-width",
+        "color_scheme": "scheme-1"
+      }
+    },
+    "custom_collection_showcase_bC9icm": {
+      "type": "custom-collection-showcase",
+      "blocks": {
+        "static-product-card": {
+          "type": "_product-card",
+          "name": "t:names.product_card",
+          "static": true,
+          "settings": {
+            "product_card_gap": 4,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "product_card_gallery_pKQbAp": {
+              "type": "_product-card-gallery",
+              "name": "t:names.product_card_media",
+              "settings": {
+                "image_ratio": "adapt",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "product_title_jRTUKR": {
+              "type": "product-title",
+              "name": "t:names.product_title",
+              "settings": {
+                "custom_class": "product-title",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "price_WBFkfb": {
+              "type": "price",
+              "name": "t:names.product_price",
+              "settings": {
+                "custom_class": "price",
+                "show_sale_price_first": true,
+                "show_installments": false,
+                "show_tax_info": false,
+                "type_preset": "",
+                "width": "100%",
+                "alignment": "left",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "color": "var(--color-foreground)",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "product_card_gallery_pKQbAp",
+            "product_title_jRTUKR",
+            "price_WBFkfb"
+          ]
+        }
+      },
+      "custom_css": [
+        ".price {color: white;}",
+        ".product-title {color: white;}"
+      ],
+      "name": "Collection showcase",
+      "settings": {
+        "heading": "SUKI FAVORITES",
+        "subheading": "Most loved by our loyal customers",
+        "heading_font_family": "facelio",
+        "heading_font_size": 48,
+        "heading_font_weight": "400",
+        "heading_color": "#f4ece6",
+        "subheading_font_family": "agrandir",
+        "subheading_font_size": 20,
+        "subheading_font_weight": "400",
+        "subheading_color": "#f4ece6",
+        "text_alignment": "center",
+        "collection": "frontpage",
+        "products_to_show": 5,
+        "columns": 5,
+        "background_image": "shopify://shop_images/Frame121_3.png",
+        "background_image_mobile": "shopify://shop_images/fav-mobile-bg.webp",
+        "background_overlay": 0,
+        "background_size": "cover",
+        "background_position": "center top",
+        "card_border_radius": 0,
+        "products_padding_top": 80,
+        "products_padding_bottom": 0,
+        "products_padding_left": 50,
+        "products_padding_right": 50,
+        "section_height": 480,
+        "section_width": "full-width",
+        "color_scheme": "",
+        "padding-block-start": 100,
+        "padding-block-end": 100
+      }
+    },
+    "custom_collection_tabs_grid_hrtEch": {
+      "type": "custom-collection-tabs-grid",
+      "blocks": {
+        "tab_ErWr7r": {
+          "type": "tab",
+          "settings": {
+            "tab_label": "Bags",
+            "collection": "frontpage",
+            "button_label": "SHOP BAGS",
+            "button_link": "shopify://collections/frontpage"
+          }
+        },
+        "tab_UTey9K": {
+          "type": "tab",
+          "settings": {
+            "tab_label": "Earrings",
+            "collection": "frontpage",
+            "button_label": "SHOP EARRINGS",
+            "button_link": "shopify://collections/frontpage"
+          }
+        },
+        "tab_eTpGPq": {
+          "type": "tab",
+          "settings": {
+            "tab_label": "Necklaces",
+            "collection": "frontpage",
+            "button_label": "SHOP NECKLACES",
+            "button_link": "shopify://collections/frontpage"
+          }
+        },
+        "tab_YgAdEa": {
+          "type": "tab",
+          "settings": {
+            "tab_label": "Bracelets",
+            "collection": "frontpage",
+            "button_label": "SHOP BRACELETS",
+            "button_link": "shopify://collections/frontpage"
+          }
+        },
+        "tab_iYU6Dp": {
+          "type": "tab",
+          "settings": {
+            "tab_label": "Rings",
+            "collection": "frontpage",
+            "button_label": "SHOP RINGS",
+            "button_link": "shopify://collections/frontpage"
+          }
+        }
+      },
+      "block_order": [
+        "tab_ErWr7r",
+        "tab_UTey9K",
+        "tab_eTpGPq",
+        "tab_YgAdEa",
+        "tab_iYU6Dp"
+      ],
+      "custom_css": [
+        "@media screen and (max-width: 768px) {.custom-collection-tabs-grid__title {padding-top: 100px; } .custom-collection-tabs-grid__products {padding-right: 20px; padding-left: 20px; }}"
+      ],
+      "name": "Collection tabs grid",
+      "settings": {
+        "heading": "WEAVING FILIPINO ARTISTRY",
+        "heading_font_family": "facelio",
+        "heading_font_size": 48,
+        "heading_font_weight": "400",
+        "heading_color": "#686a54",
+        "heading_alignment": "center",
+        "tabs_alignment": "center",
+        "tab_text_color": "#888888",
+        "tab_active_color": "#b69a55",
+        "tab_font_family": "agrandir",
+        "tab_font_size": 14,
+        "tab_font_weight": "500",
+        "background_image": "shopify://shop_images/Frame_122.png",
+        "background_overlay": 0,
+        "background_size": "cover",
+        "background_position": "center top",
+        "button_bg_color": "#6e735e",
+        "button_text_color": "#ffffff",
+        "button_font_family": "agrandir",
+        "button_font_size": 13,
+        "button_font_weight": "600",
+        "section_height": 480,
+        "section_width": "full-width",
+        "color_scheme": "",
+        "padding-block-start": 200,
+        "padding-block-end": 76
+      }
+    },
+    "featured_artisan_kHHehy": {
+      "type": "featured-artisan",
+      "name": "Featured artisan",
+      "settings": {
+        "subtitle": "Featured Artisan",
+        "title": "Christian Cera",
+        "text": "<p>Known for creating handcrafted leather bags that highlight artistry and function. His brand focuses on small-batch, design-driven pieces that celebrate Filipino craftsmanship.</p>",
+        "button_label": "Read the blog",
+        "button_link": "",
+        "subtitle_font_family": "fraunces",
+        "subtitle_font_size": 20,
+        "subtitle_font_weight": "400",
+        "title_font_family": "facelio",
+        "title_font_size": 48,
+        "title_font_weight": "400",
+        "text_font_family": "agrandir",
+        "text_font_size": 20,
+        "text_font_weight": "400",
+        "button_font_family": "agrandir",
+        "button_font_size": 14,
+        "button_font_weight": "500",
+        "product_title_font_family": "inherit",
+        "product_title_font_size": 15,
+        "product_title_font_weight": "400",
+        "product_title_color": "#5d5c5a",
+        "product_price_font_family": "agrandir",
+        "product_price_font_size": 14,
+        "product_price_font_weight": "700",
+        "product_price_color": "#969696",
+        "product_1": "featured-product",
+        "product_2": "featured-product-2",
+        "products_padding_top": 80,
+        "products_padding_bottom": 0,
+        "products_padding_left": 0,
+        "products_padding_right": 0,
+        "mobile_paper_image": "shopify://shop_images/featured_artisan_white_texture_be658701-5d63-47a4-9803-f7b1e1bd07c8.png",
+        "mobile_paper_max_width": 400,
+        "background_image": "shopify://shop_images/Frame_145.png",
+        "background_image_mobile": "shopify://shop_images/featured_artisan_background.png",
+        "background_overlay": 0,
+        "background_size": "100% 100%",
+        "background_position": "center center",
+        "subtitle_color": "#f4ece6",
+        "title_color": "#f4ece6",
+        "text_color": "#f4ece6",
+        "button_bg_color": "#b7a160",
+        "button_text_color": "#ffffff",
+        "section_height": "large",
+        "section_height_custom": 80,
+        "section_width": "full-width",
+        "color_scheme": "",
+        "padding-block-start": 48,
+        "padding-block-end": 48
+      }
+    },
+    "image_content_split_E8rT73": {
+      "type": "image-content-split",
+      "name": "Image and content",
+      "settings": {
+        "image": "shopify://shop_images/Untitled_Artwork_2.png",
+        "subheading": "",
+        "heading": "INSPIRED BY THE SARI-SARI STORE",
+        "text": "<p>In the Philippines, the sari-sari store is more than a community convenience store.  It’s a  place where neighbors gather, share stories, and where every loyal customer is lovingly called “suki.”<br/><br/>At Arte Sari we bring that same spirit to the world. The brand hopes to reflect both the richness of Filipino artistry and the ethos of small, family-run businesses, offering a selection of authentic and meaningful products by Filipino artisans.</p>",
+        "button_label": "Know our story",
+        "button_link": "",
+        "subheading_font_family": "facelio",
+        "subheading_font_size": 48,
+        "subheading_font_weight": "400",
+        "subheading_color": "#5d5c5a",
+        "heading_font_family": "facelio",
+        "heading_font_size": 48,
+        "heading_font_weight": "400",
+        "heading_color": "#686a54",
+        "text_font_family": "fraunces",
+        "text_font_size": 16,
+        "text_font_weight": "400",
+        "text_color": "#5d5c5a",
+        "button_font_family": "agrandir",
+        "button_font_size": 13,
+        "button_font_weight": "600",
+        "button_text_color": "#ffffff",
+        "background_image": "shopify://shop_images/Frame_124.png",
+        "background_overlay": 0,
+        "background_size": "100% 100%",
+        "background_position": "center top",
+        "background_size_mobile": "cover",
+        "background_position_mobile": "center center",
+        "button_bg_color": "#686a54",
+        "section_height": 600,
+        "section_width": "page-width",
+        "color_scheme": "",
+        "padding-block-start": 40,
+        "padding-block-end": 40
+      }
+    },
+    "marquee_MyFQTC": {
+      "type": "marquee",
+      "blocks": {
+        "text_tbCzWt": {
+          "type": "text",
+          "settings": {
+            "custom_class": "",
+            "text": "<p>ENTREPRENEURSHIP. ACCESSIBILITY. COMMUNITY.</p>",
+            "width": "fit-content",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "custom",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "tight",
+            "letter_spacing": "tight",
+            "case": "none",
+            "wrap": "nowrap",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "text_tbCzWt"
+      ],
+      "name": "t:names.marquee_section",
+      "settings": {
+        "movement_direction": "normal",
+        "color_scheme": "scheme-80208ba0-c445-4cbe-9ab2-e4c3b2a7486c",
+        "padding-block-start": 15,
+        "padding-block-end": 15,
+        "gap_between_elements": 24
+      }
+    },
+    "testimonials_pU943C": {
+      "type": "testimonials",
+      "blocks": {
+        "testimonial_dEkaph": {
+          "type": "testimonial",
+          "settings": {
+            "image": "shopify://shop_images/Frame_252_4.png",
+            "overlay_text": "",
+            "testimonial": "I super love these pearl necklaces and wear them almost everyday!",
+            "name": "- Kris"
+          }
+        },
+        "testimonial_E6hNpU": {
+          "type": "testimonial",
+          "settings": {
+            "image": "shopify://shop_images/Frame_252_5.png",
+            "overlay_text": "",
+            "testimonial": "I super love these pearl necklaces and wear them almost everyday!",
+            "name": "- Kris"
+          }
+        },
+        "testimonial_RkEDjL": {
+          "type": "testimonial",
+          "settings": {
+            "image": "shopify://shop_images/Frame_252_6.png",
+            "overlay_text": "",
+            "testimonial": "I super love these pearl necklaces and wear them almost everyday!",
+            "name": "- Kris"
+          }
+        },
+        "testimonial_pcimQg": {
+          "type": "testimonial",
+          "settings": {
+            "image": "shopify://shop_images/Frame_252_7.png",
+            "overlay_text": "",
+            "testimonial": "I super love these pearl necklaces and wear them almost everyday!",
+            "name": "- Kris"
+          }
+        }
+      },
+      "block_order": [
+        "testimonial_dEkaph",
+        "testimonial_E6hNpU",
+        "testimonial_RkEDjL",
+        "testimonial_pcimQg"
+      ],
+      "name": "Testimonials",
+      "settings": {
+        "heading": "TAKE IT FROM THEM",
+        "button_label": "Shop now",
+        "button_link": "",
+        "heading_color": "#5d5c5a",
+        "text_color": "#5d5c5a",
+        "name_color": "#5d5c5a",
+        "overlay_text_color": "#5d5c5a",
+        "button_bg_color": "#686a54",
+        "button_text_color": "#ffffff",
+        "section_width": "page-width",
+        "color_scheme": "",
+        "padding-block-start": 48,
+        "padding-block-end": 100
+      }
+    },
+    "custom_4_image_DjV9Pw": {
+      "type": "custom-4-image",
+      "blocks": {
+        "grid_item_Ddcmee": {
+          "type": "grid_item",
+          "settings": {
+            "image": "shopify://shop_images/Rectangle_1.png",
+            "alt": "Grid image"
+          }
+        },
+        "grid_item_rNwmRp": {
+          "type": "grid_item",
+          "settings": {
+            "image": "shopify://shop_images/Rectangle_1_1.png",
+            "alt": "Grid image"
+          }
+        },
+        "grid_item_haWcpf": {
+          "type": "grid_item",
+          "settings": {
+            "image": "shopify://shop_images/Rectangle_1_2.png",
+            "alt": "Grid image"
+          }
+        },
+        "grid_item_yphpGy": {
+          "type": "grid_item",
+          "settings": {
+            "image": "shopify://shop_images/Rectangle_1_3.png",
+            "alt": "Grid image"
+          }
+        }
+      },
+      "block_order": [
+        "grid_item_Ddcmee",
+        "grid_item_rNwmRp",
+        "grid_item_haWcpf",
+        "grid_item_yphpGy"
+      ],
+      "name": "Genuine Connections",
+      "settings": {
+        "background_image": "shopify://shop_images/842c4f8e3ea5071b9c97037b54e4b6d2fb16263c_b3453e5e-9ce5-4e2c-b7ed-af8acd74cc0d.jpg",
+        "background_color": "#f0ebe3",
+        "heading": "LET'S MAKE GENUINE CONNECTIONS",
+        "button_label": "@artesari.shop",
+        "button_url": "",
+        "section_padding_top": 48,
+        "section_padding_bottom": 48
+      }
+    }
+  },
+  "order": [
+    "hero_slider_C7Jiew",
+    "custom_collection_showcase_bC9icm",
+    "custom_collection_tabs_grid_hrtEch",
+    "featured_artisan_kHHehy",
+    "image_content_split_E8rT73",
+    "marquee_MyFQTC",
+    "testimonials_pU943C",
+    "custom_4_image_DjV9Pw"
+  ]
+}

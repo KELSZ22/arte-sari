@@ -1,0 +1,632 @@
+{% schema %}
+{
+  "name": "Wholesale Section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "WHOLESALE"
+    },
+    {
+      "type": "textarea",
+      "id": "subtext",
+      "label": "Subtext",
+      "default": "Arte Sari offers wholesale partnerships for gifting, retail, and specialty collections. If you'd like to carry our products in your store or place bulk orders, we'd be delighted to work with you for bulk pricing and share Filipino artistry to your community."
+    },
+    {
+      "type": "text",
+      "id": "email_recipient",
+      "label": "Recipient Email",
+      "default": "artesari.wfa@gmail.com"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Wholesale Section"
+    }
+  ]
+}
+{% endschema %}
+
+<style>
+  .as-wholesale-section {
+    background-color: #F4ECE6;
+    background-image: url("{{ 'bg-pattern.png' | asset_url }}");
+    background-repeat: repeat;
+    background-size: auto;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    font-family: 'Georgia', serif;
+    position: relative;
+  }
+
+  .as-wholesale-bg-pattern {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .as-wholesale-bg-pattern svg {
+    position: absolute;
+    opacity: 0.18;
+  }
+
+  .as-wholesale-inner {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 700px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .as-wholesale-heading {
+    font-size: 32px;
+    letter-spacing: 0.18em;
+    color: #686A54;
+    font-weight: 400;
+    text-transform: uppercase;
+    margin: 0 0 18px 0;
+    font-family: 'SS Bruney';
+  }
+
+  .as-wholesale-subtext {
+    font-size: 14px;
+    color: #686A54;
+    text-align: center;
+    max-width: 520px;
+    line-height: 1.65;
+    margin: 0 0 32px 0;
+    font-family: 'Fraunces';
+  }
+
+  .as-wholesale-accordions {
+    width: 100%;
+    margin-bottom: 28px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border: 1px solid #d6cfc8;
+    border-radius: 4px;
+    overflow: hidden;
+    background: #fff;
+  }
+
+  .as-wholesale-accordion {
+    border-bottom: 1px solid #d6cfc8;
+  }
+
+  .as-wholesale-accordion:nth-child(odd) {
+    border-right: 1px solid #d6cfc8;
+  }
+
+  .as-wholesale-accordion:nth-last-child(-n+2) {
+    border-bottom: none;
+  }
+
+  .as-wholesale-accordion-trigger {
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    font-family: 'Agrandir';
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    color: #B7A160;
+    text-transform: uppercase;
+    text-align: left;
+  }
+
+  .as-wholesale-accordion-trigger span.as-wholesale-acc-icon {
+    font-size: 18px;
+    font-weight: 300;
+    color: #686A54;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .as-wholesale-accordion-body {
+    display: none;
+    padding: 4px 16px 16px 16px;
+    font-size: 13px;
+    color: #686A54;
+    font-family: 'Fraunces';
+    line-height: 1.6;
+  }
+
+  .as-wholesale-accordion-body.open {
+    display: block;
+  }
+
+  .as-wholesale-accordion-body img {
+    max-width: 120px;
+    margin-top: 10px;
+    display: block;
+  }
+
+  .as-wholesale-card {
+    background: #fff;
+    border-radius: 4px;
+    padding: 36px 40px 40px 40px;
+    width: 100%;
+    box-shadow: 0 2px 16px rgba(104,106,84,0.07);
+    box-sizing: border-box;
+  }
+
+  .as-wholesale-field {
+    margin-bottom: 18px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .as-wholesale-field label {
+    font-size: 13px;
+    color: #686A54;
+    margin-bottom: 6px;
+    font-family: 'Agrandir';
+    font-weight: 400;
+  }
+
+  .as-wholesale-field input,
+  .as-wholesale-field select,
+  .as-wholesale-field textarea {
+    border: 1px solid #d6cfc8;
+    border-radius: 3px;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: #686A54;
+    font-family: 'Fraunces';
+    background: #fff;
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+    box-sizing: border-box;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+
+  .as-wholesale-field input::placeholder,
+  .as-wholesale-field textarea::placeholder {
+    color: #b8b2aa;
+  }
+
+  .as-wholesale-field input:focus,
+  .as-wholesale-field select:focus,
+  .as-wholesale-field textarea:focus {
+    border-color: #B7A160;
+  }
+
+  .as-wholesale-field textarea {
+    resize: vertical;
+    min-height: 110px;
+  }
+
+  .as-wholesale-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 18px;
+  }
+
+  .as-wholesale-row .as-wholesale-field {
+    margin-bottom: 0;
+  }
+
+  .as-wholesale-item-list-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .as-wholesale-item-list-label span:first-child {
+    font-size: 13px;
+    color: #686A54;
+    font-family: 'Georgia', serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .as-wholesale-item-list-label span:last-child {
+    font-size: 12px;
+    color: #b8b2aa;
+    font-family: 'Georgia', serif;
+  }
+
+  .as-wholesale-item-row {
+    display: grid;
+    grid-template-columns: 1fr 120px;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .as-wholesale-item-row input[type="text"] {
+    border: 1px solid #d6cfc8;
+    border-radius: 3px;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: #686A54;
+    font-family: 'Georgia', serif;
+    background: #fff;
+    outline: none;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .as-wholesale-item-row input[type="text"]::placeholder {
+    color: #b8b2aa;
+  }
+
+  .as-wholesale-item-row input[type="text"]:focus {
+    border-color: #B7A160;
+  }
+
+  .as-wholesale-qty-wrap {
+    display: flex;
+    align-items: center;
+    border: 1px solid #d6cfc8;
+    border-radius: 3px;
+    overflow: hidden;
+    background: #fff;
+  }
+
+  .as-wholesale-qty-btn {
+    background: none;
+    border: none;
+    width: 32px;
+    height: 38px;
+    font-size: 18px;
+    color: #686A54;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.15s;
+  }
+
+  .as-wholesale-qty-btn:hover {
+    background: #f4ece6;
+  }
+
+  .as-wholesale-qty-input {
+    width: 40px;
+    text-align: center;
+    border: none;
+    border-left: 1px solid #d6cfc8;
+    border-right: 1px solid #d6cfc8;
+    font-size: 13px;
+    color: #686A54;
+    font-family: 'Georgia', serif;
+    padding: 0;
+    height: 38px;
+    box-sizing: border-box;
+    outline: none;
+    background: #fff;
+    -moz-appearance: textfield;
+  }
+
+  .as-wholesale-qty-input::-webkit-outer-spin-button,
+  .as-wholesale-qty-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  .as-wholesale-add-item {
+    background: none;
+    border: none;
+    color: #686A54;
+    font-size: 13px;
+    font-family: 'Georgia', serif;
+    cursor: pointer;
+    padding: 4px 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 18px;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .as-wholesale-add-item:hover {
+    color: #B7A160;
+  }
+
+  .as-wholesale-submit-wrap {
+    display: flex;
+    justify-content: center;
+    margin-top: 8px;
+  }
+
+  .as-wholesale-submit {
+    background: #B7A160;
+    color: #fff;
+    border: none;
+    padding: 13px 52px;
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    font-family: 'Agrandir';
+    cursor: pointer;
+    border-radius: 2px;
+    text-transform: uppercase;
+    transition: background 0.2s;
+  }
+
+  .as-wholesale-submit:hover {
+    background: #9e8b52;
+  }
+
+  .as-wholesale-success {
+    display: none;
+    background: #f0ebe3;
+    border: 1px solid #B7A160;
+    color: #686A54;
+    padding: 14px 20px;
+    border-radius: 3px;
+    font-size: 14px;
+    text-align: center;
+    margin-top: 16px;
+    font-family: 'Georgia', serif;
+  }
+
+  @media (max-width: 600px) {
+    .as-wholesale-section {
+      padding: 40px 16px;
+    }
+
+    .as-wholesale-heading {
+      font-size: 24px;
+    }
+
+    .as-wholesale-subtext {
+      font-size: 13px;
+    }
+
+    .as-wholesale-accordions {
+      grid-template-columns: 1fr;
+    }
+
+    .as-wholesale-accordion:nth-child(odd) {
+      border-right: none;
+    }
+
+    .as-wholesale-accordion:nth-last-child(-n+2) {
+      border-bottom: 1px solid #d6cfc8;
+    }
+
+    .as-wholesale-accordion:last-child {
+      border-bottom: none;
+    }
+
+    .as-wholesale-card {
+      padding: 24px 18px 28px 18px;
+    }
+
+    .as-wholesale-row {
+      grid-template-columns: 1fr;
+      gap: 0;
+      margin-bottom: 0;
+    }
+
+    .as-wholesale-row .as-wholesale-field {
+      margin-bottom: 18px;
+    }
+
+    .as-wholesale-item-row {
+      grid-template-columns: 1fr 100px;
+    }
+  }
+</style>
+
+<section class="as-wholesale-section">
+  <div class="as-wholesale-bg-pattern">
+    <svg width="80" height="80" style="top:20px;left:20px;" viewBox="0 0 80 80"><text x="10" y="50" font-size="38" fill="#686A54" font-family="Georgia,serif" font-style="italic">AS</text></svg>
+    <svg width="80" height="80" style="top:20px;right:20px;" viewBox="0 0 80 80"><text x="10" y="50" font-size="38" fill="#686A54" font-family="Georgia,serif" font-style="italic">AS</text></svg>
+    <svg width="80" height="80" style="top:50%;left:20px;transform:translateY(-50%);" viewBox="0 0 80 80"><text x="10" y="50" font-size="38" fill="#686A54" font-family="Georgia,serif" font-style="italic">AS</text></svg>
+    <svg width="80" height="80" style="top:50%;right:20px;transform:translateY(-50%);" viewBox="0 0 80 80"><text x="10" y="50" font-size="38" fill="#686A54" font-family="Georgia,serif" font-style="italic">AS</text></svg>
+    <svg width="80" height="80" style="bottom:20px;left:20px;" viewBox="0 0 80 80"><text x="10" y="50" font-size="38" fill="#686A54" font-family="Georgia,serif" font-style="italic">AS</text></svg>
+    <svg width="80" height="80" style="bottom:20px;right:20px;" viewBox="0 0 80 80"><text x="10" y="50" font-size="38" fill="#686A54" font-family="Georgia,serif" font-style="italic">AS</text></svg>
+    <svg width="60" height="120" style="top:10%;left:50%;transform:translateX(-50%);" viewBox="0 0 60 120">
+      <line x1="30" y1="0" x2="30" y2="120" stroke="#686A54" stroke-width="1"/>
+      <ellipse cx="30" cy="20" rx="12" ry="18" fill="none" stroke="#686A54" stroke-width="1"/>
+      <ellipse cx="15" cy="55" rx="10" ry="15" fill="none" stroke="#686A54" stroke-width="1" transform="rotate(-30 15 55)"/>
+      <ellipse cx="45" cy="55" rx="10" ry="15" fill="none" stroke="#686A54" stroke-width="1" transform="rotate(30 45 55)"/>
+    </svg>
+  </div>
+
+  <div class="as-wholesale-inner">
+    <h2 class="as-wholesale-heading">{{ section.settings.heading }}</h2>
+    <p class="as-wholesale-subtext">{{ section.settings.subtext }}</p>
+
+    <div class="as-wholesale-accordions">
+      <div class="as-wholesale-accordion">
+        <button type="button" class="as-wholesale-accordion-trigger" data-acc="wholesale-discount">
+          WHOLESALE DISCOUNT:
+          <span class="as-wholesale-acc-icon">+</span>
+        </button>
+        <div class="as-wholesale-accordion-body" id="wholesale-discount">
+          Enjoy tiered wholesale pricing based on your order volume.
+        </div>
+      </div>
+      <div class="as-wholesale-accordion">
+        <button type="button" class="as-wholesale-accordion-trigger" data-acc="product-customization">
+          PRODUCT CUSTOMIZATION:
+          <span class="as-wholesale-acc-icon">+</span>
+        </button>
+        <div class="as-wholesale-accordion-body" id="product-customization">
+          We offer product customization for bulk orders. Contact us for details.
+        </div>
+      </div>
+      <div class="as-wholesale-accordion">
+        <button type="button" class="as-wholesale-accordion-trigger" data-acc="leadtime-to-ship">
+          LEADTIME TO SHIP:
+          <span class="as-wholesale-acc-icon">+</span>
+        </button>
+        <div class="as-wholesale-accordion-body" id="leadtime-to-ship">
+          Standard lead time is 2–3 weeks depending on order size and customization.
+        </div>
+      </div>
+      <div class="as-wholesale-accordion">
+        <button type="button" class="as-wholesale-accordion-trigger" data-acc="gift-box">
+          GIFT BOX:
+          <span class="as-wholesale-acc-icon">–</span>
+        </button>
+        <div class="as-wholesale-accordion-body open" id="gift-box">
+          All orders will be beautifully packaged in our Arte Sari gift boxes.
+          {% if section.settings.gift_box_image != blank %}
+            <img src="{{ section.settings.gift_box_image | img_url: '300x' }}" alt="Gift Box">
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <div class="as-wholesale-card">
+      {%- form 'contact', id: 'as-wholesale-form' -%}
+        <input type="hidden" name="contact[tags]" value="wholesale">
+
+        <div class="as-wholesale-field">
+          <label for="as-ws-fullname">Full Name</label>
+          <input type="text" id="as-ws-fullname" name="contact[name]" placeholder="Ex. Juan Dela Cruz" required>
+        </div>
+
+        <div class="as-wholesale-field">
+          <label for="as-ws-business">Business</label>
+          <input type="text" id="as-ws-business" name="contact[business]" placeholder="Enter your business name">
+        </div>
+
+        <div class="as-wholesale-field">
+          <label for="as-ws-address">Delivery Address</label>
+          <input type="text" id="as-ws-address" name="contact[delivery_address]" placeholder="Enter your delivery address">
+        </div>
+
+        <div class="as-wholesale-row">
+          <div class="as-wholesale-field">
+            <label for="as-ws-contact">Contact</label>
+            <input type="tel" id="as-ws-contact" name="contact[contact]" placeholder="+">
+          </div>
+          <div class="as-wholesale-field">
+            <label for="as-ws-email">Email</label>
+            <input type="email" id="as-ws-email" name="contact[email]" placeholder="Ex. juandelacruz@gmail.com" required>
+          </div>
+        </div>
+
+        <div class="as-wholesale-field">
+          <label for="as-ws-purpose">Purpose of wholesale order</label>
+          <input type="text" id="as-ws-purpose" name="contact[purpose]" placeholder="Enter your purpose of wholesale order">
+        </div>
+
+        <div class="as-wholesale-field">
+          <label for="as-ws-date">Date Needed</label>
+          <input type="text" id="as-ws-date" name="contact[date_needed]" placeholder="MM-DD-YYYY">
+        </div>
+
+        <div class="as-wholesale-item-list-label">
+          <span>ITEM LIST</span>
+          <span>Min. no. of items: 5</span>
+        </div>
+
+        <div id="as-wholesale-items">
+          <div class="as-wholesale-item-row">
+            <input type="text" name="contact[item_1]" placeholder="Enter Item Name">
+            <div class="as-wholesale-qty-wrap">
+              <button type="button" class="as-wholesale-qty-btn" onclick="asWsQty(this,-1)">−</button>
+              <input type="number" class="as-wholesale-qty-input" name="contact[qty_1]" value="5" min="1">
+              <button type="button" class="as-wholesale-qty-btn" onclick="asWsQty(this,1)">+</button>
+            </div>
+          </div>
+          <div class="as-wholesale-item-row">
+            <input type="text" name="contact[item_2]" placeholder="Enter Item Name">
+            <div class="as-wholesale-qty-wrap">
+              <button type="button" class="as-wholesale-qty-btn" onclick="asWsQty(this,-1)">−</button>
+              <input type="number" class="as-wholesale-qty-input" name="contact[qty_2]" value="5" min="1">
+              <button type="button" class="as-wholesale-qty-btn" onclick="asWsQty(this,1)">+</button>
+            </div>
+          </div>
+          <div class="as-wholesale-item-row">
+            <input type="text" name="contact[item_3]" placeholder="Enter Item Name">
+            <div class="as-wholesale-qty-wrap">
+              <button type="button" class="as-wholesale-qty-btn" onclick="asWsQty(this,-1)">−</button>
+              <input type="number" class="as-wholesale-qty-input" name="contact[qty_3]" value="5" min="1">
+              <button type="button" class="as-wholesale-qty-btn" onclick="asWsQty(this,1)">+</button>
+            </div>
+          </div>
+        </div>
+
+        <button type="button" class="as-wholesale-add-item" id="as-ws-add-item">+ ADD ANOTHER ITEM</button>
+
+        <div class="as-wholesale-field">
+          <label for="as-ws-message">Message</label>
+          <textarea id="as-ws-message" name="contact[body]" placeholder="Write your inquiry or a collaboration idea here..."></textarea>
+        </div>
+
+        <div class="as-wholesale-submit-wrap">
+          <button type="submit" class="as-wholesale-submit">SUBMIT</button>
+        </div>
+
+        {%- if form.posted_successfully? -%}
+          <div class="as-wholesale-success" style="display:block;">Thank you! Your wholesale inquiry has been sent.</div>
+        {%- endif -%}
+      {%- endform -%}
+    </div>
+  </div>
+</section>
+
+<script>
+  (function() {
+    var accTriggers = document.querySelectorAll('.as-wholesale-accordion-trigger');
+    accTriggers.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var id = btn.getAttribute('data-acc');
+        var body = document.getElementById(id);
+        var icon = btn.querySelector('.as-wholesale-acc-icon');
+        if (body.classList.contains('open')) {
+          body.classList.remove('open');
+          icon.textContent = '+';
+        } else {
+          body.classList.add('open');
+          icon.textContent = '–';
+        }
+      });
+    });
+
+    var itemCount = 3;
+    var addBtn = document.getElementById('as-ws-add-item');
+    if (addBtn) {
+      addBtn.addEventListener('click', function() {
+        itemCount++;
+        var container = document.getElementById('as-wholesale-items');
+        var row = document.createElement('div');
+        row.className = 'as-wholesale-item-row';
+        row.innerHTML =
+          '<input type="text" name="contact[item_' + itemCount + ']" placeholder="Enter Item Name">' +
+          '<div class="as-wholesale-qty-wrap">' +
+            '<button type="button" class="as-wholesale-qty-btn" onclick="asWsQty(this,-1)">−</button>' +
+            '<input type="number" class="as-wholesale-qty-input" name="contact[qty_' + itemCount + ']" value="5" min="1">' +
+            '<button type="button" class="as-wholesale-qty-btn" onclick="asWsQty(this,1)">+</button>' +
+          '</div>';
+        container.appendChild(row);
+      });
+    }
+  })();
+
+  function asWsQty(btn, delta) {
+    var input = btn.parentElement.querySelector('.as-wholesale-qty-input');
+    var val = parseInt(input.value) || 1;
+    val = Math.max(1, val + delta);
+    input.value = val;
+  }
+</script>

@@ -1,0 +1,251 @@
+<section class="custom-feature section section--page-width">
+  <div class="custom-container">
+    
+    <div class="custom-content">
+      <span class="custom-eyebrow">
+        {{ section.settings.eyebrow }}
+      </span>
+
+      <h2 class="custom-title">
+        {{ section.settings.title }}
+      </h2>
+
+      <p class="custom-description">
+        {{ section.settings.description }}
+      </p>
+
+      {% if section.settings.button_label != blank %}
+        <a href="{{ section.settings.button_link }}" class="custom-btn">
+          {{ section.settings.button_label }}
+        </a>
+      {% endif %}
+    </div>
+
+    {% if section.settings.image != blank %}
+      <div class="custom-image-wrapper">
+        <img
+          src="{{ section.settings.image | image_url: width: 600 }}"
+          alt="{{ section.settings.title }}"
+          loading="lazy"
+          width="600"
+          height="600"
+        >
+      </div>
+    {% endif %}
+
+  </div>
+</section>
+
+{% style %}
+.custom-feature {
+  padding: 80px 20px;
+  overflow-x: hidden;
+}
+.custom-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4rem;
+  border: 1px solid #a8a091;
+  border-radius: 500px;
+  padding: 2.5rem 2.5rem 2.5rem 5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding-right: 50px;
+  padding-left: 140px;
+  box-sizing: border-box;
+  overflow: hidden;
+  
+}
+.custom-content {
+  flex: 1;
+  max-width: 452px;
+  display: flex;
+  flex-direction: column;
+  min-height: 335px;
+}
+.custom-eyebrow {
+  font-family: Agrandir;
+  font-weight: 400;
+  font-style: Regular;
+  font-size: 18px;
+  leading-trim: NONE;
+  line-height: 1.05;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #5D5C5A;
+  display: block;
+  margin-bottom: 14px;
+}
+.custom-title {
+  font-family: Facelio;
+  font-weight: 400;
+  font-style: Regular;
+  font-size: 48px;
+  leading-trim: NONE;
+  line-height: 1.02;
+  letter-spacing: 4%;
+  margin: 0 0 12px;
+  color: #B7A160;
+}
+.custom-description {
+  font-family: Fraunces2;
+  font-weight: 400;
+  font-style: Regular;
+  font-size: 20px;
+  leading-trim: NONE;
+  line-height: 1.35;
+  letter-spacing: 0%;
+  color: #5D5C5A;
+  max-width: 54ch;
+  margin-top: 0;
+  margin-bottom: 28px;
+}
+.custom-btn {
+  display: inline-flex;
+  width: fit-content;
+  max-width: 100%;
+  align-self: flex-start;
+  margin-top: auto;
+  padding: 14px 16px;
+  background: #686A54;
+  color: #fff;
+  text-decoration: none;
+  font-family: Agrandir;
+  font-weight: 400;
+  font-style: Regular;
+  font-size: 14px;
+  leading-trim: NONE;
+  line-height: 24px;
+  letter-spacing: 0%;
+  transition: 0.3s ease;
+}
+.custom-btn:hover {
+  background: #4f5243;
+}
+.custom-image-wrapper {
+  flex-shrink: 0;
+  width: 350px;
+  height: 335px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #e8f0e8;
+}
+.custom-image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 70% 10%;
+  transform: scale(1.08);
+}
+@media (max-width: 1125px) {
+  .custom-container {
+    padding: 0.75rem 1.5rem 0.75rem 5.5rem;
+    max-width: 930px;
+    gap: 2rem;
+  }
+  .custom-image-wrapper { width: 340px; height: 340px; }
+  .custom-content { min-height: 340px; }
+}
+@media (max-width: 990px) {
+  .custom-container {
+    flex-direction: column-reverse;
+    text-align: center;
+    border-radius: 400px;
+    padding: 50px 30px 220px 30px;
+    gap: 2rem;
+    width: 100%;
+    max-width: 400px;
+  }
+  .custom-image-wrapper {
+    width: 280px;
+    height: 280px;
+    margin: 0 auto;
+  }
+  .custom-content {
+    text-align: left;
+    min-height: auto;
+  }
+}
+@media (max-width: 598px) {
+  .custom-feature {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+  .custom-feature.section--page-width > .custom-container {
+    grid-column: 1 / -1;
+  }
+  .custom-container {
+    width: 100%;
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    padding: 24px;
+    padding-bottom: 180px;
+  }
+  .custom-content {
+    width: 100%;
+    align-items: stretch;
+  }
+  .custom-eyebrow { font-size: 16px; }
+  .custom-title { font-size: 24px; margin-bottom: 12px; }
+  .custom-description {
+    font-size: 14px;
+    max-width: 100%;
+  }
+  .custom-btn {
+    width: 100%;
+    justify-content: center;
+    box-sizing: border-box;
+    text-align: center;
+    white-space: normal;
+  }
+}
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "Custom Feature",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Eyebrow"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Title"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Description"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label",
+      "default": "Button"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Feature"
+    }
+  ]
+}
+{% endschema %}

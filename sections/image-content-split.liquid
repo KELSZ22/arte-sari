@@ -1,0 +1,825 @@
+{% liquid
+  assign overlay_opacity = section.settings.background_overlay | divided_by: 100.0
+
+  assign subheading_font_family = section.settings.subheading_font_family | default: 'inherit'
+  assign heading_font_family = section.settings.heading_font_family | default: 'inherit'
+  assign text_font_family = section.settings.text_font_family | default: 'inherit'
+  assign button_font_family = section.settings.button_font_family | default: 'inherit'
+
+  if subheading_font_family == 'agrandir'
+    assign subheading_font_value = 'Agrandir'
+  elsif subheading_font_family == 'ss-bruney'
+    assign subheading_font_value = 'SS Bruney'
+  elsif subheading_font_family == 'facelio'
+    assign subheading_font_value = 'Facelio'
+  elsif subheading_font_family == 'fraunces'
+    assign subheading_font_value = 'var(--font-heading-family)'
+  else
+    assign subheading_font_value = 'inherit'
+  endif
+
+  if heading_font_family == 'agrandir'
+    assign heading_font_value = 'Agrandir'
+  elsif heading_font_family == 'ss-bruney'
+    assign heading_font_value = 'SS Bruney'
+  elsif heading_font_family == 'facelio'
+    assign heading_font_value = 'Facelio'
+  elsif heading_font_family == 'fraunces'
+    assign heading_font_value = 'var(--font-heading-family)'
+  else
+    assign heading_font_value = 'inherit'
+  endif
+
+  if text_font_family == 'agrandir'
+    assign text_font_value = 'Agrandir'
+  elsif text_font_family == 'ss-bruney'
+    assign text_font_value = 'SS Bruney'
+  elsif text_font_family == 'facelio'
+    assign text_font_value = 'Facelio'
+  elsif text_font_family == 'fraunces'
+    assign text_font_value = 'var(--font-heading-family)'
+  else
+    assign text_font_value = 'inherit'
+  endif
+
+  if button_font_family == 'agrandir'
+    assign button_font_value = 'Agrandir'
+  elsif button_font_family == 'ss-bruney'
+    assign button_font_value = 'SS Bruney'
+  elsif button_font_family == 'facelio'
+    assign button_font_value = 'Facelio'
+  elsif button_font_family == 'fraunces'
+    assign button_font_value = 'var(--font-heading-family)'
+  else
+    assign button_font_value = 'inherit'
+  endif
+%}
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<section
+  class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }} image-content-split spacing-style"
+  style="
+    {% render 'spacing-style', settings: section.settings %}
+    --image-content-split-overlay: {{ overlay_opacity }};
+    --image-content-split-bg-size: {{ section.settings.background_size }};
+    --image-content-split-bg-position: {{ section.settings.background_position }};
+    --image-content-split-bg-size-mobile: {{ section.settings.background_size_mobile | default: section.settings.background_size | default: 'cover' }};
+    --image-content-split-bg-position-mobile: {{ section.settings.background_position_mobile | default: section.settings.background_position | default: 'center center' }};
+    --image-content-split-subheading-color: {{ section.settings.subheading_color | default: '#5D5C5A' }};
+    --image-content-split-heading-color: {{ section.settings.heading_color | default: '#5D5C5A' }};
+    --image-content-split-text-color: {{ section.settings.text_color | default: '#6b6b6b' }};
+    --image-content-split-button-bg: {{ section.settings.button_bg_color }};
+    --image-content-split-button-color: {{ section.settings.button_text_color | default: '#FFFFFF' }};
+    --image-content-split-height: {{ section.settings.section_height }}px;
+    --image-content-split-subheading-font: {{ subheading_font_value }};
+    --image-content-split-subheading-size: {{ section.settings.subheading_font_size }}px;
+    --image-content-split-subheading-weight: {{ section.settings.subheading_font_weight }};
+    --image-content-split-heading-font: {{ heading_font_value }};
+    --image-content-split-heading-size: {{ section.settings.heading_font_size }}px;
+    --image-content-split-heading-weight: {{ section.settings.heading_font_weight }};
+    --image-content-split-text-font: {{ text_font_value }};
+    --image-content-split-text-size: {{ section.settings.text_font_size }}px;
+    --image-content-split-text-weight: {{ section.settings.text_font_weight }};
+    --image-content-split-button-font: {{ button_font_value }};
+    --image-content-split-button-size: {{ section.settings.button_font_size }}px;
+    --image-content-split-button-weight: {{ section.settings.button_font_weight }};
+    {% if section.settings.background_image != blank %}
+      --image-content-split-bg-image: url('{{ section.settings.background_image | image_url: width: 2800 }}');
+    {% else %}
+      --image-content-split-bg-image: none;
+    {% endif %}
+    {% if section.settings.background_image_mobile != blank %}
+      --image-content-split-bg-image-mobile: url('{{ section.settings.background_image_mobile | image_url: width: 1200 }}');
+    {% elsif section.settings.background_image != blank %}
+      --image-content-split-bg-image-mobile: url('{{ section.settings.background_image | image_url: width: 1200 }}');
+    {% else %}
+      --image-content-split-bg-image-mobile: none;
+    {% endif %}
+  "
+>
+  <div class="image-content-split__background"></div>
+
+  <div class="image-content-split__inner">
+    <div class="image-content-split__grid">
+      <div class="image-content-split__column image-content-split__column--image">
+        {% if section.settings.image != blank %}
+          <div class="image-content-split__image-wrap">
+            {{
+              section.settings.image
+              | image_url: width: 800
+              | image_tag: class: 'image-content-split__image', loading: 'lazy'
+            }}
+          </div>
+        {% else %}
+          <div class="image-content-split__image-wrap image-content-split__image-wrap--placeholder">
+            <span class="image-content-split__placeholder">{{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}</span>
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="image-content-split__column image-content-split__column--content">
+        <div class="image-content-split__content">
+          {% if section.settings.heading != blank %}
+            <h2 class="image-content-split__heading">{{ section.settings.heading }}</h2>
+          {% endif %}
+
+          {% if section.settings.subheading != blank %}
+            <p class="image-content-split__subheading">{{ section.settings.subheading }}</p>
+          {% endif %}
+
+          {% if section.settings.text != blank %}
+            <div class="image-content-split__text">
+              {{ section.settings.text }}
+            </div>
+          {% endif %}
+
+          {% if section.settings.button_label != blank %}
+            <a
+              {% if section.settings.button_link != blank %}
+                href="{{ section.settings.button_link }}"
+              {% else %}
+                role="link"
+                aria-disabled="true"
+              {% endif %}
+              class="image-content-split__button"
+            >
+              {{ section.settings.button_label }}
+            </a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  @font-face {
+    font-family: 'Agrandir';
+    src: url('https://cdn.shopify.com/s/files/1/0728/1321/5942/files/Agrandir-Regular.woff2?v=1771643523') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'SS Bruney';
+    src: url('https://cdn.shopify.com/s/files/1/0728/1321/5942/files/SS_Bruney.woff2?v=1771643523') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Facelio';
+    src: url('https://cdn.shopify.com/s/files/1/0728/1321/5942/files/Facelio.woff2?v=1771643523') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  .image-content-split {
+    position: relative;
+    overflow: visible;
+    isolation: isolate;
+    min-height: var(--image-content-split-height);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .image-content-split__background {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 100vw;
+    margin-left: -50vw;
+    z-index: -1;
+    background-image: var(--image-content-split-bg-image);
+    background-size: var(--image-content-split-bg-size);
+    background-position: var(--image-content-split-bg-position);
+    background-repeat: no-repeat;
+  }
+
+  .image-content-split__background::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, var(--image-content-split-overlay));
+  }
+
+  .image-content-split__inner {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px 16px;
+  }
+
+  .image-content-split__grid {
+    display: grid;
+    gap: 50px;
+    grid-template-columns: 1fr;
+    align-items: center;
+  }
+
+  .image-content-split__column--image {
+    min-width: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .image-content-split__image-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .image-content-split__image-wrap--placeholder {
+    aspect-ratio: 4 / 3;
+    background: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .image-content-split__image {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: contain;
+  }
+
+  .image-content-split__placeholder {
+    opacity: 0.4;
+  }
+
+  .image-content-split__placeholder .placeholder-svg {
+    width: 120px;
+    height: 120px;
+  }
+
+  .image-content-split__content {
+    padding: 24px 0;
+  }
+
+  .image-content-split__heading {
+    margin: 0 0 16px;
+    font-family: var(--image-content-split-heading-font);
+    font-size: var(--image-content-split-heading-size);
+    font-weight: var(--image-content-split-heading-weight);
+    line-height: 1.2;
+    color: var(--image-content-split-heading-color);
+  }
+
+  @media screen and (min-width: 750px){
+    .image-content-split__heading {
+      max-width: 410px;
+    }
+  }
+
+  .image-content-split__subheading {
+    margin: 0 0 12px;
+    font-family: var(--image-content-split-subheading-font);
+    font-size: var(--image-content-split-subheading-size);
+    font-weight: var(--image-content-split-subheading-weight);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--image-content-split-subheading-color);
+    opacity: 0.85;
+  }
+
+  .image-content-split__text {
+    margin: 0 0 24px;
+    font-family: var(--image-content-split-text-font);
+    font-size: var(--image-content-split-text-size);
+    font-weight: var(--image-content-split-text-weight);
+    line-height: 1.6;
+    color: var(--image-content-split-text-color);
+  }
+
+  .image-content-split__text p {
+    margin: 0 0 0.75em;
+  }
+
+  .image-content-split__text p:last-child {
+    margin-bottom: 0;
+  }
+
+  .image-content-split__button {
+    display: flex;
+    width: 220px;
+    height: 47px;
+    padding: 0 16px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    background: var(--image-content-split-button-bg);
+    color: var(--image-content-split-button-color);
+    border: 0;
+    border-radius: 0;
+    font-family: var(--image-content-split-button-font);
+    font-size: var(--image-content-split-button-size);
+    font-weight: var(--image-content-split-button-weight);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+
+  .image-content-split__button:hover {
+    opacity: 0.9;
+  }
+
+  @media screen and (min-width: 750px) {
+    .image-content-split__grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 50px;
+    }
+
+    .image-content-split__image-wrap {
+      margin: 0 auto;
+    }
+
+    .image-content-split__content {
+      padding: 32px 0;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .image-content-split__background {
+      background-image: var(--image-content-split-bg-image-mobile);
+      background-size: var(--image-content-split-bg-size-mobile);
+      background-position: var(--image-content-split-bg-position-mobile);
+    }
+
+    .image-content-split__content {
+      text-align: left;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Image and content",
+  "class": "image-content-split-section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Left column (image)"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "header",
+      "content": "Right column (content)"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Inspired by the"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Sari-sari store"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Sari-sari stores are small neighborhood shops across the Philippines, serving as community hubs. Arte Sari celebrates this spirit—showing Filipino artistry and supporting family-run craft.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Know our story"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Subheading Typography"
+    },
+    {
+      "type": "select",
+      "id": "subheading_font_family",
+      "label": "Subheading font",
+      "options": [
+        { "value": "agrandir", "label": "Agrandir" },
+        { "value": "ss-bruney", "label": "SS Bruney" },
+        { "value": "facelio", "label": "Facelio" },
+        { "value": "fraunces", "label": "Fraunces" },
+        { "value": "inherit", "label": "Default" }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "range",
+      "id": "subheading_font_size",
+      "label": "Subheading font size",
+      "min": 10,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "select",
+      "id": "subheading_font_weight",
+      "label": "Subheading font weight",
+      "options": [
+        { "value": "100", "label": "Thin" },
+        { "value": "200", "label": "Extra Light" },
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi Bold" },
+        { "value": "700", "label": "Bold" },
+        { "value": "800", "label": "Extra Bold" },
+        { "value": "900", "label": "Black" }
+      ],
+      "default": "500"
+    },
+    {
+      "type": "color",
+      "id": "subheading_color",
+      "label": "Subheading color",
+      "default": "#5D5C5A"
+    },
+    {
+      "type": "header",
+      "content": "Heading Typography"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_family",
+      "label": "Heading font",
+      "options": [
+        { "value": "agrandir", "label": "Agrandir" },
+        { "value": "ss-bruney", "label": "SS Bruney" },
+        { "value": "facelio", "label": "Facelio" },
+        { "value": "fraunces", "label": "Fraunces" },
+        { "value": "inherit", "label": "Default" }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "range",
+      "id": "heading_font_size",
+      "label": "Heading font size",
+      "min": 12,
+      "max": 120,
+      "step": 2,
+      "unit": "px",
+      "default": 36
+    },
+    {
+      "type": "select",
+      "id": "heading_font_weight",
+      "label": "Heading font weight",
+      "options": [
+        { "value": "100", "label": "Thin" },
+        { "value": "200", "label": "Extra Light" },
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi Bold" },
+        { "value": "700", "label": "Bold" },
+        { "value": "800", "label": "Extra Bold" },
+        { "value": "900", "label": "Black" }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#5D5C5A"
+    },
+    {
+      "type": "header",
+      "content": "Text Typography"
+    },
+    {
+      "type": "select",
+      "id": "text_font_family",
+      "label": "Text font",
+      "options": [
+        { "value": "agrandir", "label": "Agrandir" },
+        { "value": "ss-bruney", "label": "SS Bruney" },
+        { "value": "facelio", "label": "Facelio" },
+        { "value": "fraunces", "label": "Fraunces" },
+        { "value": "inherit", "label": "Default" }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "range",
+      "id": "text_font_size",
+      "label": "Text font size",
+      "min": 10,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "select",
+      "id": "text_font_weight",
+      "label": "Text font weight",
+      "options": [
+        { "value": "100", "label": "Thin" },
+        { "value": "200", "label": "Extra Light" },
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi Bold" },
+        { "value": "700", "label": "Bold" },
+        { "value": "800", "label": "Extra Bold" },
+        { "value": "900", "label": "Black" }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#6b6b6b"
+    },
+    {
+      "type": "header",
+      "content": "Button Typography"
+    },
+    {
+      "type": "select",
+      "id": "button_font_family",
+      "label": "Button font",
+      "options": [
+        { "value": "agrandir", "label": "Agrandir" },
+        { "value": "ss-bruney", "label": "SS Bruney" },
+        { "value": "facelio", "label": "Facelio" },
+        { "value": "fraunces", "label": "Fraunces" },
+        { "value": "inherit", "label": "Default" }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "range",
+      "id": "button_font_size",
+      "label": "Button font size",
+      "min": 10,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 13
+    },
+    {
+      "type": "select",
+      "id": "button_font_weight",
+      "label": "Button font weight",
+      "options": [
+        { "value": "100", "label": "Thin" },
+        { "value": "200", "label": "Extra Light" },
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi Bold" },
+        { "value": "700", "label": "Bold" },
+        { "value": "800", "label": "Extra Bold" },
+        { "value": "900", "label": "Black" }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Background image"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background image (desktop)"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image_mobile",
+      "label": "Background image (mobile)",
+      "info": "Optional. Falls back to desktop image if left blank."
+    },
+    {
+      "type": "range",
+      "id": "background_overlay",
+      "label": "Background overlay",
+      "min": 0,
+      "max": 70,
+      "step": 5,
+      "unit": "%",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Desktop Background Settings"
+    },
+    {
+      "type": "select",
+      "id": "background_size",
+      "label": "Desktop background size",
+      "options": [
+        {
+          "value": "cover",
+          "label": "Cover"
+        },
+        {
+          "value": "contain",
+          "label": "Contain"
+        },
+        {
+          "value": "100% 100%",
+          "label": "Fill"
+        }
+      ],
+      "default": "cover"
+    },
+    {
+      "type": "select",
+      "id": "background_position",
+      "label": "Desktop background position",
+      "options": [
+        {
+          "value": "center center",
+          "label": "Center"
+        },
+        {
+          "value": "center top",
+          "label": "Top"
+        },
+        {
+          "value": "center bottom",
+          "label": "Bottom"
+        }
+      ],
+      "default": "center center"
+    },
+    {
+      "type": "header",
+      "content": "Mobile Background Settings (below 750px)"
+    },
+    {
+      "type": "select",
+      "id": "background_size_mobile",
+      "label": "Mobile background size",
+      "options": [
+        {
+          "value": "cover",
+          "label": "Cover"
+        },
+        {
+          "value": "contain",
+          "label": "Contain"
+        },
+        {
+          "value": "100% 100%",
+          "label": "Fill"
+        }
+      ],
+      "default": "cover",
+      "info": "Default: Cover"
+    },
+    {
+      "type": "select",
+      "id": "background_position_mobile",
+      "label": "Mobile background position",
+      "options": [
+        {
+          "value": "center center",
+          "label": "Center"
+        },
+        {
+          "value": "center top",
+          "label": "Top"
+        },
+        {
+          "value": "center bottom",
+          "label": "Bottom"
+        },
+        {
+          "value": "left center",
+          "label": "Left"
+        },
+        {
+          "value": "right center",
+          "label": "Right"
+        },
+        {
+          "value": "left top",
+          "label": "Left Top"
+        },
+        {
+          "value": "right top",
+          "label": "Right Top"
+        },
+        {
+          "value": "left bottom",
+          "label": "Left Bottom"
+        },
+        {
+          "value": "right bottom",
+          "label": "Right Bottom"
+        }
+      ],
+      "default": "center center"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Button background",
+      "default": "#686A54"
+    },
+    {
+      "type": "range",
+      "id": "section_height",
+      "label": "Section height",
+      "min": 300,
+      "max": 1000,
+      "step": 20,
+      "unit": "px",
+      "default": 480
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "Page"
+        },
+        {
+          "value": "full-width",
+          "label": "Full"
+        }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image and content"
+    }
+  ]
+}
+{% endschema %}

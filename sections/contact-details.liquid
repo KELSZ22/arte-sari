@@ -1,0 +1,318 @@
+{% schema %}
+{
+  "name": "Contact Details",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "left_image",
+      "label": "Left Column Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Right Column Background Image"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Get In Touch"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "We'd love to hear from you. Reach out to us for any inquiries or collaborations."
+    },
+    {
+      "type": "text",
+      "id": "hours_label",
+      "label": "Hours Label",
+      "default": "Business Hours"
+    },
+    {
+      "type": "text",
+      "id": "hours_value",
+      "label": "Hours Value",
+      "default": "Monday – Friday, 9AM – 6PM"
+    },
+    {
+      "type": "text",
+      "id": "location_label",
+      "label": "Location Label",
+      "default": "Location"
+    },
+    {
+      "type": "text",
+      "id": "location_value",
+      "label": "Location Value",
+      "default": "Manila, Philippines"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Contact Details"
+    }
+  ]
+}
+{% endschema %}
+
+<style>
+  .asc-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 520px;
+    font-family: 'Georgia', serif;
+  }
+
+  .asc-left {
+    position: relative;
+    overflow: hidden;
+    min-height: 420px;
+  }
+
+  .asc-left img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    position: absolute;
+    inset: 0;
+  }
+
+  .asc-left-placeholder {
+    width: 100%;
+    height: 100%;
+    background: #d6cfc8;
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .asc-left-placeholder span {
+    font-size: 13px;
+    color: #969696;
+    font-family: 'Georgia', serif;
+  }
+
+  .asc-right {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 52px;
+    box-sizing: border-box;
+  }
+
+  .asc-right-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+  }
+
+  .asc-right-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+
+  .asc-right-placeholder-bg {
+    position: absolute;
+    inset: 0;
+    background: #F4ECE6;
+    z-index: 0;
+  }
+
+  .asc-right-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 420px;
+    background: white;
+    padding: 30px;
+  }
+
+  .asc-right-heading {
+    font-size: 18px;
+    letter-spacing: 0.1px;
+    color: #5D5C5A;
+    font-weight: 400;
+    margin: 0 0 14px 0;
+    font-family: 'Fraunces';
+  }
+
+  .asc-right-desc {
+    font-size: 14px;
+    color: #969696;
+    line-height: 1.7;
+    margin: 0 0 36px 0;
+    font-family: 'Fraunces';
+  }
+
+  .asc-detail-list {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  .asc-detail-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+  }
+
+  .asc-detail-icon {
+    flex-shrink: 0;
+    width: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2px;
+  }
+
+  .asc-detail-text {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .asc-detail-label {
+    font-size: 13px;
+    color: #969696;
+    font-family: 'Fraunces';
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .asc-detail-value {
+    font-size: 14px;
+    color: #5D5C5A;
+    font-family: 'Fraunces';
+    line-height: 1.6;
+  }
+
+  @media (max-width: 768px) {
+    .asc-section {
+      grid-template-columns: 1fr;
+    }
+
+    .asc-left {
+      min-height: 280px;
+    }
+
+    .asc-right {
+      padding: 44px 28px;
+    }
+
+    .asc-right-heading {
+      font-size: 22px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .asc-left {
+      min-height: 220px;
+    }
+
+    .asc-right {
+      padding: 36px 20px;
+    }
+
+    .asc-right-heading {
+      font-size: 20px;
+    }
+
+    .asc-right-desc {
+      font-size: 13px;
+      margin-bottom: 28px;
+    }
+
+    .asc-detail-item {
+      gap: 14px;
+    }
+
+    .asc-detail-icon {
+      width: 36px;
+    }
+  }
+</style>
+
+<div class="asc-section">
+  <div class="asc-left">
+    {%- if section.settings.left_image != blank -%}
+      <img
+        src="{{ section.settings.left_image | image_url: width: 900 }}"
+        alt="{{ section.settings.left_image.alt | escape }}"
+        loading="lazy"
+        width="{{ section.settings.left_image.width }}"
+        height="{{ section.settings.left_image.height }}"
+      >
+    {%- else -%}
+      <div class="asc-left-placeholder">
+        <span>Upload an image</span>
+      </div>
+    {%- endif -%}
+  </div>
+
+  <div class="asc-right">
+    {%- if section.settings.background_image != blank -%}
+      <img
+        class="asc-right-bg"
+        src="{{ section.settings.background_image | image_url: width: 1200 }}"
+        alt=""
+        loading="lazy"
+      >
+      <div class="asc-right-overlay"></div>
+    {%- else -%}
+      <div class="asc-right-placeholder-bg"></div>
+    {%- endif -%}
+
+    <div class="asc-right-content">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="asc-right-heading">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+
+      {%- if section.settings.description != blank -%}
+        <p class="asc-right-desc">{{ section.settings.description }}</p>
+      {%- endif -%}
+
+      <div class="asc-detail-list">
+        {%- if section.settings.hours_label != blank or section.settings.hours_value != blank -%}
+          <div class="asc-detail-item">
+            <div class="asc-detail-icon">
+              <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M21 9V21L29 25M41 21C41 32.0457 32.0457 41 21 41C9.9543 41 1 32.0457 1 21C1 9.9543 9.9543 1 21 1C32.0457 1 41 9.9543 41 21Z" stroke="#B7A160" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="asc-detail-text">
+              <span class="asc-detail-label">{{ section.settings.hours_label }}</span>
+              <span class="asc-detail-value">{{ section.settings.hours_value }}</span>
+            </div>
+          </div>
+        {%- endif -%}
+
+        {%- if section.settings.location_label != blank or section.settings.location_value != blank -%}
+          <div class="asc-detail-item">
+            <div class="asc-detail-icon">
+              <svg width="38" height="46" viewBox="0 0 38 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M37 19C37 33 19 45 19 45C19 45 1 33 1 19C1 14.2261 2.89642 9.64773 6.27208 6.27208C9.64773 2.89642 14.2261 1 19 1C23.7739 1 28.3523 2.89642 31.7279 6.27208C35.1036 9.64773 37 14.2261 37 19Z" stroke="#B7A160" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M19 25C22.3137 25 25 22.3137 25 19C25 15.6863 22.3137 13 19 13C15.6863 13 13 15.6863 13 19C13 22.3137 15.6863 25 19 25Z" stroke="#B7A160" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="asc-detail-text">
+              <span class="asc-detail-label">{{ section.settings.location_label }}</span>
+              <span class="asc-detail-value">{{ section.settings.location_value }}</span>
+            </div>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>

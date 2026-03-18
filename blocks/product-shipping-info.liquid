@@ -1,0 +1,67 @@
+<div class="product-shipping-info" {{ block.shopify_attributes }}>
+    <div class="shipping_info">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17 18C17 16.6739 16.4732 15.4021 15.5355 14.4645C14.5979 13.5268 13.3261 13 12 13C10.6739 13 9.40215 13.5268 8.46447 14.4645C7.52678 15.4021 7 16.6739 7 18" stroke="#5D5C5A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M12 2V9" stroke="#5D5C5A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M4.21997 10.2207L5.63997 11.6407" stroke="#5D5C5A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M1 18H3" stroke="#5D5C5A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M21 18H23" stroke="#5D5C5A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M18.36 11.6407L19.78 10.2207" stroke="#5D5C5A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M23 22H1" stroke="#5D5C5A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M8 6L12 2L16 6" stroke="#5D5C5A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div>
+            Ready to ship. Receive in 3-5 business days
+        </div>
+    </div>
+    <div class="shipping_info">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M16 3H1V16H16V3Z" stroke="#5D5C5A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M16 8H20L23 11V16H16V8Z" stroke="#5D5C5A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M5.5 21C6.88071 21 8 19.8807 8 18.5C8 17.1193 6.88071 16 5.5 16C4.11929 16 3 17.1193 3 18.5C3 19.8807 4.11929 21 5.5 21Z" stroke="#5D5C5A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M18.5 21C19.8807 21 21 19.8807 21 18.5C21 17.1193 19.8807 16 18.5 16C17.1193 16 16 17.1193 16 18.5C16 19.8807 17.1193 21 18.5 21Z" stroke="#5D5C5A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div>
+            Enjoy flat rate shipping of $9.95
+        </div>
+    </div>
+</div>
+
+{% style %}
+.product-shipping-info {
+    border: 1px solid #0C0C0D1A;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    font-family: Agrandir;
+    font-weight: 400;
+    font-style: Regular;
+    font-size: 14px;
+    leading-trim: NONE;
+    line-height: 100%;
+    letter-spacing: 0%;
+    vertical-align: middle;
+
+}
+  .product-shipping-info .shipping_info {
+    display: grid;
+    grid-template-columns: 20px 1fr;
+    align-items: center;
+    gap: 10px;
+  }
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "Shipping Info",
+  "tag": null,
+  "settings": [],
+  "presets": [
+    {
+        "name": "Shipping Info",
+    }
+  ]
+}
+{% endschema %}

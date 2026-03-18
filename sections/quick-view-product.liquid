@@ -1,0 +1,34 @@
+{% comment %} {% assign quick_product = all_products[request.params.product] %}
+
+{% if quick_product %}
+  <div 
+    class="product-section quick-view"
+    data-product-handle="{{ quick_product.handle }}"
+  >
+    <h1>quick-view-product.liquid</h1>
+    <h2>{{ quick_product.title }}</h2>
+    <p>{{ quick_product.price | money }}</p>
+
+    {% comment %} {% render 'product-form', product: quick_product %} {% endcomment %}
+
+  </div>
+{% else %}
+  <p>Product not found</p>
+{% endif %} {% endcomment %}
+
+<!-- snippets/quick-shop.liquid -->
+<div class="quick-shop-inner">
+  <h1>Quick Shop Inner</h1>
+  <div class="quick-shop-images">
+    <!-- Images will be inserted dynamically -->
+  </div>
+  <div class="quick-shop-details">
+    <h2 class="quick-shop-title"></h2>
+    <div class="quick-shop-price"></div>
+    <div class="quick-shop-description"></div>
+    <div class="quick-shop-variants"></div>
+    <form class="quick-shop-add-to-cart">
+      <button type="submit" class="btn">Add to Cart</button>
+    </form>
+  </div>
+</div>
