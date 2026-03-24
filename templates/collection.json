@@ -6,7 +6,8 @@
  * or related systems. Please exercise caution as any changes
  * made to this file may be overwritten.
  * ------------------------------------------------------------
- */ {
+ */
+{
   "sections": {
     "section": {
       "type": "section",
@@ -15,6 +16,7 @@
           "type": "text",
           "name": "Title",
           "settings": {
+            "custom_class": "",
             "text": "",
             "width": "fit-content",
             "max_width": "normal",
@@ -41,6 +43,7 @@
           "type": "text",
           "name": "Description",
           "settings": {
+            "custom_class": "",
             "text": "{{ closest.collection.description }}",
             "width": "fit-content",
             "max_width": "normal",
@@ -64,7 +67,10 @@
           "blocks": {}
         }
       },
-      "block_order": ["text_tqQTNE", "text_twGGkJ"],
+      "block_order": [
+        "text_tqQTNE",
+        "text_twGGkJ"
+      ],
       "name": "Collection heading",
       "settings": {
         "content_direction": "column",
@@ -107,14 +113,6 @@
             "text_label_case": "default",
             "show_swatch_label": false,
             "show_filter_label": false,
-            "custom_filters_enabled": true,
-            "custom_filters_only": true,
-            "custom_filters_show_placeholders": true,
-            "custom_filters_show_dummy_active_pills": false,
-            "custom_type_filter_param": "filter.p.product_type",
-            "custom_color_filter_keyword": "color",
-            "custom_material_filter_keyword": "material",
-            "custom_artisans_filter_keyword": "artisan",
             "enable_sorting": true,
             "enable_grid_density": true,
             "inherit_color_scheme": true,
@@ -124,7 +122,15 @@
             "padding-inline-start": 0,
             "padding-inline-end": 0,
             "facets_margin_bottom": 8,
-            "facets_margin_right": 20
+            "facets_margin_right": 20,
+            "custom_filters_enabled": true,
+            "custom_filters_only": true,
+            "custom_filters_show_placeholders": true,
+            "custom_filters_show_dummy_active_pills": false,
+            "custom_type_filter_param": "filter.p.product_type",
+            "custom_color_filter_keyword": "color",
+            "custom_material_filter_keyword": "material",
+            "custom_artisans_filter_keyword": "artisan"
           },
           "blocks": {}
         },
@@ -164,6 +170,7 @@
               "type": "product-title",
               "name": "t:names.product_title",
               "settings": {
+                "custom_class": "",
                 "width": "100%",
                 "max_width": "normal",
                 "alignment": "left",
@@ -188,6 +195,7 @@
             "price_EzJzMm": {
               "type": "price",
               "settings": {
+                "custom_class": "",
                 "show_sale_price_first": true,
                 "show_installments": false,
                 "show_tax_info": false,
@@ -219,6 +227,8 @@
         "layout_type": "grid",
         "product_card_size": "medium",
         "mobile_product_card_size": "small",
+        "enable_infinite_scroll": true,
+        "products_per_page": 24,
         "product_grid_width": "centered",
         "full_width_on_mobile": true,
         "columns_gap_horizontal": 16,
@@ -231,5 +241,8 @@
       }
     }
   },
-  "order": ["section", "main"]
+  "order": [
+    "section",
+    "main"
+  ]
 }

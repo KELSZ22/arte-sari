@@ -21,93 +21,70 @@
   >
     {% content_for 'blocks' %}
 
+    {% liquid
+      assign fallback_tags = 'ARTISAN,EVENTS,CULTURE' | split: ','
+      assign available_tags = blog.all_tags
+      if available_tags.size == 0
+        assign available_tags = fallback_tags
+      endif
+    %}
+    <nav
+      class="blog-header-filters"
+      aria-label="Blog filters"
+    >
+      <a
+        href="{{ blog.url }}"
+        class="blog-header-filters__link{% if current_tags == blank %} is-active{% endif %}"
+      >
+        ALL
+      </a>
+      {% for tag in available_tags %}
+        <a
+          href="{{ blog.url }}/tagged/{{ tag | handleize }}"
+          class="blog-header-filters__link{% if current_tags contains tag %} is-active{% endif %}"
+        >
+          {{ tag | upcase }}
+        </a>
+      {% endfor %}
+    </nav>
+
     <div
       ref="grid"
       class="blog-posts-container"
     >
-      {% liquid
-        assign items_on_page = blog.articles.size
-      %}
       {% for article in blog.articles %}
-        {% liquid
-          # Defaults for compact layout
-          assign col_span = 2
-          assign scale = 0.6
-          assign is_horizontal = false
-
-          case items_on_page
-            when 1
-              # Single post: full width hero
-              assign col_span = 6
-              assign scale = 1
-              assign is_horizontal = true
-            when 2
-              # Two posts: both standard side by side
-              assign col_span = 3
-              assign scale = 0.8
-            when 3
-              # Three posts: hero + 2 standard
-              if forloop.index == 1
-                assign col_span = 6
-                assign scale = 1
-                assign is_horizontal = true
-              else
-                assign col_span = 3
-                assign scale = 0.8
-              endif
-            when 4
-              # Four posts: all standard in 2x2 grid
-              assign col_span = 3
-              assign scale = 0.8
-            when 5
-              # Five posts: hero + 4 standard
-              if forloop.index == 1
-                assign col_span = 6
-                assign scale = 1
-                assign is_horizontal = true
-              else
-                assign col_span = 3
-                assign scale = 0.8
-              endif
-            else
-              # 6+ posts: hero, 2 standard, rest compact
-              if forloop.index == 1
-                assign col_span = 6
-                assign scale = 1
-                assign is_horizontal = true
-              elsif forloop.index <= 3
-                assign col_span = 3
-                assign scale = 0.8
-              else
-                assign col_span = 2
-                assign scale = 0.6
-              endif
-          endcase
-        %}
-        {% style %}
-          [data-blog-index="{{ section.id }}-{{ forloop.index }}"] {
-            --col-span: {{ col_span }};
-            --blog-post-card-scale: {{ scale }};
-          }
-
-          @media screen and (max-width: 749px) {
-            [data-blog-index="{{ section.id }}-{{ forloop.index }}"] {
-              --col-span: 6;
-              --blog-post-card-scale: 0.5;
-            }
-          }
-        {% endstyle %}
         <div
-          class="blog-post-item{% if is_horizontal %} blog-post-item--horizontal{% endif %}"
+          class="blog-post-item"
           data-testid="blog-post-item"
           data-blog-index="{{ section.id }}-{{ forloop.index }}"
         >
+          {% if article.tags.size > 0 %}
+            {% assign first_tag = article.tags.first %}
+            <span class="blog-post-tag blog-post-tag--{{ first_tag | handleize }}">
+              {{ first_tag | upcase }}
+            </span>
+          {% endif %}
           {% content_for 'block', id: 'static-blog-post-card', type: '_blog-post-card', article: article %}
         </div>
       {% endfor %}
     </div>
   </div>
 </blog-posts-list>
+
+<script>
+  (() => {
+    const sectionRoot = document.querySelector('blog-posts-list[section-id="{{ section.id }}"] .blog-posts');
+    if (!sectionRoot) return;
+
+    const filters = sectionRoot.querySelector('.blog-header-filters');
+    const headerGroup = sectionRoot.querySelector('.group-block:has(.custom-artisan-title)');
+
+    if (!filters || !headerGroup) return;
+    if (filters.nextElementSibling === headerGroup) return;
+
+    sectionRoot.insertBefore(filters, headerGroup);
+  })();
+</script>
 
 {% stylesheet %}
   /**
@@ -122,20 +99,11 @@
 
   .blog-posts-container {
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 1rem;
     width: 100%;
     column-gap: var(--columns-gap);
     row-gap: var(--rows-gap);
-  }
-
-  /**
-   * Blog post item grid positioning and scaling.
-   * Layout is calculated in Liquid based on total article count.
-   * Mobile overrides are applied per-item in inline styles for proper specificity.
-   */
-  .blog-post-item {
-    grid-column: span var(--col-span);
   }
 
   /**
@@ -149,6 +117,22 @@
   .blog-post-item:has(.blog-post-card__image-container) {
     border: none;
     padding: 0;
+  }
+
+  .blog-post-item .blog-post-card__image-container {
+    aspect-ratio: 1 / 1;
+  }
+
+  .blog-post-item .blog-post-card__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  @media screen and (max-width: 749px) {
+    .blog-posts-container {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
   }
 {% endstylesheet %}
 

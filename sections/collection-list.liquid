@@ -17,6 +17,16 @@
 
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
 
+{% if request.page_type == 'blog' and blog %}
+  {% liquid
+    assign fallback_tags = 'ARTISAN,EVENTS,CULTURE' | split: ','
+    assign available_tags = blog.all_tags
+    if available_tags.size == 0
+      assign available_tags = fallback_tags
+    endif
+  %}
+{% endif %}
+
 <div
   class="
     section
@@ -32,6 +42,28 @@
   "
   data-testid="collection-list"
 >
+   <div class="section-resource-list__content{% if request.page_type == 'blog' and blog %} section-resource-list__content--blog-filters{% endif %}">
+    {% if request.page_type == 'blog' and blog %}
+      <nav
+        class="blog-header-filters"
+        aria-label="Blog filters"
+      >
+        <a
+          href="{{ blog.url }}"
+          class="blog-header-filters__link{% if current_tags == blank %} is-active{% endif %}"
+        >
+          ALL
+        </a>
+        {% for tag in available_tags %}
+          <a
+            href="{{ blog.url }}/tagged/{{ tag | handleize }}"
+            class="blog-header-filters__link{% if current_tags contains tag %} is-active{% endif %}"
+          >
+            {{ tag | upcase }}
+          </a>
+        {% endfor %}
+      </nav>
+    {% endif %}
   <div class="section-resource-list__content">
     {%- content_for 'blocks' -%}
   </div>
