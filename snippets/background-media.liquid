@@ -104,7 +104,7 @@
           assign loading = 'eager'
         endif
       %}
-      {% if background_image_mobile != blank %}
+        {% if background_image_mobile != blank %}
         {{
           background_image
           | image_url: width: 3840
@@ -115,13 +115,14 @@
           | image_url: width: 3840
           | image_tag: sizes: sizes, widths: widths, loading: loading, fetchpriority: fetch_priority, class: 'background-image background-image--mobile'
         }}
+       {% endif %}
       {% else %}
-        {{
-          background_image
-          | image_url: width: 3840
-          | image_tag: sizes: sizes, widths: widths, loading: loading, fetchpriority: fetch_priority
-        }}
-      {% endif %}
+
+      {{
+        background_image
+        | image_url: width: 3840
+        | image_tag: sizes: sizes, widths: widths, loading: loading, fetchpriority: fetch_priority
+      }}
     {%- else -%}
       {%- assign placeholder_name = placeholder | default: 'hero-apparel-2' -%}
       {%- if placeholder_name == blank -%}
@@ -150,7 +151,6 @@
       display: none;
     }
   }
-
   @media (prefers-reduced-motion: reduce) {
     video-background-component video {
       display: none;

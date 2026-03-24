@@ -42,7 +42,7 @@
   "
   data-testid="collection-list"
 >
-  <div class="section-resource-list__content{% if request.page_type == 'blog' and blog %} section-resource-list__content--blog-filters{% endif %}">
+   <div class="section-resource-list__content{% if request.page_type == 'blog' and blog %} section-resource-list__content--blog-filters{% endif %}">
     {% if request.page_type == 'blog' and blog %}
       <nav
         class="blog-header-filters"
@@ -64,7 +64,7 @@
         {% endfor %}
       </nav>
     {% endif %}
-
+  <div class="section-resource-list__content">
     {%- content_for 'blocks' -%}
   </div>
 

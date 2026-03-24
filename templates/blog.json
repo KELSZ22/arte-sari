@@ -26,7 +26,6 @@
             "font_size": "",
             "line_height": "normal",
             "letter_spacing": "normal",
-            "font_weight": 400,
             "case": "none",
             "wrap": "pretty",
             "color": "",
@@ -146,7 +145,10 @@
           "block_order": []
         }
       },
-      "block_order": ["title", "text_6J76RX"],
+      "block_order": [
+        "title",
+        "text_6J76RX"
+      ],
       "settings": {
         "color_scheme": "",
         "padding-block-start": 0,
@@ -348,13 +350,21 @@
                       "blocks": {}
                     }
                   },
-                  "block_order": ["text_HLREdC", "text_378hUF", "button_HCHQwD"]
+                  "block_order": [
+                    "text_HLREdC",
+                    "text_378hUF",
+                    "button_HCHQwD"
+                  ]
                 }
               },
-              "block_order": ["group_header_content"]
+              "block_order": [
+                "group_header_content"
+              ]
             }
           },
-          "block_order": ["group_6yGH6L"]
+          "block_order": [
+            "group_6yGH6L"
+          ]
         },
         "static-collection-card": {
           "type": "_collection-card",
@@ -398,6 +408,60 @@
               },
               "blocks": {}
             },
+            "text_8QDgNg": {
+              "type": "text",
+              "name": "Title",
+              "settings": {
+                "custom_class": "",
+                "text": "<p>Title</p><p></p>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "text_NW4Uyr": {
+              "type": "text",
+              "name": "Price",
+              "settings": {
+                "custom_class": "",
+                "text": "<p>Price</p><p></p>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
             "collection-card-image": {
               "type": "_collection-card-image",
               "name": "t:names.collection_card_image",
@@ -416,13 +480,21 @@
               "blocks": {}
             }
           },
-          "block_order": ["collection_title_iWyhWV"]
+          "block_order": [
+            "collection_title_iWyhWV",
+            "text_8QDgNg",
+            "text_NW4Uyr"
+          ]
         }
       },
-      "block_order": ["group_gGC7XM"],
+      "block_order": [
+        "group_gGC7XM"
+      ],
       "name": "t:names.collections_grid",
       "settings": {
-        "collection_list": [],
+        "collection_list": [
+          "frontpage"
+        ],
         "layout_type": "grid",
         "carousel_on_mobile": false,
         "columns": 3,
@@ -442,5 +514,8 @@
       }
     }
   },
-  "order": ["main", "collection_list_eVKQzT"]
+  "order": [
+    "main",
+    "collection_list_eVKQzT"
+  ]
 }
