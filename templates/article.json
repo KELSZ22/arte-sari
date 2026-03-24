@@ -85,6 +85,7 @@
       "settings": {
         "content_direction": "column",
         "gap": 32,
+        "header_image": "shopify://shop_images/Frame_123.png",
         "color_scheme": "",
         "padding-block-start": 40,
         "padding-block-end": 80
