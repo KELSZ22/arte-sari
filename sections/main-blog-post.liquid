@@ -8,6 +8,7 @@
       layout-panel-flex
       layout-panel-flex--column
       section-content-wrapper
+      blog-post-article-background
       mobile-column
     "
     style="
@@ -15,14 +16,96 @@
       {% render 'spacing-style', settings: section.settings %}
     "
   >
-    <header>
-      {%- content_for 'block', id: 'blog-post-title', type: 'text' %}
-      {%- content_for 'block', id: 'blog-post-details', type: '_blog-post-info-text' %}
-    </header>
+    {% liquid
+      assign hero_image = section.settings.header_image
+      if hero_image == blank
+        assign hero_image = article.image
+      endif
+    %}
+    {%- if hero_image != blank -%}
+      <header class="blog-post-hero">
+        {{
+          hero_image
+          | image_url: width: 2200
+          | image_tag:
+            class: 'blog-post-hero__image',
+            widths: '750, 1100, 1500, 1780, 2000, 2200',
+            sizes: '100vw',
+            loading: 'eager'
+        }}
+        <div class="blog-post-hero__overlay">
+          <div class="blog-post-hero__content">
+            <h1 class="custom-artisan-title">ARTISAN</h1>
+            <h2 class="custom-artisan-subtitle">The Genius of Christian Cera</h2>
+          </div>
+        </div>
+      </header>
+    {%- else -%}
+      <header>
+        {%- content_for 'block', id: 'blog-post-title', type: 'text' %}
+        {%- content_for 'block', id: 'blog-post-details', type: '_blog-post-info-text' %}
+      </header>
+    {%- endif -%}
 
-    {%- if article.image -%}
+    {%- if article.image and hero_image == blank -%}
       {%- content_for 'block', id: 'blog-post-image', type: '_blog-post-featured-image' %}
     {%- endif -%}
+
+    {% liquid
+      assign article_category = article.tags.first
+      if article_category == blank
+        assign article_category = blog.title
+      endif
+      assign article_url = shop.url | append: article.url
+    %}
+    <div class="blog-post-meta-bar">
+      <div class="blog-post-meta-bar__item">
+        <span class="blog-post-meta-bar__label">Date</span>
+        <span class="blog-post-meta-bar__value">{{ article.published_at | date: '%m.%d.%y' }}</span>
+      </div>
+      <div class="blog-post-meta-bar__item">
+        <span class="blog-post-meta-bar__label">Category</span>
+        <span class="blog-post-meta-bar__value">{{ article_category | upcase }}</span>
+      </div>
+      <div class="blog-post-meta-bar__item">
+        <span class="blog-post-meta-bar__label">Share this story</span>
+        <div class="blog-post-meta-bar__share-links">
+          <a
+            href="https://www.facebook.com/sharer/sharer.php?u={{ article_url | url_encode }}"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Share on Facebook"
+            class="blog-post-meta-bar__share-link"
+          >
+            <svg aria-hidden="true" focusable="false" viewBox="0 0 20 20">
+              {%- render 'icon', icon: 'facebook' -%}
+            </svg>
+          </a>
+          <a
+            href="https://twitter.com/intent/tweet?url={{ article_url | url_encode }}&text={{ article.title | url_encode }}"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Share on X"
+            class="blog-post-meta-bar__share-link"
+          >
+            <svg aria-hidden="true" focusable="false" viewBox="0 0 20 20">
+              {%- render 'icon', icon: 'x' -%}
+            </svg>
+          </a>
+          <a
+            href="https://wa.me/?text={{ article.title | append: ' ' | append: article_url | url_encode }}"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Share on WhatsApp"
+            class="blog-post-meta-bar__share-link"
+          >
+            <svg aria-hidden="true" focusable="false" viewBox="0 0 20 20">
+              {%- render 'icon', icon: 'whatsapp' -%}
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
     {%- content_for 'block', id: 'blog-post-content', type: '_blog-post-content' %}
 
     {% comment %} Dynamic area for @app blocks only, at the bottom {% endcomment %}
@@ -64,10 +147,133 @@
 </script>
 
 {% stylesheet %}
+  .blog-post-article-background {
+    background: #f4ece6;
+  }
+
+  .blog-post-hero {
+    position: relative;
+    width: 100%;
+    min-height: 400px;
+    margin-bottom: var(--margin-xl);
+    overflow: hidden;
+  }
+
+  .blog-post-hero__image {
+    width: 100%;
+    height: 100%;
+    min-height: 400px;
+    max-height: 560px;
+    object-fit: cover;
+    object-position: center center;
+    display: block;
+  }
+
+  .blog-post-hero__overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    width: 100%;
+    gap: var(--gap-2xs);
+    text-align: left;
+    padding-inline: 0;
+    padding-left: clamp(1.25rem, 8vw, 7rem);
+    padding-block: var(--padding-xl);
+    background: none;
+  }
+
+  .blog-post-hero__content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    width: fit-content;
+    max-width: 100%;
+    transform: translateX(50px);
+  }
+
+  .blog-post-hero__overlay .custom-artisan-title,
+  .blog-post-hero__overlay .custom-artisan-subtitle {
+    margin: 0;
+    color: #f4ece6;
+    text-align: start !important;
+  }
+
+  .blog-post-hero__overlay .custom-artisan-title :is(h1, h2, h3, h4, h5, h6, p, span),
+  .blog-post-hero__overlay .custom-artisan-subtitle :is(h1, h2, h3, h4, h5, h6, p, span) {
+    text-align: start !important;
+  }
+
+  .blog-post-hero__overlay .custom-artisan-subtitle {
+    max-width: none;
+    white-space: nowrap;
+  }
+
   .blog-post-comments-container {
     width: 100%;
     max-width: var(--normal-content-width);
     margin: 0 auto;
+  }
+
+  .blog-post-meta-bar {
+    width: 100%;
+    max-width: var(--normal-content-width);
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--gap-lg);
+    padding: 0;
+    margin: 0 auto;
+  }
+
+  .blog-post-meta-bar__item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .blog-post-meta-bar__label {
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgb(var(--color-foreground-rgb) / 70%);
+  }
+
+  .blog-post-meta-bar__value {
+    font-size: 1.125rem;
+    line-height: 1.2;
+  }
+
+  .blog-post-meta-bar__share-links {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .blog-post-meta-bar__share-links a {
+    color: inherit;
+    text-decoration: none;
+    font-size: 0.9rem;
+  }
+
+  .blog-post-meta-bar__share-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  .blog-post-meta-bar__share-link svg {
+    width: 100%;
+    height: 100%;
+    fill: currentColor;
+  }
+
+  .blog-post-meta-bar__share-links a:hover {
+    text-decoration: underline;
   }
 
   .blog-post-comments {
@@ -109,6 +315,43 @@
   .blog-post-comments-pagination .current,
   .blog-post-comments-pagination a:hover {
     border-bottom: 1px solid var(--color-foreground);
+  }
+
+  @media screen and (max-width: 749px) {
+    .blog-post-hero,
+    .blog-post-hero__image {
+      min-height: 280px;
+    }
+
+    .blog-post-hero__overlay {
+      width: 100%;
+      padding-inline: 0;
+      padding-left: 0;
+      align-items: center;
+      justify-content: center;
+      padding-bottom: 0;
+      background: none;
+    }
+
+    .blog-post-hero__content {
+      transform: translateX(0);
+      width: min(90%, 320px);
+      align-items: flex-start;
+      justify-content: center;
+      margin: 0 auto;
+      text-align: start;
+      height: 100%;
+    }
+
+    .blog-post-hero__overlay .custom-artisan-subtitle {
+      white-space: normal;
+    }
+
+    .blog-post-meta-bar {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.75rem;
+      padding: 0;
+    }
   }
 {% endstylesheet %}
 
@@ -153,6 +396,11 @@
       "id": "color_scheme",
       "label": "t:settings.color_scheme",
       "default": "scheme-1"
+    },
+    {
+      "type": "image_picker",
+      "id": "header_image",
+      "label": "Header image"
     },
     {
       "type": "header",
