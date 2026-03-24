@@ -204,6 +204,12 @@
       padding: var(--padding-block-start) var(--padding-inline-end) var(--padding-block-end) var(--padding-inline-start);
     }
   }
+  
+  @media screen and (max-width: 749px) {
+    .collection-wrapper:has(> .facets--horizontal) .main-collection-grid {
+      padding-inline: 16px !important;
+    }
+  }
 
   .main-collection-grid__empty {
     padding-block: var(--padding-6xl);

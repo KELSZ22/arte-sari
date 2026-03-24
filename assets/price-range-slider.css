@@ -1,0 +1,110 @@
+/* Price range slider (progress bar style) */
+.price-facet__slider {
+  position: relative;
+  padding: var(--padding-sm) 0 var(--padding-xs);
+}
+
+.price-facet__track {
+  position: relative;
+  height: 6px;
+  border-radius: 999px;
+  background: #D9D9D9;
+  z-index: 0;
+}
+
+.price-facet__fill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  border-radius: 999px;
+  background: #686a54;
+  left: 0;
+  width: 0;
+  z-index: 1;
+}
+
+.price-facet__slider .price-facet__range,
+.price-facet__slider .price-facet__range:hover {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  margin: 0;
+  background: transparent;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  pointer-events: none;
+  z-index: 2;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.price-facet__slider .price-facet__range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  pointer-events: auto;
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  background: #ffffff;
+  /* Keep the original border/outline color */
+  box-shadow: 0 0 0 2px #686a54;
+  margin-top: -5px;
+  position: relative;
+  z-index: 3;
+}
+
+.price-facet__slider .price-facet__range::-moz-range-thumb {
+  pointer-events: auto;
+  width: 16px;
+  height: 16px;
+  border: 0;
+  border-radius: 999px;
+  background: #ffffff;
+  /* Keep the original border/outline color */
+  box-shadow: 0 0 0 2px #686a54;
+  position: relative;
+  z-index: 3;
+}
+
+.price-facet__slider .price-facet__range::-webkit-slider-runnable-track {
+  -webkit-appearance: none;
+  height: 6px;
+  background: transparent;
+  border: none;
+}
+
+.price-facet__slider .price-facet__range::-moz-range-track {
+  height: 6px;
+  background: transparent;
+  border: none;
+}
+
+.price-facet__values {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-top: 12px;
+}
+
+.price-facet__value {
+  font-family: Fraunces, var(--font-heading--family), serif;
+  font-size: 22px;
+  font-weight: 400;
+  color: #5d5c5a;
+  line-height: 1.1;
+}
+
+/* Hide the extra inputs/numbers; keep them in DOM for functionality */
+.price-facet--slider-ui .facets__inputs-wrapper {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+  clip: rect(0 0 0 0) !important;
+  clip-path: inset(50%) !important;
+  border: 0 !important;
+  white-space: nowrap !important;
+}

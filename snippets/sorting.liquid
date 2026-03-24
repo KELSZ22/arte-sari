@@ -7,6 +7,7 @@
   @param {string} [suffix] - { 'desktop' | 'mobile' | 'overflow' } Used on `form` attributes to connect inputs to a form[id]
   @param {string} [sort_position] - { 'desktop' | 'mobile' } Used in a data-testID selector for automated testing
   @param {boolean} should_use_select_on_mobile - Whether to use a select element for the sorting component on mobile
+  @param {boolean} [hide_sort_status_on_mobile] - Hides the mobile “current sort” text next to the label
   @param {string} section_id - The section ID
 {%- enddoc -%}
 
@@ -59,9 +60,9 @@
         aria-hidden="true"
         focusable="false"
         class="icon icon-caret"
-        width="8"
-        height="13"
-        viewBox="0 0 8 13"
+        width="16"
+        height="16"
+        viewBox="0 0 16 16"
       >
         {%- render 'icon', icon: 'double-sided-caret' -%}
       </svg>
@@ -95,11 +96,13 @@
         >
           {{- 'actions.sort' | t -}}
         </span>
-        <span
-          class="facets__status h6 desktop:hidden"
-        >
-          {{- status -}}
-        </span>
+        {% unless hide_sort_status_on_mobile %}
+          <span
+            class="facets__status h6 desktop:hidden"
+          >
+            {{- status -}}
+          </span>
+        {% endunless %}
         <span class="svg-wrapper icon-caret icon-animated">
           {{- 'icon-caret.svg' | inline_asset_content -}}
         </span>
@@ -201,8 +204,8 @@
     right: var(--padding-md);
     top: 50%;
     transform: translateY(-50%);
-    width: var(--icon-size-2xs);
-    height: var(--icon-size-2xs);
+    width: 16px;
+    height: 16px;
     pointer-events: none;
   }
 

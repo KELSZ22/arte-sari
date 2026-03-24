@@ -1,3 +1,17 @@
 {{ 'overflow-list.css' | asset_url | preload_tag: as: 'style' }}
 {{ 'base.css' | asset_url | stylesheet_tag: preload: true }}
 {{ 'custom.css' | asset_url | stylesheet_tag: preload: true }}
+
+<style>
+  @media screen and (max-width: 589px) {
+ 
+    main.content-for-layout[data-template^='collection'] {
+      --collection-page-bg: #F4ECE6;
+      background-color: #F4ECE6 !important;
+      background-image: url({{ 'mobile-bg.png' | asset_url }});
+      background-repeat: repeat;
+      background-position: top left;
+      background-size: auto;
+    }
+  }
+</style>

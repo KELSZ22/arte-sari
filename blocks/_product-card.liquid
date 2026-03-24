@@ -8,7 +8,7 @@
   {% content_for 'blocks', closest.product: product %}
 {% endcapture %}
 
-{% render 'product-card', children: children, product: product %}
+{% render 'product-card', children: children, product: product, enable_border123: enable_border123 %}
 
 {% schema %}
 {

@@ -61,6 +61,7 @@ async function openQuickView(handle, category, price) {
           </div>
           <div class="qv-selectors">
             <div class="qv-product-description">${product.description}</div>
+            ${product.options && !(product.options.length === 1 && product.options[0].values.length === 1 && product.options[0].values[0] === "Default Title") ? `
             <div class="qv-product-variants">
               ${product.options.map((o, optionIndex) => `
                 <div class="qv-variant-name">
@@ -94,7 +95,7 @@ async function openQuickView(handle, category, price) {
                   }).join('')}
                 </ul>
               `).join('')}
-            </div>
+            </div>` : ``}
             <div class="qv-addons">
               <p class="addons-title">ADD ONS:</p>
 
@@ -281,9 +282,18 @@ async function openQuickView(handle, category, price) {
   }
 }
 
-document.querySelectorAll('.custom-quick-view-cta').forEach(btn => {
-  btn.addEventListener('click', () => {
-    openQuickView(btn.dataset.handle, btn.dataset.category, btn.dataset.price);
-  });
+// document.querySelectorAll('.custom-quick-view-cta').forEach(btn => {
+//   btn.addEventListener('click', () => {
+//     console.log('custom-quick-view-cta clicked!')
+//     openQuickView(btn.dataset.handle, btn.dataset.category, btn.dataset.price);
+//   });
+// });
+
+document.body.addEventListener('click', (e) => {
+  const btn = e.target.closest('.custom-quick-view-cta');
+  if (!btn) return;
+  e.preventDefault();
+  e.stopPropagation();
+  openQuickView(btn.dataset.handle, btn.dataset.category, btn.dataset.price);
 });
 

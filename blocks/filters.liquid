@@ -19,12 +19,20 @@
   fetchpriority="low"
 ></script>
 
+
 {%- liquid
   assign block_settings = block.settings
   assign products_count = results_size
   assign sort_by = results.sort_by | default: results.default_sort_by
   assign filters = filters | default: results.filters
   assign total_active_values = 0
+  assign custom_filters_enabled = block_settings.custom_filters_enabled
+  assign custom_filters_only = block_settings.custom_filters_only
+  assign custom_filters_show_placeholders = block_settings.custom_filters_show_placeholders
+  assign custom_type_filter_param = block_settings.custom_type_filter_param | default: 'filter.p.product_type'
+  assign custom_color_filter_keyword = block_settings.custom_color_filter_keyword | default: 'color'
+  assign custom_material_filter_keyword = block_settings.custom_material_filter_keyword | default: 'material'
+  assign custom_artisans_filter_keyword = block_settings.custom_artisans_filter_keyword | default: 'artisan'
 
   # Calculate facets margin style
   capture facets_margin_style
@@ -79,9 +87,7 @@
       class="facets facets--horizontal facets-controls-wrapper spacing-style"
       style="{% render 'spacing-style', settings: block_settings %}{% if block_settings.text_label_case == 'uppercase' %} --facet-label-transform: uppercase;{% endif %}"
     >
-      {% if block_settings.enable_filtering %}
-        <h4 class="facets--filters-title">{{ 'content.filters' | t }}</h4>
-      {% endif %}
+      <h4 class="facets--filters-title">gift picks</h4>
 
       <div
         class="products-count-wrapper"
@@ -97,20 +103,20 @@
       </div>
 
       {% if block_settings.enable_sorting %}
-        {% render 'sorting',
-          results: results,
-          sort_by: sort_by,
-          filter_style: block_settings.filter_style,
-          suffix: 'desktop',
-          sort_position: 'desktop',
-          should_use_select_on_mobile: false,
-          section_id: section.id
-        %}
+        <div class="mobile:hidden">
+          {% render 'sorting',
+            results: results,
+            sort_by: sort_by,
+            filter_style: block_settings.filter_style,
+            suffix: 'desktop',
+            sort_position: 'desktop',
+            should_use_select_on_mobile: false,
+            section_id: section.id
+          %}
+        </div>
       {% endif %}
 
-      {% if block_settings.enable_grid_density %}
-        {% render 'grid-density-controls', viewport: 'desktop' %}
-      {% endif %}
+      
     </div>
   {% endif %}
 
@@ -142,6 +148,69 @@
       style="{% render 'spacing-style', settings: block_settings %}{% if block_settings.text_label_case == 'uppercase' %} --facet-label-transform: uppercase;{% endif %}"
       aria-label="{{ 'accessibility.filters' | t }}"
     >
+      {% if block_settings.enable_filtering %}
+        <h5 class="facets--filters-subtitle">
+          {{ 'content.filters' | t | upcase }}
+        </h5>
+
+        {% if total_active_values > 0 %}
+          <div class="active-filter-badges">
+            {%- for filter in filters -%}
+              {%- liquid
+                assign filter_has_active = false
+                assign filter_remove_url = ''
+              -%}
+              {%- if filter.type == 'price_range' -%}
+                {%- if filter.min_value.value != null or filter.max_value.value != null -%}
+                  {%- assign filter_has_active = true -%}
+                  {%- assign filter_remove_url = filter.url_to_remove -%}
+                {%- endif -%}
+              {%- else -%}
+                {%- if filter.active_values.size > 0 -%}
+                  {%- assign filter_has_active = true -%}
+                  {%- assign filter_remove_url = filter.active_values.first.url_to_remove -%}
+                  {%- for value in filter.active_values -%}
+                    {%- unless forloop.first -%}
+                      {%- assign encoded_val = value.value | url_encode -%}
+                      {%- assign param_pair = filter.param_name | append: '=' | append: encoded_val -%}
+                      {%- assign filter_remove_url = filter_remove_url | remove: param_pair -%}
+                    {%- endunless -%}
+                  {%- endfor -%}
+                  {%- assign filter_remove_url = filter_remove_url | replace: '&&', '&' | replace: '?&', '?' -%}
+                  {%- assign url_last_char = filter_remove_url | slice: -1 -%}
+                  {%- if url_last_char == '?' or url_last_char == '&' -%}
+                    {%- assign url_length = filter_remove_url | size | minus: 1 -%}
+                    {%- assign filter_remove_url = filter_remove_url | truncate: url_length, '' -%}
+                  {%- endif -%}
+                {%- endif -%}
+              {%- endif -%}
+              {%- if filter_has_active -%}
+                <a class="active-filter-badge" href="{{ filter_remove_url }}" role="button">
+                  <span class="active-filter-badge__label">
+                    {%- if filter.type == 'price_range' -%}
+                      {{ 'content.price_range' | t }}
+                    {%- else -%}
+                      {{ filter.label | escape }}
+                    {%- endif -%}
+                  </span>
+                  <span class="svg-wrapper svg-wrapper--smaller" aria-hidden="true">
+                    {{- 'icon-filters-close.svg' | inline_asset_content -}}
+                  </span>
+                  <span class="visually-hidden">
+                    {{ 'actions.remove' | t }}
+                    {%- if filter.type == 'price_range' -%}
+                      {{ 'content.price_range' | t }}
+                    {%- else -%}
+                      {{ filter.label | escape }}
+                    {%- endif -%}
+                  </span>
+                </a>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        {% endif %}
+      {% endif %}
+
       <facets-form-component
         class="facets__form-wrapper"
         section-id="{{ section.id }}"
@@ -154,51 +223,324 @@
           ref="facetsForm"
         >
           {% if should_show_pane %}
-            {% render 'filter-remove-buttons',
-              filters: filters,
-              results_url: results_url,
-              show_filter_label: block_settings.show_filter_label,
-              should_show_clear_all: true
-            %}
-
             {% if block_settings.enable_filtering %}
               {% assign total_active_values = 0 %}
 
               {% capture rendered_filters %}
-                {%- for filter in filters -%}
-                  {% case filter.type %}
-                    {% when 'price_range' %}
+                {%- liquid
+                  assign rendered_param_names = '|'
+                  if block_settings.filter_style != 'vertical'
+                    assign should_render_clear = true
+                  else
+                    assign should_render_clear = false
+                  endif
+                  assign custom_rendered_price = false
+                  assign custom_rendered_type = false
+                  assign custom_rendered_color = false
+                  assign custom_rendered_material = false
+                  assign custom_rendered_artisans = false
+                -%}
+
+                {% if custom_filters_enabled %}
+                  {%- comment -%} Price range first {%- endcomment -%}
+                  {%- for filter in filters -%}
+                    {% if filter.type == 'price_range' %}
                       {%- liquid
                         if filter.min_value.value != null or filter.max_value.value != null
                           assign total_active_values = total_active_values | plus: 1
                           assign is_active = true
                         endif
-
-                        if block_settings.filter_style != 'vertical'
-                          assign should_render_clear = true
-                        else
-                          assign should_render_clear = false
-                        endif
-
                         render 'price-filter', filter: filter, filter_style: block_settings.filter_style, should_render_clear: should_render_clear
+                        assign rendered_param_names = rendered_param_names | append: filter.param_name | append: '|'
+                        assign custom_rendered_price = true
                       -%}
-                    {% else %}
-                      {% liquid
-                        if filter.active_values.size > 0
-                          assign is_active = true
+                    {% endif %}
+                  {%- endfor -%}
+
+                  {%- comment -%} Type + Color + Material + Artisans (list/swatches) {%- endcomment -%}
+                  {%- for filter in filters -%}
+                    {%- liquid
+                      assign already_rendered = false
+                      assign rendered_token = '|' | append: filter.param_name | append: '|'
+                      if rendered_param_names contains rendered_token
+                        assign already_rendered = true
+                      endif
+                    -%}
+                    {% unless already_rendered %}
+                      {%- liquid
+                        assign label_downcase = filter.label | downcase
+                        assign is_type_filter = false
+                        assign is_color_filter = false
+                        assign is_material_filter = false
+                        assign is_artisans_filter = false
+
+                        if filter.param_name == custom_type_filter_param or filter.param_name contains 'product_type'
+                          assign is_type_filter = true
                         endif
 
-                        assign active_value_count = filter.active_values | size
-                        assign total_active_values = total_active_values | plus: active_value_count
-                        if block_settings.filter_style != 'vertical'
-                          assign should_render_clear = true
-                        else
-                          assign should_render_clear = false
+                        if filter.param_name contains custom_color_filter_keyword or label_downcase contains custom_color_filter_keyword
+                          assign is_color_filter = true
                         endif
-                        render 'list-filter', filter: filter, filter_style: block_settings.filter_style, active_value_count: active_value_count, should_render_clear: should_render_clear, show_swatch_label: block_settings.show_swatch_label, sectionId: section.id
-                      %}
-                  {% endcase %}
-                {%- endfor -%}
+
+                        if filter.param_name contains custom_material_filter_keyword or label_downcase contains custom_material_filter_keyword
+                          assign is_material_filter = true
+                        endif
+
+                        if filter.param_name contains custom_artisans_filter_keyword or label_downcase contains custom_artisans_filter_keyword
+                          assign is_artisans_filter = true
+                        endif
+                      -%}
+
+                      {% if filter.type != 'price_range' %}
+                        {% if is_type_filter or is_color_filter or is_material_filter or is_artisans_filter %}
+                          {% liquid
+                              if filter.active_values.size > 0
+                                assign is_active = true
+                              endif
+                              assign active_value_count = filter.active_values | size
+                              assign total_active_values = total_active_values | plus: active_value_count
+                              render 'list-filter', filter: filter, filter_style: block_settings.filter_style, active_value_count: active_value_count, should_render_clear: should_render_clear, show_swatch_label: block_settings.show_swatch_label, sectionId: section.id
+                              assign rendered_param_names = rendered_param_names | append: filter.param_name | append: '|'
+                              if is_type_filter
+                                assign custom_rendered_type = true
+                              endif
+                              if is_color_filter
+                                assign custom_rendered_color = true
+                              endif
+                              if is_material_filter
+                                assign custom_rendered_material = true
+                              endif
+                              if is_artisans_filter
+                                assign custom_rendered_artisans = true
+                              endif
+                          %}
+                        {% endif %}
+                      {% endif %}
+                    {% endunless %}
+                  {%- endfor -%}
+
+                  {% if custom_filters_show_placeholders %}
+                    {% unless custom_rendered_price %}
+                      <accordion-custom class="facets__item" aria-disabled="true">
+                        <details class="facets__panel" open>
+                          <summary class="facets__summary">
+                            <span class="facets__label">Price Range</span>
+                            <span class="svg-wrapper icon-caret icon-animated facets__toggle-icon" aria-hidden="true">
+                              <span class="facets__toggle-icon-plus">
+                                {{- 'icon-plus.svg' | inline_asset_content -}}
+                              </span>
+                              <span class="facets__toggle-icon-minus">
+                                {{- 'icon-minus.svg' | inline_asset_content -}}
+                              </span>
+                            </span>
+                          </summary>
+                          <div class="facets__panel-content details-content" aria-hidden="true">
+                            <script
+                              src="{{ 'price-range-slider.js' | asset_url }}"
+                              type="module"
+                              fetchpriority="low"
+                            ></script>
+                            <link
+                              rel="stylesheet"
+                              href="{{ 'price-range-slider.css' | asset_url }}"
+                              media="all"
+                            >
+
+                            <price-facet-component
+                              class="price-facet price-facet--slider-ui"
+                              data-money-format="{{ shop.money_format | strip_html }}"
+                              data-currency="{{ localization.country.currency.iso_code }}"
+                              data-currency-symbol="{{ cart.currency.symbol | escape }}"
+                            >
+                              <div
+                                class="price-facet__slider"
+                                data-price-range-slider
+                                aria-hidden="true"
+                              >
+                                <div class="price-facet__track">
+                                  <span class="price-facet__fill" data-price-range-fill></span>
+                                </div>
+                                <input
+                                  type="range"
+                                  class="price-facet__range price-facet__range--min"
+                                  data-price-min
+                                  aria-label="Minimum price"
+                                >
+                                <input
+                                  type="range"
+                                  class="price-facet__range price-facet__range--max"
+                                  data-price-max
+                                  aria-label="Maximum price"
+                                >
+                              </div>
+
+                              <div class="price-facet__values" aria-hidden="true">
+                                <span class="price-facet__value" data-price-min-label></span>
+                                <span class="price-facet__value" data-price-max-label></span>
+                              </div>
+
+                              <div class="facets__inputs facets__inputs-wrapper facets__inputs-wrapper--row" style="opacity: 0.8;">
+                                <div class="field" style="min-width: 120px;">
+                                  <input class="field__input price-facet__input" type="text" inputmode="decimal" placeholder="0" data-min="0" data-max="5000" ref="minInput" autocomplete="off">
+                                </div>
+                                <div class="field" style="min-width: 120px;">
+                                  <input class="field__input price-facet__input" type="text" inputmode="decimal" placeholder="5000" data-min="0" data-max="5000" ref="maxInput" autocomplete="off">
+                                </div>
+                              </div>
+                            </price-facet-component>
+                          </div>
+                        </details>
+                      </accordion-custom>
+                    {% endunless %}
+
+                    {% unless custom_rendered_type %}
+                      <accordion-custom class="facets__item" aria-disabled="true" data-preview-group="Type">
+                        <details class="facets__panel" open>
+                          <summary class="facets__summary">
+                            <span class="facets__label">Type</span>
+                            <span class="svg-wrapper icon-caret icon-animated facets__toggle-icon" aria-hidden="true">
+                              <span class="facets__toggle-icon-plus">
+                                {{- 'icon-plus.svg' | inline_asset_content -}}
+                              </span>
+                              <span class="facets__toggle-icon-minus">
+                                {{- 'icon-minus.svg' | inline_asset_content -}}
+                              </span>
+                            </span>
+                          </summary>
+                          <div class="facets__panel-content details-content" aria-hidden="true" style="opacity: 0.8;">
+                            <div class="facets__inputs facets__inputs-wrapper">
+                              <ul class="facets__inputs-list list-unstyled"></ul>
+                            </div>
+                          </div>
+                        </details>
+                      </accordion-custom>
+                    {% endunless %}
+
+                    {% unless custom_rendered_color %}
+                      <accordion-custom class="facets__item" aria-disabled="true" data-preview-group="Color">
+                        <details class="facets__panel" open>
+                          <summary class="facets__summary">
+                            <span class="facets__label">Color</span>
+                            <span class="svg-wrapper icon-caret icon-animated facets__toggle-icon" aria-hidden="true">
+                              <span class="facets__toggle-icon-plus">
+                                {{- 'icon-plus.svg' | inline_asset_content -}}
+                              </span>
+                              <span class="facets__toggle-icon-minus">
+                                {{- 'icon-minus.svg' | inline_asset_content -}}
+                              </span>
+                            </span>
+                          </summary>
+                          <div class="facets__panel-content details-content" aria-hidden="true" style="opacity: 0.8;">
+                            <div class="facets__inputs facets__inputs-wrapper">
+                              <ul class="facets__inputs-list list-unstyled"></ul>
+                            </div>
+                          </div>
+                        </details>
+                      </accordion-custom>
+                    {% endunless %}
+
+                    {% unless custom_rendered_material %}
+                      <accordion-custom class="facets__item" aria-disabled="true" data-preview-group="Material">
+                        <details class="facets__panel" open>
+                          <summary class="facets__summary">
+                            <span class="facets__label">Material</span>
+                            <span class="svg-wrapper icon-caret icon-animated facets__toggle-icon" aria-hidden="true">
+                              <span class="facets__toggle-icon-plus">
+                                {{- 'icon-plus.svg' | inline_asset_content -}}
+                              </span>
+                              <span class="facets__toggle-icon-minus">
+                                {{- 'icon-minus.svg' | inline_asset_content -}}
+                              </span>
+                            </span>
+                          </summary>
+                          <div class="facets__panel-content details-content" aria-hidden="true" style="opacity: 0.8;">
+                            <div class="facets__inputs facets__inputs-wrapper">
+                              <ul class="facets__inputs-list list-unstyled"></ul>
+                            </div>
+                          </div>
+                        </details>
+                      </accordion-custom>
+                    {% endunless %}
+
+                    {% unless custom_rendered_artisans %}
+                      <accordion-custom class="facets__item" aria-disabled="true" data-preview-group="Artisans">
+                        <details class="facets__panel" open>
+                          <summary class="facets__summary">
+                            <span class="facets__label">Artisans</span>
+                            <span class="svg-wrapper icon-caret icon-animated facets__toggle-icon" aria-hidden="true">
+                              <span class="facets__toggle-icon-plus">
+                                {{- 'icon-plus.svg' | inline_asset_content -}}
+                              </span>
+                              <span class="facets__toggle-icon-minus">
+                                {{- 'icon-minus.svg' | inline_asset_content -}}
+                              </span>
+                            </span>
+                          </summary>
+                          <div class="facets__panel-content details-content" aria-hidden="true" style="opacity: 0.8;">
+                            <div class="facets__inputs facets__inputs-wrapper">
+                              <ul class="facets__inputs-list list-unstyled"></ul>
+                            </div>
+                          </div>
+                        </details>
+                      </accordion-custom>
+                    {% endunless %}
+                  {% endif %}
+
+                  {% unless custom_filters_only %}
+                    {%- for filter in filters -%}
+                      {%- liquid
+                        assign already_rendered = false
+                        assign rendered_token = '|' | append: filter.param_name | append: '|'
+                        if rendered_param_names contains rendered_token
+                          assign already_rendered = true
+                        endif
+                      -%}
+                      {% unless already_rendered %}
+                        {% case filter.type %}
+                          {% when 'price_range' %}
+                            {%- liquid
+                              if filter.min_value.value != null or filter.max_value.value != null
+                                assign total_active_values = total_active_values | plus: 1
+                                assign is_active = true
+                              endif
+                              render 'price-filter', filter: filter, filter_style: block_settings.filter_style, should_render_clear: should_render_clear
+                            -%}
+                          {% else %}
+                            {% liquid
+                              if filter.active_values.size > 0
+                                assign is_active = true
+                              endif
+                              assign active_value_count = filter.active_values | size
+                              assign total_active_values = total_active_values | plus: active_value_count
+                              render 'list-filter', filter: filter, filter_style: block_settings.filter_style, active_value_count: active_value_count, should_render_clear: should_render_clear, show_swatch_label: block_settings.show_swatch_label, sectionId: section.id
+                            %}
+                        {% endcase %}
+                      {% endunless %}
+                    {%- endfor -%}
+                  {% endunless %}
+                {% else %}
+                  {%- for filter in filters -%}
+                    {% case filter.type %}
+                      {% when 'price_range' %}
+                        {%- liquid
+                          if filter.min_value.value != null or filter.max_value.value != null
+                            assign total_active_values = total_active_values | plus: 1
+                            assign is_active = true
+                          endif
+                          render 'price-filter', filter: filter, filter_style: block_settings.filter_style, should_render_clear: should_render_clear
+                        -%}
+                      {% else %}
+                        {% liquid
+                          if filter.active_values.size > 0
+                            assign is_active = true
+                          endif
+                          assign active_value_count = filter.active_values | size
+                          assign total_active_values = total_active_values | plus: active_value_count
+                          render 'list-filter', filter: filter, filter_style: block_settings.filter_style, active_value_count: active_value_count, should_render_clear: should_render_clear, show_swatch_label: block_settings.show_swatch_label, sectionId: section.id
+                        %}
+                    {% endcase %}
+                  {%- endfor -%}
+                {% endif %}
               {% endcapture %}
 
               <div class="facets__filters-wrapper">
@@ -254,26 +596,28 @@
               </div>
 
               {% if block_settings.enable_sorting %}
-                {% render 'sorting',
-                  results: results,
-                  sort_by: sort_by,
-                  filter_style: block_settings.filter_style,
-                  suffix: 'desktop',
-                  sort_position: 'desktop',
-                  should_use_select_on_mobile: false,
-                  section_id: section.id
-                %}
+                <div class="mobile:hidden">
+                  {% render 'sorting',
+                    results: results,
+                    sort_by: sort_by,
+                    filter_style: block_settings.filter_style,
+                    suffix: 'desktop',
+                    sort_position: 'desktop',
+                    should_use_select_on_mobile: false,
+                    section_id: section.id
+                  %}
+                </div>
               {% endif %}
 
-              {% if block_settings.enable_grid_density %}
-                {% render 'grid-density-controls', viewport: 'desktop' %}
-              {% endif %}
+              
             {% endif %}
           {% endif %}
         </form>
       </facets-form-component>
     </div>
   </div>
+
+  <h4 class="facets-mobile-gift-picks">gift picks</h4>
 
   <div
     class="facets-toggle{% if block_settings.enable_filtering == false %} facets-toggle--no-filters{% endif %}{% if block_settings.filter_style == 'horizontal' and block_settings.inherit_color_scheme == false %} color-{{ block_settings.color_scheme }}{% endif %}"
@@ -282,76 +626,48 @@
       {{ facets_margin_style }}
     "
   >
-    {% if block_settings.enable_filtering %}
-      <div class="facets-toggle__wrapper">
-        <button
-          class="button facets-toggle__button button-unstyled button-unstyled--with-icon"
-          on:click="#filters-drawer/showDialog"
-          type="button"
-        >
-          <span class="svg-wrapper">
-            {{ 'icon-filter.svg' | inline_asset_content }}
-          </span>
-
-          {{ 'actions.show_filters' | t }}
-
-          {% if total_active_values > 0 %}
-            <div
-              id="filter-count-bubble-toggle"
-              class="filter-count-bubble"
-              aria-label="{{ 'accessibility.filter_count' | t: count: total_active_values }}"
-            >
-              <span class="filter-count-bubble__background"></span>
-
-              <span
-                ref="cartBubbleText"
-                class="filter-count-bubble__text"
-                aria-hidden="true"
-              >
-                {{ total_active_values }}
-              </span>
-            </div>
-          {% endif %}
-        </button>
-      </div>
-    {% endif %}
-
-    {% liquid
-      assign child_count = 0
-      if block_settings.enable_filtering == false and block_settings.enable_sorting
-        assign child_count = child_count | plus: 1
-      endif
-      if block_settings.enable_grid_density
-        assign child_count = child_count | plus: 1
-      endif
-    %}
-
-    <div class="facets-mobile-wrapper facets-controls-wrapper{% if child_count > 1 %} facets-mobile-wrapper--multiple-controls{% endif %}">
-      {% if block_settings.enable_filtering == false and block_settings.enable_sorting %}
+    {% if block_settings.enable_sorting %}
+      <div class="facets-toggle__sort-wrapper">
         <facets-form-component
           section-id="{{ section.id }}"
-          id="FacetFiltersForm--{{ section.id }}-mobile-sorting-only"
+          id="FacetFiltersFormMobile--{{ section.id }}"
         >
           <form
             action="{{ results_url }}"
-            id="FacetFiltersForm--{{ section.id }}-mobile-sorting-only"
+            id="FacetFiltersForm--{{ section.id }}-mobile"
             ref="facetsForm"
           >
             {% render 'sorting',
               results: results,
               sort_by: sort_by,
               filter_style: block_settings.filter_style,
+              suffix: 'mobile',
               sort_position: 'mobile',
-              should_use_select_on_mobile: should_use_select_on_mobile,
+              should_use_select_on_mobile: false,
+              hide_sort_status_on_mobile: true,
               section_id: section.id
             %}
           </form>
         </facets-form-component>
-      {% endif %}
-      {% if block_settings.enable_grid_density %}
-        {% render 'grid-density-controls', viewport: 'mobile' %}
-      {% endif %}
-    </div>
+      </div>
+    {% endif %}
+
+    {% if block_settings.enable_filtering %}
+      <button
+        class="facets-toggle__filter-btn"
+        on:click="#filters-drawer/showDialog"
+        type="button"
+      >
+        <span class="facets-toggle__filter-text">{{ 'blocks.filter' | t | upcase }}</span>
+        <span class="svg-wrapper facets-toggle__filter-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 4h18l-7 9.3V19l-4 2v-7.7L3 4Z" stroke="#686A54" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          </svg>
+        </span>
+      </button>
+    {% endif %}
+
+    
   </div>
 {% else %}
   <div></div>
@@ -364,7 +680,7 @@
   >
     <dialog
       ref="dialog"
-      class="facets facets--drawer dialog-modal drawer dialog-drawer dialog-drawer--right spacing-style"
+      class="facets facets--drawer dialog-modal dialog-drawer spacing-style"
       style="{% render 'spacing-style', settings: block_settings %}"
       scroll-lock
       aria-labelledby="filters-drawer-heading"
@@ -387,21 +703,9 @@
           >
             <h2
               id="filters-drawer-heading"
-              class="facets-drawer__title h3"
+              class="facets-drawer__title"
             >
-              {{ 'blocks.filter' | t }}
-
-              {% if total_active_values > 0 %}
-                <span
-                  class="bubble facets__bubble"
-                  aria-hidden="true"
-                >
-                  {{ total_active_values }}
-                </span>
-                <span class="visually-hidden">
-                  {{ 'accessibility.filter_count' | t: count: total_active_values }}
-                </span>
-              {% endif %}
+              {{ 'content.filters' | t | upcase }}
             </h2>
             <button
               class="button facets-drawer__close button-unstyled close-button"
@@ -421,53 +725,334 @@
             class="facets-drawer__filters"
           >
             {% if block_settings.enable_filtering %}
-              {% render 'filter-remove-buttons',
-                filters: filters,
-                results_url: results_url,
-                show_filter_label: block_settings.show_filter_label,
-                should_show_clear_all: false
-              %}
+              {% if total_active_values > 0 %}
+                <div class="active-filter-badges active-filter-badges--drawer">
+                  {%- for filter in filters -%}
+                    {%- liquid
+                      assign drawer_badge_active = false
+                      assign drawer_badge_url = ''
+                    -%}
+                    {%- if filter.type == 'price_range' -%}
+                      {%- if filter.min_value.value != null or filter.max_value.value != null -%}
+                        {%- assign drawer_badge_active = true -%}
+                        {%- assign drawer_badge_url = filter.url_to_remove -%}
+                      {%- endif -%}
+                    {%- else -%}
+                      {%- if filter.active_values.size > 0 -%}
+                        {%- assign drawer_badge_active = true -%}
+                        {%- assign drawer_badge_url = filter.active_values.first.url_to_remove -%}
+                        {%- for value in filter.active_values -%}
+                          {%- unless forloop.first -%}
+                            {%- assign encoded_val = value.value | url_encode -%}
+                            {%- assign param_pair = filter.param_name | append: '=' | append: encoded_val -%}
+                            {%- assign drawer_badge_url = drawer_badge_url | remove: param_pair -%}
+                          {%- endunless -%}
+                        {%- endfor -%}
+                        {%- assign drawer_badge_url = drawer_badge_url | replace: '&&', '&' | replace: '?&', '?' -%}
+                        {%- assign url_last_char = drawer_badge_url | slice: -1 -%}
+                        {%- if url_last_char == '?' or url_last_char == '&' -%}
+                          {%- assign url_length = drawer_badge_url | size | minus: 1 -%}
+                          {%- assign drawer_badge_url = drawer_badge_url | truncate: url_length, '' -%}
+                        {%- endif -%}
+                      {%- endif -%}
+                    {%- endif -%}
+                    {%- if drawer_badge_active -%}
+                      <a class="active-filter-badge" href="{{ drawer_badge_url }}" role="button">
+                        <span class="active-filter-badge__label">
+                          {%- if filter.type == 'price_range' -%}
+                            {{ 'content.price_range' | t }}
+                          {%- else -%}
+                            {{ filter.label | escape }}
+                          {%- endif -%}
+                        </span>
+                        <span class="svg-wrapper svg-wrapper--smaller" aria-hidden="true">
+                          {{- 'icon-filters-close.svg' | inline_asset_content -}}
+                        </span>
+                        <span class="visually-hidden">
+                          {{ 'actions.remove' | t }}
+                          {%- if filter.type == 'price_range' -%}
+                            {{ 'content.price_range' | t }}
+                          {%- else -%}
+                            {{ filter.label | escape }}
+                          {%- endif -%}
+                        </span>
+                      </a>
+                    {%- endif -%}
+                  {%- endfor -%}
+                </div>
+              {% endif %}
 
               <div class="facets__filters-wrapper">
                 {% assign total_active_values = 0 %}
                 {% assign is_active = false %}
 
-                {%- for filter in filters -%}
-                  {% case filter.type %}
-                    {% when 'price_range' %}
+                {% if custom_filters_enabled %}
+                  {%- liquid
+                    assign rendered_param_names = '|'
+                    assign custom_rendered_price = false
+                    assign custom_rendered_type = false
+                    assign custom_rendered_color = false
+                    assign custom_rendered_material = false
+                    assign custom_rendered_artisans = false
+                  -%}
+
+                  {%- comment -%} Price range first {%- endcomment -%}
+                  {%- for filter in filters -%}
+                    {% if filter.type == 'price_range' %}
                       {%- liquid
                         if filter.min_value.value != null or filter.max_value.value != null
                           assign total_active_values = total_active_values | plus: 1
                           assign is_active = true
                         endif
-
                         render 'price-filter', filter: filter, filter_style: 'vertical', should_render_clear: false
+                        assign rendered_param_names = rendered_param_names | append: filter.param_name | append: '|'
+                        assign custom_rendered_price = true
                       -%}
-                    {% else %}
-                      {% liquid
-                        if filter.active_values.size > 0
-                          assign is_active = true
+                    {% endif %}
+                  {%- endfor -%}
+
+                  {%- comment -%} Type + Color + Material + Artisans (list/swatches) {%- endcomment -%}
+                  {%- for filter in filters -%}
+                    {%- liquid
+                      assign already_rendered = false
+                      assign rendered_token = '|' | append: filter.param_name | append: '|'
+                      if rendered_param_names contains rendered_token
+                        assign already_rendered = true
+                      endif
+                    -%}
+                    {% unless already_rendered %}
+                      {%- liquid
+                        assign label_downcase = filter.label | downcase
+                        assign is_type_filter = false
+                        assign is_color_filter = false
+                        assign is_material_filter = false
+                        assign is_artisans_filter = false
+
+                        if filter.param_name == custom_type_filter_param or filter.param_name contains 'product_type'
+                          assign is_type_filter = true
                         endif
 
-                        assign active_value_count = filter.active_values | size
-                        assign total_active_values = total_active_values | plus: active_value_count
-                        render 'list-filter', filter: filter, filter_style: 'vertical', active_value_count: active_value_count, should_render_clear: false, in_drawer: true, sectionId: section.id
-                      %}
-                  {% endcase %}
-                {%- endfor -%}
+                        if filter.param_name contains custom_color_filter_keyword or label_downcase contains custom_color_filter_keyword
+                          assign is_color_filter = true
+                        endif
+
+                        if filter.param_name contains custom_material_filter_keyword or label_downcase contains custom_material_filter_keyword
+                          assign is_material_filter = true
+                        endif
+
+                        if filter.param_name contains custom_artisans_filter_keyword or label_downcase contains custom_artisans_filter_keyword
+                          assign is_artisans_filter = true
+                        endif
+                      -%}
+
+                      {% if filter.type != 'price_range' %}
+                        {% if is_type_filter or is_color_filter or is_material_filter or is_artisans_filter %}
+                          {% liquid
+                            if filter.active_values.size > 0
+                              assign is_active = true
+                            endif
+                            assign active_value_count = filter.active_values | size
+                            assign total_active_values = total_active_values | plus: active_value_count
+                            render 'list-filter', filter: filter, filter_style: 'vertical', active_value_count: active_value_count, should_render_clear: false, in_drawer: true, sectionId: section.id
+                            assign rendered_param_names = rendered_param_names | append: filter.param_name | append: '|'
+                            if is_type_filter
+                              assign custom_rendered_type = true
+                            endif
+                            if is_color_filter
+                              assign custom_rendered_color = true
+                            endif
+                            if is_material_filter
+                              assign custom_rendered_material = true
+                            endif
+                            if is_artisans_filter
+                              assign custom_rendered_artisans = true
+                            endif
+                          %}
+                        {% endif %}
+                      {% endif %}
+                    {% endunless %}
+                  {%- endfor -%}
+
+                  {% if custom_filters_show_placeholders %}
+                    {% unless custom_rendered_price %}
+                      <accordion-custom class="facets__item" aria-disabled="true">
+                        <details class="facets__panel" open>
+                          <summary class="facets__summary">
+                            <span class="facets__label">Price range</span>
+                            <span class="svg-wrapper icon-caret icon-animated facets__toggle-icon" aria-hidden="true">
+                              <span class="facets__toggle-icon-plus">
+                                {{- 'icon-plus.svg' | inline_asset_content -}}
+                              </span>
+                              <span class="facets__toggle-icon-minus">
+                                {{- 'icon-minus.svg' | inline_asset_content -}}
+                              </span>
+                            </span>
+                          </summary>
+                          <div class="facets__panel-content details-content" aria-hidden="true">
+                            <div class="facets__inputs facets__inputs-wrapper facets__inputs-wrapper--row" style="opacity: 0.6; pointer-events: none;">
+                              <div class="field" style="min-width: 120px;">
+                                <input class="field__input" type="text" inputmode="decimal" placeholder="0" disabled>
+                              </div>
+                              <div class="field" style="min-width: 120px;">
+                                <input class="field__input" type="text" inputmode="decimal" placeholder="0" disabled>
+                              </div>
+                            </div>
+                          </div>
+                        </details>
+                      </accordion-custom>
+                    {% endunless %}
+
+                    {% unless custom_rendered_type %}
+                      <accordion-custom class="facets__item" aria-disabled="true">
+                        <details class="facets__panel" open>
+                          <summary class="facets__summary">
+                            <span class="facets__label">Type</span>
+                            <span class="svg-wrapper icon-caret icon-animated facets__toggle-icon" aria-hidden="true">
+                              <span class="facets__toggle-icon-plus">
+                                {{- 'icon-plus.svg' | inline_asset_content -}}
+                              </span>
+                              <span class="facets__toggle-icon-minus">
+                                {{- 'icon-minus.svg' | inline_asset_content -}}
+                              </span>
+                            </span>
+                          </summary>
+                          <div class="facets__panel-content details-content" aria-hidden="true" style="opacity: 0.6; pointer-events: none;">
+                            <div class="facets__inputs facets__inputs-wrapper">
+                              <ul class="facets__inputs-list list-unstyled"></ul>
+                            </div>
+                          </div>
+                        </details>
+                      </accordion-custom>
+                    {% endunless %}
+
+                    {% unless custom_rendered_color %}
+                      <accordion-custom class="facets__item" aria-disabled="true">
+                        <details class="facets__panel" open>
+                          <summary class="facets__summary">
+                            <span class="facets__label">Color</span>
+                            <span class="svg-wrapper icon-caret icon-animated facets__toggle-icon" aria-hidden="true">
+                              <span class="facets__toggle-icon-plus">
+                                {{- 'icon-plus.svg' | inline_asset_content -}}
+                              </span>
+                              <span class="facets__toggle-icon-minus">
+                                {{- 'icon-minus.svg' | inline_asset_content -}}
+                              </span>
+                            </span>
+                          </summary>
+                          <div class="facets__panel-content details-content" aria-hidden="true" style="opacity: 0.6; pointer-events: none;">
+                            <div class="facets__inputs facets__inputs-wrapper">
+                              <ul class="facets__inputs-list list-unstyled"></ul>
+                            </div>
+                          </div>
+                        </details>
+                      </accordion-custom>
+                    {% endunless %}
+
+                    {% unless custom_rendered_material %}
+                      <accordion-custom class="facets__item" aria-disabled="true">
+                        <details class="facets__panel" open>
+                          <summary class="facets__summary">
+                            <span class="facets__label">Material</span>
+                            <span class="svg-wrapper icon-caret icon-animated facets__toggle-icon" aria-hidden="true">
+                              <span class="facets__toggle-icon-plus">
+                                {{- 'icon-plus.svg' | inline_asset_content -}}
+                              </span>
+                              <span class="facets__toggle-icon-minus">
+                                {{- 'icon-minus.svg' | inline_asset_content -}}
+                              </span>
+                            </span>
+                          </summary>
+                          <div class="facets__panel-content details-content" aria-hidden="true" style="opacity: 0.6; pointer-events: none;">
+                            <div class="facets__inputs facets__inputs-wrapper">
+                              <ul class="facets__inputs-list list-unstyled"></ul>
+                            </div>
+                          </div>
+                        </details>
+                      </accordion-custom>
+                    {% endunless %}
+
+                    {% unless custom_rendered_artisans %}
+                      <accordion-custom class="facets__item" aria-disabled="true">
+                        <details class="facets__panel" open>
+                          <summary class="facets__summary">
+                            <span class="facets__label">Artisans</span>
+                            <span class="svg-wrapper icon-caret icon-animated facets__toggle-icon" aria-hidden="true">
+                              <span class="facets__toggle-icon-plus">
+                                {{- 'icon-plus.svg' | inline_asset_content -}}
+                              </span>
+                              <span class="facets__toggle-icon-minus">
+                                {{- 'icon-minus.svg' | inline_asset_content -}}
+                              </span>
+                            </span>
+                          </summary>
+                          <div class="facets__panel-content details-content" aria-hidden="true" style="opacity: 0.6; pointer-events: none;">
+                            <div class="facets__inputs facets__inputs-wrapper">
+                              <ul class="facets__inputs-list list-unstyled"></ul>
+                            </div>
+                          </div>
+                        </details>
+                      </accordion-custom>
+                    {% endunless %}
+                  {% endif %}
+
+                  {% unless custom_filters_only %}
+                    {%- for filter in filters -%}
+                      {%- liquid
+                        assign already_rendered = false
+                        assign rendered_token = '|' | append: filter.param_name | append: '|'
+                        if rendered_param_names contains rendered_token
+                          assign already_rendered = true
+                        endif
+                      -%}
+                      {% unless already_rendered %}
+                        {% case filter.type %}
+                          {% when 'price_range' %}
+                            {%- liquid
+                              if filter.min_value.value != null or filter.max_value.value != null
+                                assign total_active_values = total_active_values | plus: 1
+                                assign is_active = true
+                              endif
+                              render 'price-filter', filter: filter, filter_style: 'vertical', should_render_clear: false
+                            -%}
+                          {% else %}
+                            {% liquid
+                              if filter.active_values.size > 0
+                                assign is_active = true
+                              endif
+                              assign active_value_count = filter.active_values | size
+                              assign total_active_values = total_active_values | plus: active_value_count
+                              render 'list-filter', filter: filter, filter_style: 'vertical', active_value_count: active_value_count, should_render_clear: false, in_drawer: true, sectionId: section.id
+                            %}
+                        {% endcase %}
+                      {% endunless %}
+                    {%- endfor -%}
+                  {% endunless %}
+                {% else %}
+                  {%- for filter in filters -%}
+                    {% case filter.type %}
+                      {% when 'price_range' %}
+                        {%- liquid
+                          if filter.min_value.value != null or filter.max_value.value != null
+                            assign total_active_values = total_active_values | plus: 1
+                            assign is_active = true
+                          endif
+                          render 'price-filter', filter: filter, filter_style: 'vertical', should_render_clear: false
+                        -%}
+                      {% else %}
+                        {% liquid
+                          if filter.active_values.size > 0
+                            assign is_active = true
+                          endif
+                          assign active_value_count = filter.active_values | size
+                          assign total_active_values = total_active_values | plus: active_value_count
+                          render 'list-filter', filter: filter, filter_style: 'vertical', active_value_count: active_value_count, should_render_clear: false, in_drawer: true, sectionId: section.id
+                        %}
+                    {% endcase %}
+                  {%- endfor -%}
+                {% endif %}
               </div>
             {% endif %}
 
-            {% if block_settings.enable_sorting %}
-              {% render 'sorting',
-                results: results,
-                sort_by: sort_by,
-                filter_style: block_settings.filter_style,
-                suffix: 'overflow',
-                should_use_select_on_mobile: should_use_select_on_mobile,
-                section_id: section.id
-              %}
-            {% endif %}
           </scroll-hint>
         </form>
       </facets-form-component>
@@ -481,24 +1066,22 @@
         >
           <button
             type="button"
-            class="button-secondary facets__clear-all{% if is_active %} facets__clear-all--active{% endif %}"
+            class="button-unstyled facets__clear-all facets__clear-all--drawer-btn{% if is_active %} facets__clear-all--active{% endif %}"
             ref="clearButton"
             on:click="/removeFilter?form={{ form_component }}"
             on:keydown="/removeFilter?form={{ form_component }}"
           >
-            {{- 'actions.clear_all' | t -}}
+            Clear
           </button>
         </facet-remove-component>
 
-        {% if products_count > 0 %}
-          <button
-            class="button facets__see-results"
-            type="button"
-            on:click="dialog-component/closeDialog"
-          >
-            {{- 'actions.see_items' | t: count: products_count -}}
-          </button>
-        {% endif %}
+        <button
+          class="button facets__see-results facets__see-results--drawer"
+          type="button"
+          on:click="dialog-component/closeDialog"
+        >
+          Apply
+        </button>
       </div>
     </dialog>
   </dialog-component>
@@ -518,32 +1101,108 @@
     }
   }
 
-  .facets-toggle {
-    --icon-offset: -3px;
+  /* Prevent empty filter bar from reserving space on mobile (exclude the drawer dialog) */
+  div.facets-block-wrapper--horizontal,
+  div.facets-block-wrapper--vertical {
+    @media screen and (max-width: 749px) {
+      display: none;
+    }
+  }
 
+  .facets-toggle {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
-    height: var(--minimum-touch-target);
+    gap: 24px;
+    min-height: var(--minimum-touch-target);
     margin: var(--facets-margin);
     padding-block: var(--facets-inner-padding-block);
     padding-inline: var(--facets-inner-padding-inline);
+    width: 100%;
+    position: relative;
+    z-index: var(--layer-heightened);
+    /* sorting-filter__options uses this variable; define it here so mobile dropdown isn't behind product grid */
+    --facets-upper-z-index: var(--layer-heightened);
 
     @media screen and (min-width: 750px) {
       display: none;
     }
   }
 
-  .facets-toggle__wrapper {
-    margin-left: var(--icon-offset);
+  .facets-toggle__sort-wrapper {
+    position: relative;
+    z-index: var(--layer-heightened);
   }
 
-  .facets-toggle__button {
-    box-shadow: none;
+  /* Ensure the mobile sorting popover renders above product cards */
+  .facets-toggle .sorting-filter__options {
+    z-index: var(--layer-heightened) !important;
+  }
 
-    @media screen and (min-width: 750px) {
-      display: none;
-    }
+  .facets-toggle__filter-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    font-family: Agrandir, var(--font-body--family), sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0.18em;
+    color: #686A54;
+    text-transform: uppercase;
+  }
+
+  .facets-toggle__filter-icon {
+    width: 20px;
+    height: 20px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .facets-toggle__filter-icon svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .facets-toggle__sort-wrapper .facets__status,
+  .facets-toggle .sorting-filter .facets__status {
+    display: none !important;
+  }
+
+  .facets-toggle .sorting-filter .facets__label {
+    font-family: Agrandir, var(--font-body--family), sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #686A54;
+    margin: 0;
+  }
+
+  .facets-toggle .sorting-filter .facets__summary {
+    gap: 8px;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  .facets-toggle .sorting-filter .facets__summary .icon-caret {
+    color: #686A54;
+    opacity: 1;
+    width: 20px;
+    height: 20px;
+    flex: 0 0 20px;
+  }
+
+  .facets-toggle .sorting-filter .sorting-filter__options {
+    left: 0;
+    right: auto;
+  }
+
+  .facets-toggle .sorting-filter .facets__panel {
+    position: relative;
   }
 
   .filter-count-bubble {
@@ -589,12 +1248,7 @@
 
   .facets-toggle--no-filters {
     @media screen and (max-width: 749px) {
-      /* stylelint-disable-next-line declaration-no-important */
-      justify-content: unset !important;
-
-      & > .facets-mobile-wrapper {
-        width: 100%;
-      }
+      justify-content: center;
     }
   }
 
@@ -607,7 +1261,7 @@
   .facets-mobile-wrapper {
     display: flex;
     align-items: center;
-    gap: var(--gap-sm);
+    gap: 20px;
     justify-content: flex-end;
   }
 
@@ -650,6 +1304,18 @@
     box-shadow: none;
     padding-block: 0;
 
+    &.facets--drawer {
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: auto;
+      right: 0;
+      margin: 0;
+      margin-inline-start: auto;
+      height: 100dvh;
+      max-height: 100dvh;
+    }
+
     &:not(.facets--drawer) {
       @media screen and (min-width: 750px) {
         padding-inline: var(--padding-inline-start) var(--padding-inline-end);
@@ -666,6 +1332,7 @@
       padding-block: var(--padding-block-start) var(--padding-block-end);
       display: flex;
       align-items: center;
+      justify-content: space-between;
       position: relative;
       z-index: var(--facets-upper-z-index);
       border: none;
@@ -696,9 +1363,21 @@
 
   .facets--drawer {
     border-radius: 0;
-    border-right: var(--style-border-drawer);
+    border-right: none;
+    border-left: var(--style-border-drawer);
+    border-left-color: var(--collection-page-bg, #F4ECE5);
     box-shadow: var(--shadow-drawer);
     padding-inline: 0;
+    background-color: var(--collection-page-bg, #F4ECE5);
+  }
+
+  /* Side drawer on the right (overrides full-bleed .dialog-modal on small screens) */
+  @media screen and (max-width: 749px) {
+    .facets.facets--drawer.dialog-modal {
+      width: min(var(--drawer-width), 100vw);
+      max-width: var(--drawer-max-width);
+      padding: 0;
+    }
   }
 
   .facets--drawer[open] {
@@ -739,12 +1418,20 @@
   }
 
   .facets.facets-controls-wrapper {
+    display: none;
+    align-items: center;
     @media screen and (min-width: 750px) {
+      display: flex;
       grid-column: column-1 / column-12;
       color: rgb(var(--color-foreground-rgb) / var(--opacity-70));
       gap: 0 var(--facets-form-horizontal-gap);
-      padding-bottom: var(--padding-xs);
+      padding-bottom: 50px;
     }
+  }
+
+  /* Push desktop sorting control to the right of the header bar */
+  .facets-controls-wrapper .sorting-filter {
+    margin-left: auto;
   }
 
   .facets__inputs {
@@ -803,6 +1490,10 @@
     }
   }
 
+  :is(.facets--vertical, .facets--drawer) .facets__filters-wrapper {
+    border-top: var(--style-border-width) solid var(--color-border);
+  }
+
   /* Facets - Summary */
   .facets__summary {
     --variant-picker-swatch-width: 32px;
@@ -842,11 +1533,44 @@
   }
 
   .facets__summary .icon-caret {
-    height: var(--icon-size-xs);
-    width: var(--icon-size-xs);
+    height: 16px;
+    width: 16px;
     color: rgb(var(--color-foreground-rgb) / var(--icon-opacity));
     margin-block: var(--margin-2xs);
     transition: color var(--animation-speed) var(--animation-easing);
+    flex: 0 0 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Plus/minus icons for filter accordions (real SVG icons) */
+  .facets__toggle-icon svg {
+    display: block;
+    width: 16px;
+    height: 16px;
+  }
+
+  .facets__toggle-icon-minus {
+    display: none;
+  }
+
+  details[open] > .facets__summary .facets__toggle-icon-plus {
+    display: none;
+  }
+
+  details[open] > .facets__summary .facets__toggle-icon-minus {
+    display: block;
+  }
+
+  .sorting-filter .facets__summary .icon-caret,
+  .sorting-filter .facets__label-wrapper .icon-caret {
+    transition: transform var(--animation-speed) var(--animation-easing);
+    transform: rotate(0deg);
+  }
+
+  .sorting-filter details[open] > .facets__summary .icon-caret {
+    transform: rotate(180deg);
   }
 
   .facets--drawer .facets__summary .icon-caret {
@@ -945,7 +1669,7 @@
 
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(var(--min-column-width), 1fr));
-    gap: var(--gap-sm);
+    gap: 20px;
 
     @media screen and (min-width: 750px) {
       --min-column-width: 50px;
@@ -991,6 +1715,15 @@
     padding: 0 var(--drawer-padding);
   }
 
+  /* Extra vertical spacing inside each filter container (above/below label) */
+  :is(.facets--drawer, .facets--vertical) :is(.facets__item, .sorting-filter) {
+    display: block;
+    padding-block: 24px;
+    border-radius: 8px;
+    padding-inline: var(--drawer-padding);
+  }
+
+
   .facets:not(.facets--drawer) .facets__panel,
   .facets-controls-wrapper .facets__panel {
     @media screen and (min-width: 750px) {
@@ -1032,13 +1765,13 @@
     }
   }
 
+  /* Use bottom border on filter containers instead of separate separators */
   :is(.facets--drawer, .facets--vertical) :is(.facets__item, .sorting-filter)::before {
-    content: '';
-    display: block;
-    height: 0;
-    width: calc(100% - var(--drawer-padding) * 2);
-    border-top: var(--style-border-width) solid var(--color-border);
-    margin: 0 auto;
+    content: none;
+  }
+
+  :is(.facets--drawer, .facets--vertical) :is(.facets__item, .sorting-filter) {
+    border-bottom: var(--style-border-width) solid var(--color-border);
   }
 
   @media screen and (min-width: 750px) {
@@ -1135,6 +1868,10 @@
     color: var(--color-foreground);
     cursor: pointer;
     white-space: nowrap;
+    font-family: Agrandir, var(--font-body--family), sans-serif;
+    font-size: 19px;
+    font-weight: 400;
+    color: #5D5C5A;
 
     @media screen and (min-width: 750px) {
       margin-inline-end: var(--margin-2xs);
@@ -1146,19 +1883,21 @@
     display: none;
   }
 
+  /* Always hide products count next to sorting */
   .facets--horizontal .products-count-wrapper {
     @media screen and (min-width: 750px) {
-      display: flex;
-      margin-left: auto;
-      flex-shrink: 0;
-      align-items: center;
-      height: var(--minimum-touch-target);
+      display: none;
     }
+  }
+
+  /* Hide grid layout / density controls (mobile + desktop) */
+  .facets .column-options-wrapper {
+    display: none !important;
   }
 
   /* Mobile specific components */
   .facets__title-wrapper {
-    background-color: var(--color-background);
+    background-color: var(--collection-page-bg, var(--color-background));
     color: var(--color-foreground);
     position: sticky;
     top: 0;
@@ -1178,18 +1917,12 @@
   }
 
   .facets-drawer__title {
-    --variant-picker-swatch-width: 32px;
-    --variant-picker-swatch-height: 32px;
-
     margin: 0;
-    display: flex;
-    align-items: center;
-    gap: var(--gap-xs);
-
-    @media screen and (min-width: 750px) {
-      --variant-picker-swatch-width: 26px;
-      --variant-picker-swatch-height: 26px;
-    }
+    font-family: Fraunces, var(--font-heading--family), serif;
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    color: #686A54;
   }
 
   .facets-drawer__close {
@@ -1198,6 +1931,64 @@
     right: 0;
     padding: 0;
     cursor: pointer;
+  }
+
+  .active-filter-badges--drawer {
+    padding-inline: var(--drawer-padding);
+    margin-block-start: var(--margin-2xs);
+    margin-block-end: var(--margin-sm);
+  }
+
+  .facets__clear-all--drawer-btn {
+    display: flex !important;
+    flex: 1 1 0;
+    font-family: Agrandir;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    color: #5D5C5A;
+    background: none;
+    border: none;
+    border-radius: 0 !important;
+    min-width: 0 !important;
+    max-width: 100%;
+    padding-block: calc(var(--padding-lg) + 4px);
+    padding-inline: var(--padding-lg);
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    box-sizing: border-box;
+  }
+
+  .facets__clear-all--drawer-btn:not(.facets__clear-all--active) {
+    opacity: 0.4;
+    pointer-events: auto;
+    width: 140px;
+  }
+
+  .facets__see-results--drawer {
+    background-color: #686A54;
+    color: #fff;
+    border: none;
+    border-radius: 0 !important;
+    flex: 1 1 0;
+    min-width: 0 !important;
+    max-width: 100%;
+    font-family: Agrandir, var(--font-body--family), sans-serif !important;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    padding-inline: var(--padding-lg);
+    padding-block: calc(var(--padding-lg) + 4px);
+    box-sizing: border-box;
+  }
+
+  .facets__see-results--drawer:hover {
+    background-color: #5a5c48;
   }
 
   /* Status */
@@ -1217,10 +2008,83 @@
     margin-block-end: 0;
     color: var(--color-foreground);
     height: fit-content;
+    font-family: "SS Bruney", var(--font-heading--family), serif;
+    font-size: 48px;
+    font-weight: 400;
+    color: #686A54;
 
     @media screen and (max-width: 749px) {
       display: none;
     }
+  }
+
+  .facets-mobile-gift-picks {
+    display: none;
+    margin: 0;
+    width: 100%;
+    text-align: center;
+    font-family: "SS Bruney", var(--font-heading--family), serif !important;
+    font-size: 32px;
+    font-weight: 400;
+    color: #686A54;
+    line-height: 1.1;
+
+    @media screen and (max-width: 749px) {
+      display: block;
+      padding-block-start: 2px;
+      padding-block-end: 4px;
+    }
+  }
+
+  .facets--filters-subtitle {
+    margin-block-start: var(--padding-sm);
+    margin-block-end: var(--padding-xs);
+    font-family: Fraunces, var(--font-heading--family), serif;
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--color-foreground);
+  }
+
+   .active-filter-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding-block-start: 20px;
+    padding-block-end: var(--margin-sm);
+    margin-block-end: var(--margin-md);
+  }
+
+  .active-filter-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px;
+    background-color: white;
+    border-radius: 999px;
+    font-family: var(--font-body--family), sans-serif;
+    font-size: 14px;
+    line-height: 1.4;
+    cursor: pointer;
+    border: none;
+    color: var(--color-foreground);
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+
+  .active-filter-badge:hover {
+    opacity: 0.7;
+  }
+
+  .active-filter-badge .svg-wrapper {
+    width: 10px;
+    height: 10px;
+    flex-shrink: 0;
+  }
+
+  .facets:not(.facets--horizontal):not(.facets--drawer) .facets-remove--mobile-and-vertical {
+    display: none !important;
   }
 
   .facets--horizontal .facets__panel .facets__status:has(:not(:empty)) {
@@ -1242,9 +2106,9 @@
   .facets__drawer-actions {
     --to-top-gradient-background: linear-gradient(
       to top,
-      rgb(var(--color-background-rgb) / var(--opacity-90)),
-      rgb(var(--color-background-rgb) / var(--opacity-80)),
-      rgb(var(--color-background-rgb) / var(--opacity-40)),
+      rgb(var(--collection-page-bg-rgb, var(--color-background-rgb)) / var(--opacity-90)),
+      rgb(var(--collection-page-bg-rgb, var(--color-background-rgb)) / var(--opacity-80)),
+      rgb(var(--collection-page-bg-rgb, var(--color-background-rgb)) / var(--opacity-40)),
       transparent
     );
 
@@ -1256,13 +2120,28 @@
     flex-shrink: 0;
     justify-content: space-between;
     align-items: stretch;
-    gap: var(--gap-sm);
+    gap: 16px;
     padding-block-start: var(--padding-xs);
     padding-block-end: var(--padding-md);
-    padding-inline: var(--padding-lg);
+    padding-inline: var(--drawer-padding, var(--padding-lg));
     margin-top: auto;
     background-image: var(--to-top-gradient-background);
-    background-color: var(--color-background);
+    background-color: var(--collection-page-bg, var(--color-background));
+    box-sizing: border-box;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  /* The Clear button is wrapped in <facet-remove-component>, which is the flex item. */
+  .facets__drawer-actions > facet-remove-component {
+    display: flex;
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  .facets__drawer-actions > facet-remove-component .facets__clear-all--drawer-btn {
+    width: 100%;
+    max-width: 100%;
   }
 
   /* Clear all button */
@@ -1479,6 +2358,65 @@
       "unit": "px",
       "default": 20,
       "visible_if": "{{ block.settings.filter_style == 'vertical' }}"
+    },
+    {
+      "type": "header",
+      "content": "Custom filter display"
+    },
+    {
+      "type": "checkbox",
+      "id": "custom_filters_enabled",
+      "label": "Show custom Price / Type / Color first",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "custom_filters_only",
+      "label": "Only show Price / Type / Color",
+      "default": false,
+      "visible_if": "{{ block.settings.custom_filters_enabled == true }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "custom_filters_show_placeholders",
+      "label": "Show placeholders if Type/Color facets are missing",
+      "default": false,
+      "visible_if": "{{ block.settings.custom_filters_enabled == true }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "custom_filters_show_dummy_active_pills",
+      "label": "Show dummy active filter pills (design preview)",
+      "default": false,
+      "visible_if": "{{ block.settings.custom_filters_enabled == true }}"
+    },
+    {
+      "type": "text",
+      "id": "custom_type_filter_param",
+      "label": "Product type filter param name",
+      "default": "filter.p.product_type",
+      "visible_if": "{{ block.settings.custom_filters_enabled == true }}"
+    },
+    {
+      "type": "text",
+      "id": "custom_color_filter_keyword",
+      "label": "Color filter keyword (matches param name or label)",
+      "default": "color",
+      "visible_if": "{{ block.settings.custom_filters_enabled == true }}"
+    },
+    {
+      "type": "text",
+      "id": "custom_material_filter_keyword",
+      "label": "Material filter keyword (matches param name or label)",
+      "default": "material",
+      "visible_if": "{{ block.settings.custom_filters_enabled == true }}"
+    },
+    {
+      "type": "text",
+      "id": "custom_artisans_filter_keyword",
+      "label": "Artisans filter keyword (matches param name or label)",
+      "default": "artisan",
+      "visible_if": "{{ block.settings.custom_filters_enabled == true }}"
     }
   ]
 }

@@ -143,19 +143,27 @@
             <ul class="custom-collection-tabs-grid__products" role="list">
               {% if tab_collection != blank and tab_collection.products_count > 0 %}
                 {% for product in tab_collection.products limit: 8 %}
-                  {% assign collection_label = product.metafields.custom.collection.value %}
+                  {% comment %} {% assign collection_label = product.metafields.custom.category.value %} {% endcomment %}
                   <li class="custom-collection-tabs-grid__item">
+                    <div style="position: relative;">
                     <a href="{{ product.url }}" class="custom-collection-tabs-grid__fallback-card">
                       {% if product.featured_image != blank %}
-                        {{
-                          product.featured_image
-                          | image_url: width: 900
-                          | image_tag: class: 'custom-collection-tabs-grid__fallback-image', loading: 'lazy'
-                        }}
+                        <div class="custom-collection-tabs-grid__image">
+                          <div class="cardGalleryBorderInner"></div>
+                          {{
+                            product.featured_image
+                            | image_url: width: 900
+                            | image_tag: class: 'custom-collection-tabs-grid__fallback-image', loading: 'lazy'
+                          }}
+                        </div>
                       {% endif %}
                       {% if collection_label != blank %}
                         <span class="custom-collection-tabs-grid__collection-label">{{ collection_label }}</span>
                       {% endif %}
+                    </a>
+                          {% render 'custom-quick-view-cta', product: product %}
+                    </div>
+                    <a href="{{ product.url }}" class="custom-collection-tabs-grid__fallback-card">
                       <span class="custom-collection-tabs-grid__fallback-title">{{ product.title }}</span>
                       <span class="custom-collection-tabs-grid__fallback-price">{{ product.price | money }}</span>
                     </a>
@@ -338,7 +346,7 @@
     flex-wrap: wrap;
     justify-content: var(--tabs-grid-tab-align);
     gap: 14px 24px;
-    margin-bottom: 24px;
+    margin-bottom: 40px;
   }
 
   .custom-collection-tabs-grid__tab {
@@ -483,6 +491,9 @@
     .custom-collection-tabs-grid__button {
       width: 150px;
     }
+  }
+  .custom-collection-tabs-grid__image {
+    margin-bottom: 5px;
   }
 {% endstylesheet %}
 

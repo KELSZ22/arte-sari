@@ -15,7 +15,7 @@
         "slide_CCWtpb": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/Banner.jpg",
+            "image": "shopify://shop_images/hero_banner.png",
             "image_mobile": "shopify://shop_images/hero_banner_background.png",
             "overlay_opacity": 0
           }
@@ -119,6 +119,33 @@
               },
               "blocks": {}
             },
+            "text_FKHnkG": {
+              "type": "text",
+              "name": "t:names.text",
+              "settings": {
+                "custom_class": "product_metafield_category",
+                "text": "<p>{{ closest.product.metafields.custom.category.value }}</p>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 10,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
             "product_title_jRTUKR": {
               "type": "product-title",
               "name": "t:names.product_title",
@@ -172,6 +199,7 @@
           },
           "block_order": [
             "product_card_gallery_pKQbAp",
+            "text_FKHnkG",
             "product_title_jRTUKR",
             "price_WBFkfb"
           ]
@@ -183,6 +211,7 @@
       ],
       "name": "Collection showcase",
       "settings": {
+        "enable_border123": true,
         "heading": "SUKI FAVORITES",
         "subheading": "Most loved by our loyal customers",
         "heading_font_family": "facelio",
@@ -314,9 +343,11 @@
         "button_link": "",
         "subtitle_font_family": "fraunces",
         "subtitle_font_size": 20,
+        "subtitle_font_size_mobile": 16,
         "subtitle_font_weight": "400",
         "title_font_family": "facelio",
         "title_font_size": 48,
+        "title_font_size_mobile": 28,
         "title_font_weight": "400",
         "text_font_family": "agrandir",
         "text_font_size": 20,
@@ -325,15 +356,15 @@
         "button_font_size": 14,
         "button_font_weight": "500",
         "product_title_font_family": "inherit",
-        "product_title_font_size": 15,
+        "product_title_font_size": 16,
         "product_title_font_weight": "400",
         "product_title_color": "#5d5c5a",
         "product_price_font_family": "agrandir",
-        "product_price_font_size": 14,
+        "product_price_font_size": 12,
         "product_price_font_weight": "700",
         "product_price_color": "#969696",
-        "product_1": "featured-product",
-        "product_2": "featured-product-2",
+        "product_1": "product-1",
+        "product_2": "pumpkin-midi-10",
         "products_padding_top": 80,
         "products_padding_bottom": 0,
         "products_padding_left": 0,
@@ -373,7 +404,7 @@
         "subheading_font_weight": "400",
         "subheading_color": "#5d5c5a",
         "heading_font_family": "facelio",
-        "heading_font_size": 48,
+        "heading_font_size": 46,
         "heading_font_weight": "400",
         "heading_color": "#686a54",
         "text_font_family": "fraunces",
@@ -446,7 +477,7 @@
         "testimonial_dEkaph": {
           "type": "testimonial",
           "settings": {
-            "image": "shopify://shop_images/Frame_252_4.png",
+            "image": "shopify://shop_images/Frame_253.png",
             "overlay_text": "",
             "testimonial": "I super love these pearl necklaces and wear them almost everyday!",
             "name": "- Kris"
@@ -455,7 +486,7 @@
         "testimonial_E6hNpU": {
           "type": "testimonial",
           "settings": {
-            "image": "shopify://shop_images/Frame_252_5.png",
+            "image": "shopify://shop_images/Frame_252.png",
             "overlay_text": "",
             "testimonial": "I super love these pearl necklaces and wear them almost everyday!",
             "name": "- Kris"
@@ -464,7 +495,7 @@
         "testimonial_RkEDjL": {
           "type": "testimonial",
           "settings": {
-            "image": "shopify://shop_images/Frame_252_6.png",
+            "image": "shopify://shop_images/Frame_253.png",
             "overlay_text": "",
             "testimonial": "I super love these pearl necklaces and wear them almost everyday!",
             "name": "- Kris"
@@ -473,7 +504,7 @@
         "testimonial_pcimQg": {
           "type": "testimonial",
           "settings": {
-            "image": "shopify://shop_images/Frame_252_7.png",
+            "image": "shopify://shop_images/Frame_252.png",
             "overlay_text": "",
             "testimonial": "I super love these pearl necklaces and wear them almost everyday!",
             "name": "- Kris"

@@ -18,9 +18,46 @@
     assign is_swatch = true
   endif
 
+  # If this facet is clearly the "Color" facet but the filter values don't
+  # include `value.swatch`, we still want the UI to behave like swatches.
+  assign label_downcase = filter.label | downcase
+  if filter.param_name contains 'color' or filter.param_name contains 'colour' or label_downcase contains 'color'
+    assign is_swatch = true
+  endif
+
+  # Metafield-based color facets might not provide `value.swatch`, but they often
+  # do provide the hex/color code in `value.value`.
+  assign is_color_code_facet = false
+  if filter.param_name contains 'color_code'
+    assign is_color_code_facet = true
+  elsif filter.param_name contains 'colour_code'
+    assign is_color_code_facet = true
+  elsif filter.param_name contains 'color-code'
+    assign is_color_code_facet = true
+  elsif filter.param_name contains 'colour-code'
+    assign is_color_code_facet = true
+  endif
+
+  if is_color_code_facet
+    assign is_swatch = true
+  endif
+
   assign is_image = false
   if filter.presentation == 'image'
     assign is_image = true
+  endif
+
+  # For "Color" facets we want a proper checkbox + color name (not swatch-only pills).
+  assign force_color_checkbox = false
+  if filter.param_name contains 'color'
+    assign force_color_checkbox = true
+  endif
+  if label_downcase contains 'color'
+    assign force_color_checkbox = true
+  endif
+
+  if force_color_checkbox
+    assign is_swatch = false
   endif
 %}
 
@@ -61,50 +98,80 @@
               class="facets__swatch-wrapper{% if active_value_count > 3 %} bubble facets__bubble{% endif %}"
               ref="facetStatus"
             >
-              {%- liquid
-                if active_value_count > 3
-                  echo active_value_count
-                elsif active_value_count > 0 and active_value_count <= 3
-                  for value in filter.active_values
-                    render 'swatch', swatch: value.swatch, mode: 'filter'
-                  endfor
-                endif
-              -%}
+              {% if active_value_count > 3 %}
+                {{ active_value_count }}
+              {% elsif active_value_count > 0 and active_value_count <= 3 %}
+                {% for value in filter.active_values %}
+                  {% if value.swatch %}
+                    {% render 'swatch', swatch: value.swatch, mode: 'filter' %}
+                  {% else %}
+                    {%- liquid
+                      assign raw_color = value.value | strip
+                      assign swatch_bg = 'transparent'
+                      assign is_hex_like = false
+
+                      if raw_color != blank
+                        if raw_color contains '#'
+                          assign swatch_bg = raw_color
+                          assign is_hex_like = true
+                        else
+                          assign raw_len = raw_color | size
+                          if raw_len == 3 or raw_len == 6 or raw_len == 8
+                            assign swatch_bg = '#' | append: raw_color
+                            assign is_hex_like = true
+                          endif
+                        endif
+                      endif
+                    -%}
+                    <span
+                      class="swatch swatch--filter{% unless is_hex_like %} swatch--unavailable{% endunless %}"
+                      style="--swatch-background: {{ swatch_bg }};"
+                    ></span>
+                  {% endif %}
+                {% endfor %}
+              {% endif %}
             </span>
           </facet-status-component>
         {% else %}
-          <facet-status-component
-            class="facets__status"
-            facet-type="list"
-            data-filter-style="{{ filter_style }}"
-          >
-            <span
-              class="
-                {%- if filter_style == 'horizontal' -%}
-                  {%- if active_value_count > 1 -%}
-                    bubble facets__bubble
-                  {%- endif -%}
-                {%- else -%}
-                  {%- if active_value_count > 0 -%}
-                    bubble facets__bubble
-                  {%- endif -%}
-                {%- endif %}
-                hide-when-empty
-              "
-              ref="facetStatus"
+          {% unless force_color_checkbox %}
+            <facet-status-component
+              class="facets__status"
+              facet-type="list"
+              data-filter-style="{{ filter_style }}"
             >
-              {%- liquid
-                if filter_style == 'horizontal' and active_value_count == 1
-                  echo filter.active_values[0].label
-                elsif active_value_count > 0
-                  echo active_value_count
-                endif
-              -%}
-            </span>
-          </facet-status-component>
+              <span
+                class="
+                  {%- if filter_style == 'horizontal' -%}
+                    {%- if active_value_count > 1 -%}
+                      bubble facets__bubble
+                    {%- endif -%}
+                  {%- else -%}
+                    {%- if active_value_count > 0 -%}
+                      bubble facets__bubble
+                    {%- endif -%}
+                  {%- endif %}
+                  hide-when-empty
+                "
+                ref="facetStatus"
+              >
+                {%- liquid
+                  if filter_style == 'horizontal' and active_value_count == 1
+                    echo filter.active_values[0].label
+                  elsif active_value_count > 0
+                    echo active_value_count
+                  endif
+                -%}
+              </span>
+            </facet-status-component>
+          {% endunless %}
         {% endif %}
-        <span class="svg-wrapper icon-caret icon-animated">
-          {{- 'icon-caret.svg' | inline_asset_content -}}
+        <span class="svg-wrapper icon-caret icon-animated facets__toggle-icon" aria-hidden="true">
+          <span class="facets__toggle-icon-plus">
+            {{- 'icon-plus.svg' | inline_asset_content -}}
+          </span>
+          <span class="facets__toggle-icon-minus">
+            {{- 'icon-minus.svg' | inline_asset_content -}}
+          </span>
         </span>
       </div>
     </summary>
@@ -156,6 +223,10 @@
           endfor
 
           if filter.type == 'boolean'
+            assign should_use_pills = false
+          endif
+
+          if force_color_checkbox
             assign should_use_pills = false
           endif
         %}
@@ -304,7 +375,32 @@
                           {% endif %}
                           ref="facetInputs[]"
                         >
-                        {% render 'swatch', swatch: value.swatch, mode: 'filter' %}
+                        {% if value.swatch %}
+                          {% render 'swatch', swatch: value.swatch, mode: 'filter' %}
+                        {% else %}
+                          {%- liquid
+                            assign raw_color = value.value | strip
+                            assign swatch_bg = 'transparent'
+                            assign is_hex_like = false
+
+                            if raw_color != blank
+                              if raw_color contains '#'
+                                assign swatch_bg = raw_color
+                                assign is_hex_like = true
+                              else
+                                assign raw_len = raw_color | size
+                                if raw_len == 3 or raw_len == 6 or raw_len == 8
+                                  assign swatch_bg = '#' | append: raw_color
+                                  assign is_hex_like = true
+                                endif
+                              endif
+                            endif
+                          -%}
+                          <span
+                            class="swatch swatch--filter{% unless is_hex_like %} swatch--unavailable{% endunless %}"
+                            style="--swatch-background: {{ swatch_bg }};"
+                          ></span>
+                        {% endif %}
                         {% if is_disabled %}
                           <svg
                             aria-hidden="true"
@@ -368,6 +464,12 @@
                       </label>
                     </div>
                   {% else %}
+                    {%- liquid
+                      assign swatch_bg = blank
+                      if force_color_checkbox
+                        assign swatch_bg = '#686A54'
+                      endif
+                    -%}
                     {% render 'checkbox',
                       name: value.param_name,
                       value: value.value,
@@ -376,6 +478,7 @@
                       id: input_id,
                       disabled: is_disabled,
                       inputRef: 'facetInputs[]',
+                      swatch_bg: swatch_bg,
                       events: 'on:pointerenter="/prefetchPage" on:pointerleave="/cancelPrefetchPage"'
                     %}
                   {% endif %}

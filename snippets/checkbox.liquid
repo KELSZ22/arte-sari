@@ -13,10 +13,14 @@
   @param {string} [inputRef] - input ref attribute for use with component framework
   @param {string} [labelRef] - label ref attribute for use with component framework
   @param {boolean} [autofocus] - whether the input should be autofocused
+  @param {string} [swatch_bg] - Optional hex/css color used to render a small swatch
 {%- enddoc -%}
 <div
-  class="checkbox{% if disabled %} checkbox--disabled{% endif %}"
+  class="checkbox{% if disabled %} checkbox--disabled{% endif %}{% if swatch_bg != blank %} checkbox--has-color{% endif %}"
   {{ events }}
+  {% if swatch_bg != blank %}
+    style="--checkbox-color: {{ swatch_bg }};"
+  {% endif %}
 >
   <input
     type="checkbox"

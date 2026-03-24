@@ -1,7 +1,10 @@
 
+
+
 * {
   box-sizing: border-box;
 }
+
 
 body {
   color: var(--color-foreground);
@@ -12,6 +15,7 @@ body {
   min-height: 100svh;
   font-variation-settings: 'slnt' 0;
 }
+
 
 :root {
   --hover-lift-amount: 4px;
@@ -76,6 +80,11 @@ select {
   height: 100%;
 }
 
+.shopify-section-header {
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+}
 /* Editorial layout */
 .resource-list:not(.hidden--desktop) .collection-card--flexible-aspect-ratio,
 .resource-list:not(.hidden--desktop) .blog-post-card--flexible-aspect-ratio {

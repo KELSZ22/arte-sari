@@ -46,7 +46,7 @@
         "announcement_Dt3ixm"
       ],
       "custom_css": [
-        "p{font-family: Agrandir !important;}"
+        "p {font-family: Agrandir !important;}"
       ],
       "name": "t:names.announcement_bar",
       "settings": {

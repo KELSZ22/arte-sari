@@ -319,12 +319,22 @@
 
 <script>
   (function () {
+    function shouldIgnoreDragStart(target) {
+      if (!(target instanceof Element)) return false;
+      return Boolean(
+        target.closest(
+          'a, button, input, select, textarea, .custom-quick-view-cta, .custom-quick-view, [role="button"]'
+        )
+      );
+    }
+
     function initDrag(el) {
       let isDown = false;
       let startX;
       let scrollLeft;
 
       el.addEventListener('mousedown', function (e) {
+        if (shouldIgnoreDragStart(e.target)) return;
         isDown = true;
         el.classList.add('is-dragging');
         startX = e.pageX - el.offsetLeft;

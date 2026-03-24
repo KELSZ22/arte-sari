@@ -119,9 +119,11 @@
     --featured-artisan-button-color: {{ section.settings.button_text_color }};
     --featured-artisan-subtitle-font: {{ subtitle_font_value }};
     --featured-artisan-subtitle-size: {{ section.settings.subtitle_font_size }}px;
+    --featured-artisan-subtitle-size-mobile: {{ section.settings.subtitle_font_size_mobile }}px;
     --featured-artisan-subtitle-weight: {{ section.settings.subtitle_font_weight }};
     --featured-artisan-title-font: {{ title_font_value }};
     --featured-artisan-title-size: {{ section.settings.title_font_size }}px;
+    --featured-artisan-title-size-mobile: {{ section.settings.title_font_size_mobile }}px;
     --featured-artisan-title-weight: {{ section.settings.title_font_weight }};
     --featured-artisan-text-font: {{ text_font_value }};
     --featured-artisan-text-size: {{ section.settings.text_font_size }}px;
@@ -203,25 +205,31 @@
         <!-- Product 1 -->
         <li class="featured-artisan__item">
           {% if product_1 != blank %}
-            {% assign collection_label_1 = product_1.metafields.custom.collection.value %}
-            <a href="{{ product_1.url }}" class="featured-artisan__card">
-              <span class="featured-artisan__card-image-wrap">
-                {% if product_1.featured_image != blank %}
-                  {{
-                    product_1.featured_image
-                    | image_url: width: 600
-                    | image_tag: class: 'featured-artisan__card-image', loading: 'lazy'
-                  }}
-                {% else %}
-                  <span class="featured-artisan__card-image featured-artisan__card-image--placeholder"></span>
+            {% assign collection_label_1 = product_1.metafields.custom.category.value %}
+              <a href="{{ product_1.url }}" class="featured-artisan__card">
+                <span class="featured-artisan__card-image-wrap">
+                  <div class="cardGalleryBorder">
+                  <div class="cardGalleryBorder2">
+                  <div class="cardGalleryBorder3">
+                  {% if product_1.featured_image != blank %}
+                    {{
+                      product_1.featured_image
+                      | image_url: width: 600
+                      | image_tag: class: 'featured-artisan__card-image', loading: 'lazy'
+                    }}
+                  {% else %}
+                    <span class="featured-artisan__card-image featured-artisan__card-image--placeholder"></span>
+                  {% endif %}
+                  </div>
+                  </div>
+                  </div>
+                </span>
+                {% if collection_label_1 != blank %}
+                  <span class="featured-artisan__card-collection-label">{{ collection_label_1 }}</span>
                 {% endif %}
-              </span>
-              {% if collection_label_1 != blank %}
-                <span class="featured-artisan__card-collection-label">{{ collection_label_1 }}</span>
-              {% endif %}
-              <span class="featured-artisan__card-title">{{ product_1.title }}</span>
-              <span class="featured-artisan__card-price">{{ product_1.price | money }}</span>
-            </a>
+                <span class="featured-artisan__card-title">{{ product_1.title }}</span>
+                <span class="featured-artisan__card-price">{{ product_1.price | money }}</span>
+              </a>
           {% else %}
             <div class="featured-artisan__card featured-artisan__card--placeholder">
               <span class="featured-artisan__card-image-wrap">
@@ -236,9 +244,12 @@
         <!-- Product 2 -->
         <li class="featured-artisan__item">
           {% if product_2 != blank %}
-            {% assign collection_label_2 = product_2.metafields.custom.collection.value %}
+            {% assign collection_label_2 = product_2.metafields.custom.category.value %}
             <a href="{{ product_2.url }}" class="featured-artisan__card">
               <span class="featured-artisan__card-image-wrap">
+                <div class="cardGalleryBorder">
+                <div class="cardGalleryBorder2">
+                <div class="cardGalleryBorder3">
                 {% if product_2.featured_image != blank %}
                   {{
                     product_2.featured_image
@@ -248,6 +259,9 @@
                 {% else %}
                   <span class="featured-artisan__card-image featured-artisan__card-image--placeholder"></span>
                 {% endif %}
+                </div>
+                </div>
+                </div>
               </span>
               {% if collection_label_2 != blank %}
                 <span class="featured-artisan__card-collection-label">{{ collection_label_2 }}</span>
@@ -286,6 +300,9 @@
                   {% assign collection_label_1 = product_1.metafields.custom.collection.value %}
                   <a href="{{ product_1.url }}" class="featured-artisan__card">
                     <span class="featured-artisan__card-image-wrap">
+                      <div class="cardGalleryBorder">
+                      <div class="cardGalleryBorder2">
+                      <div class="cardGalleryBorder3">
                       {% if product_1.featured_image != blank %}
                         {{
                           product_1.featured_image
@@ -295,6 +312,9 @@
                       {% else %}
                         <span class="featured-artisan__card-image featured-artisan__card-image--placeholder"></span>
                       {% endif %}
+                      </div>
+                      </div>
+                      </div>
                     </span>
                     {% if collection_label_1 != blank %}
                       <span class="featured-artisan__card-collection-label">{{ collection_label_1 }}</span>
@@ -319,6 +339,9 @@
                   {% assign collection_label_2 = product_2.metafields.custom.collection.value %}
                   <a href="{{ product_2.url }}" class="featured-artisan__card">
                     <span class="featured-artisan__card-image-wrap">
+                      <div class="cardGalleryBorder">
+                      <div class="cardGalleryBorder2">
+                      <div class="cardGalleryBorder3">
                       {% if product_2.featured_image != blank %}
                         {{
                           product_2.featured_image
@@ -328,6 +351,9 @@
                       {% else %}
                         <span class="featured-artisan__card-image featured-artisan__card-image--placeholder"></span>
                       {% endif %}
+                      </div>
+                      </div>
+                      </div>
                     </span>
                     {% if collection_label_2 != blank %}
                       <span class="featured-artisan__card-collection-label">{{ collection_label_2 }}</span>
@@ -441,7 +467,14 @@
     line-height: 1.2;
     color: var(--featured-artisan-title-color);
   }
-
+@media screen and (max-width: 750px) {
+  .featured-artisan__title {
+    font-size: var(--featured-artisan-title-size-mobile);
+  }
+  .featured-artisan__subtitle {
+    font-size: var(--featured-artisan-subtitle-size-mobile);
+  }
+}
   .featured-artisan__text {
     margin: 0 0 24px;
     font-family: var(--featured-artisan-text-font);
@@ -580,8 +613,12 @@
   }
 
   @media screen and (max-width: 749px) {
+    .featured-artisan__button {
+      width: 180px;
+    }
+
     .featured-artisan__inner {
-      padding: 24px 16px 32px 24px;
+      padding: 0;
     }
 
     .featured-artisan__background {
@@ -590,12 +627,13 @@
     }
 
     .featured-artisan__content {
+      padding: 24px 16px 32px 24px;
       padding-top: 250px;
     }
 
     .featured-artisan__text p {
       font-size: 14px;
-      padding-right: 90px;
+      padding-right: 120px;
     }
 
     .featured-artisan__products--desktop {
@@ -634,10 +672,11 @@
 
     .featured-artisan__products--mobile .featured-artisan__card {
       max-width: 100%;
-      background: white;
-      padding: 12px;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      text-align: left;
+      /* background: white; */
+      /* padding: 12px; */
+      /* border-radius: 8px; */
+      /* box-shadow: 0 2px 8px rgba(0,0,0,0.1); */
     }
   }
 
@@ -649,6 +688,27 @@
     .featured-artisan__products--mobile .featured-artisan__card {
       padding: 8px;
     }
+  }
+
+  
+  .featured-artisan__card-image-wrap .cardGalleryBorder,
+  .featured-artisan__card-image-wrap .cardGalleryBorder3 {
+      border: 10px solid #686A54;
+  }
+  .featured-artisan__card-image-wrap .cardGalleryBorder2 {
+      border: 1px solid #ffffff;
+  }
+  @media screen and (max-width: 750px) {
+      .featured-artisan__card-image-wrap .cardGalleryBorder,
+      .featured-artisan__card-image-wrap .cardGalleryBorder3 {
+          border: 5px solid #686A54;
+      }
+  }
+
+  @media screen and (max-width: 480px) {
+      .featured-artisan__mobile-paper-content {
+          margin-top: -50px;
+      }
   }
 {% endstylesheet %}
 
@@ -761,6 +821,16 @@
       "default": 12
     },
     {
+      "type": "range",
+      "id": "subtitle_font_size_mobile",
+      "label": "Subtitle font size Mobile",
+      "min": 10,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
       "type": "select",
       "id": "subtitle_font_weight",
       "label": "Subtitle font weight",
@@ -803,6 +873,16 @@
       "step": 2,
       "unit": "px",
       "default": 40
+    },
+    {
+      "type": "range",
+      "id": "title_font_size_mobile",
+      "label": "Title font size",
+      "min": 12,
+      "max": 120,
+      "step": 2,
+      "unit": "px",
+      "default": 38
     },
     {
       "type": "select",

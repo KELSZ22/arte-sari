@@ -3,9 +3,9 @@
   {% assign product_title = '<p>' | append: text | append: '</p>' %}
   {% render 'text', fallback_text: product_title, block: block %}
 {% else %}
-  {% assign collection_label = closest.product.metafields.custom.collection.value %}
+  {% assign collection_label = closest.product.metafields.custom.category.value %}
   {% if collection_label != blank %}
-    <span class="product-card__collection-label">{{ collection_label }}</span>
+    {% comment %} <p class="product-card__collection-label">{{ collection_label }}</p> {% endcomment %}
   {% endif %}
   {% assign product_title = '<p>' | append: closest.product.title | append: '</p>' %}
   
@@ -20,7 +20,7 @@
 {% stylesheet %}
   .product-card__collection-label {
     display: block;
-    font-size: 0.75em;
+    font-size: 16px;
     font-weight: 400;
     text-transform: uppercase;
     letter-spacing: 0.08em;

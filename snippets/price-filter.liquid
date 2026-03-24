@@ -22,6 +22,16 @@
     open-by-default-on-desktop
   {% endif %}
 >
+  <script
+    src="{{ 'price-range-slider.js' | asset_url }}"
+    type="module"
+    fetchpriority="low"
+  ></script>
+  <link
+    rel="stylesheet"
+    href="{{ 'price-range-slider.css' | asset_url }}"
+    media="all"
+  >
   <details
     class="facets__panel"
     {% if filter_style == 'horizontal' %}
@@ -35,12 +45,12 @@
       class="facets__summary"
       data-testid="price-filter"
     >
-      <span class="facets__label">{{ filter.label }}</span>
+      <span class="facets__label">{{ 'content.price_range' | t }}</span>
       <facet-status-component class="facets__status">
         <template ref="moneyFormat">{{ shop.money_format }}</template>
 
         <span
-          class="hide-when-empty"
+          class="hide-when-empty price-filter__range-summary"
           ref="facetStatus"
           data-currency="{{ localization.country.currency.iso_code }}"
           data-range-max="{{ filter.range_max | money_without_currency }}"
@@ -61,8 +71,13 @@
           {%- endif -%}
         </span>
       </facet-status-component>
-      <span class="svg-wrapper icon-caret icon-animated">
-        {{- 'icon-caret.svg' | inline_asset_content -}}
+      <span class="svg-wrapper icon-caret icon-animated facets__toggle-icon" aria-hidden="true">
+        <span class="facets__toggle-icon-plus">
+          {{- 'icon-plus.svg' | inline_asset_content -}}
+        </span>
+        <span class="facets__toggle-icon-minus">
+          {{- 'icon-minus.svg' | inline_asset_content -}}
+        </span>
       </span>
     </summary>
     <floating-panel-component
@@ -77,6 +92,7 @@
       <price-facet-component
         class="
           price-facet
+          price-facet--slider-ui
           {%- if filter_style == 'horizontal' %}
             price-facet--horizontal
           {%- endif %}
@@ -84,8 +100,38 @@
         id="facet-inputs-{{ filter.param_name | escape | replace: '.', '-' }}"
         data-money-format="{{ shop.money_format | strip_html }}"
         data-currency="{{ localization.country.currency.iso_code }}"
+        data-currency-symbol="{{ cart.currency.symbol | escape }}"
         on:change="/updatePriceFilterAndResults"
       >
+        <div
+          class="price-facet__slider"
+          data-price-range-slider
+          aria-hidden="true"
+        >
+          <div class="price-facet__track">
+            <span class="price-facet__fill" data-price-range-fill></span>
+          </div>
+          <input
+            type="range"
+            class="price-facet__range price-facet__range--min"
+            data-price-min
+            tabindex="0"
+            aria-label="Minimum price"
+          >
+          <input
+            type="range"
+            class="price-facet__range price-facet__range--max"
+            data-price-max
+            tabindex="0"
+            aria-label="Maximum price"
+          >
+        </div>
+
+        <div class="price-facet__values" aria-hidden="true">
+          <span class="price-facet__value" data-price-min-label></span>
+          <span class="price-facet__value" data-price-max-label></span>
+        </div>
+
         <div class="facets__inputs-wrapper facets__inputs-wrapper--row">
           <div
             class="price-facet__inputs-wrapper"
@@ -143,18 +189,6 @@
           </div>
         </div>
 
-        <div
-          class="
-            price-facet__highest-price
-            {%- if filter_style == 'horizontal' %}
-              price-facet__highest-price--horizontal
-            {%- endif %}
-          "
-        >
-          {%- assign formatted_highest_price = filter.range_max | money -%}
-          {{ 'content.price_filter_html' | t: price: formatted_highest_price }}
-        </div>
-
         {% if filter.min_value.value != null or filter.max_value.value != null %}
           {% assign has_active_values = true %}
         {% endif %}
@@ -197,6 +231,68 @@
     gap: calc(var(--gap-sm) + (var(--style-border-width-inputs) * 2));
   }
 
+  .price-facet__slider {
+    position: relative;
+    padding: var(--padding-sm) 0 var(--padding-xs);
+  }
+
+  .price-facet__track {
+    position: relative;
+    height: 3px;
+    border-radius: 999px;
+    background: rgb(var(--color-foreground-rgb) / var(--opacity-10-25));
+  }
+
+  .price-facet__fill {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    border-radius: 999px;
+    background: rgb(var(--color-foreground-rgb) / var(--opacity-60));
+    left: 0%;
+    width: 100%;
+  }
+
+  .price-facet__range {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    margin: 0;
+    background: transparent;
+    pointer-events: none;
+    appearance: none;
+  }
+
+  .price-facet__range::-webkit-slider-thumb {
+    appearance: none;
+    pointer-events: auto;
+    width: 14px;
+    height: 14px;
+    border-radius: 999px;
+    background: var(--color-background);
+    box-shadow: 0 0 0 2px rgb(var(--color-foreground-rgb) / var(--opacity-60));
+  }
+
+  .price-facet__range::-moz-range-thumb {
+    pointer-events: auto;
+    width: 14px;
+    height: 14px;
+    border: 0;
+    border-radius: 999px;
+    background: var(--color-background);
+    box-shadow: 0 0 0 2px rgb(var(--color-foreground-rgb) / var(--opacity-60));
+  }
+
+  .price-facet__range::-webkit-slider-runnable-track {
+    height: 3px;
+    background: transparent;
+  }
+
+  .price-facet__range::-moz-range-track {
+    height: 3px;
+    background: transparent;
+  }
+
   @container (max-width: 199px) {
     .price-facet__inputs-wrapper {
       flex-wrap: wrap;
@@ -220,19 +316,16 @@
     font-size: var(--font-paragraph--size);
   }
 
-  .price-facet__highest-price {
-    padding: var(--padding-xs) 0 var(--padding-sm);
-  }
-
-  .price-facet__highest-price--horizontal {
-    padding: 0 var(--padding-md) var(--padding-xs);
-  }
-
   .price-facet__label {
     top: 0;
     left: 0;
     color: var(--facets-input-label-color);
     padding: var(--input-padding-y) var(--input-padding-x);
     transform: none;
+  }
+
+  /* Don't show the numeric filtered price range in the summary when collapsed */
+  .facets__panel:not([open]) .price-filter__range-summary {
+    display: none;
   }
 {% endstylesheet %}
