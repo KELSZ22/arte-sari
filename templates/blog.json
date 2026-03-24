@@ -219,6 +219,7 @@
                 "background_media": "image",
                 "video_position": "cover",
                 "background_image": "shopify://shop_images/Frame_123.png",
+                "background_image_mobile": "shopify://shop_images/Frame_123_44e13df6-e237-4a0a-944e-1fac7cd903c2.png",
                 "background_image_position": "fit",
                 "border": "none",
                 "border_width": 1,
@@ -309,7 +310,7 @@
                       "name": "t:names.heading",
                       "settings": {
                         "custom_class": "custom-artisan-subtitle",
-                        "text": "<h2>The Genius of  Christian Cera</h2>",
+                        "text": "<h2>The Genius of Christian Cera</h2>",
                         "width": "fit-content",
                         "max_width": "normal",
                         "alignment": "center",
