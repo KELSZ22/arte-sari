@@ -5,7 +5,6 @@
   @param {object} [background_video] - The background video
   @param {string} [background_video_position] - The background video position
   @param {object} [background_image] - The background image
-  @param {object} [background_image_mobile] - The background image for mobile
   @param {string} [background_image_position] - The background image position
   @param {string} [placeholder] - The placeholder
   @param {object} [block] - The block object
@@ -104,20 +103,6 @@
           assign loading = 'eager'
         endif
       %}
-        {% if background_image_mobile != blank %}
-        {{
-          background_image
-          | image_url: width: 3840
-          | image_tag: sizes: sizes, widths: widths, loading: loading, fetchpriority: fetch_priority, class: 'background-image background-image--desktop'
-        }}
-        {{
-          background_image_mobile
-          | image_url: width: 3840
-          | image_tag: sizes: sizes, widths: widths, loading: loading, fetchpriority: fetch_priority, class: 'background-image background-image--mobile'
-        }}
-       {% endif %}
-      {% else %}
-
       {{
         background_image
         | image_url: width: 3840
@@ -134,23 +119,6 @@
 {% endif %}
 
 {% stylesheet %}
-  .background-image--desktop {
-    display: none;
-  }
-
-  .background-image--mobile {
-    display: block;
-  }
-
-  @media screen and (min-width: 750px) {
-    .background-image--desktop {
-      display: block;
-    }
-
-    .background-image--mobile {
-      display: none;
-    }
-  }
   @media (prefers-reduced-motion: reduce) {
     video-background-component video {
       display: none;

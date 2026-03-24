@@ -129,7 +129,6 @@
                 "background_media": "image",
                 "video_position": "cover",
                 "background_image": "shopify://shop_images/Frame_123.png",
-                "background_image_mobile": "shopify://shop_images/Frame_123.png",
                 "background_image_position": "fit",
                 "border": "none",
                 "border_width": 1,
