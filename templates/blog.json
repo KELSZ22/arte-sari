@@ -16,16 +16,17 @@
           "type": "text",
           "name": "Title",
           "settings": {
-            "custom_class": "",
-            "text": "<h1>BLOG</h1>",
+            "custom_class": "custom-blog-title",
+            "text": "<h1>blog</h1>",
             "width": "fit-content",
             "max_width": "narrow",
-            "alignment": "left",
+            "alignment": "center",
             "type_preset": "h2",
-            "font": "var(--font-primary--family)",
+            "font": "SS bruney",
             "font_size": "",
             "line_height": "normal",
             "letter_spacing": "normal",
+            "font_weight": 400,
             "case": "none",
             "wrap": "pretty",
             "color": "",
@@ -43,14 +44,14 @@
           "type": "text",
           "name": "t:names.text",
           "settings": {
-            "custom_class": "",
+            "custom_class": "custom-blog-description",
             "text": "<p>Stories of artistry and community</p>",
             "width": "fit-content",
             "max_width": "normal",
-            "alignment": "left",
+            "alignment": "center",
             "type_preset": "rte",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
+            "font": "Fraunces",
+            "font_size": "20px",
             "line_height": "normal",
             "letter_spacing": "normal",
             "case": "none",
@@ -115,7 +116,7 @@
               "static": true,
               "settings": {
                 "show_date": true,
-                "show_author": true,
+                "show_author": false,
                 "type_preset": "h1",
                 "alignment": "left",
                 "show_alignment": false,
@@ -145,14 +146,11 @@
           "block_order": []
         }
       },
-      "block_order": [
-        "title",
-        "text_6J76RX"
-      ],
+      "block_order": ["title", "text_6J76RX"],
       "settings": {
         "color_scheme": "",
         "padding-block-start": 0,
-        "padding-block-end": 48
+        "padding-block-end": 0
       }
     },
     "collection_list_eVKQzT": {
@@ -204,23 +202,24 @@
               "settings": {
                 "content_direction": "column",
                 "vertical_on_mobile": true,
-                "horizontal_alignment": "flex-start",
-                "vertical_alignment": "center",
+                "horizontal_alignment": "left",
+                "vertical_alignment": "left",
                 "align_baseline": false,
-                "horizontal_alignment_flex_direction_column": "flex-start",
+                "horizontal_alignment_flex_direction_column": "left",
                 "vertical_alignment_flex_direction_column": "center",
                 "gap": 12,
                 "width": "fill",
                 "custom_width": 100,
                 "width_mobile": "fill",
                 "custom_width_mobile": 100,
-                "height": "fit",
+                "height": "fill",
                 "custom_height": 100,
                 "inherit_color_scheme": true,
                 "color_scheme": "",
-                "background_media": "none",
+                "background_media": "image",
                 "video_position": "cover",
-                "background_image_position": "cover",
+                "background_image": "shopify://shop_images/Frame_123.png",
+                "background_image_position": "fit",
                 "border": "none",
                 "border_width": 1,
                 "border_opacity": 100,
@@ -234,114 +233,127 @@
                 "placeholder": "",
                 "padding-block-start": 0,
                 "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
+                "padding-inline-start": 100,
+                "padding-inline-end": 100
               },
               "blocks": {
-                "button_HCHQwD": {
-                  "type": "button",
-                  "name": "t:names.button",
+                "group_header_content": {
+                  "type": "group",
+                  "name": "Header Content",
                   "settings": {
-                    "label": "READ MORE",
-                    "link": "shopify://collections/all",
-                    "open_in_new_tab": false,
-                    "style_class": "button",
+                    "content_direction": "column",
+                    "vertical_on_mobile": true,
+                    "horizontal_alignment": "center",
+                    "vertical_alignment": "center",
+                    "align_baseline": false,
+                    "horizontal_alignment_flex_direction_column": "left",
+                    "vertical_alignment_flex_direction_column": "center",
+                    "gap": 12,
                     "width": "fit-content",
                     "custom_width": 100,
                     "width_mobile": "fit-content",
-                    "custom_width_mobile": 100
-                  },
-                  "blocks": {}
-                },
-                "text_378hUF": {
-                  "type": "text",
-                  "name": "t:names.heading",
-                  "settings": {
-                    "custom_class": "",
-                    "text": "<h2>The Genius of  Christian Cera</h2>",
-                    "width": "fit-content",
-                    "max_width": "normal",
-                    "alignment": "left",
-                    "type_preset": "rte",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "color": "var(--color-foreground)",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                },
-                "text_HLREdC": {
-                  "type": "text",
-                  "name": "t:names.heading",
-                  "settings": {
-                    "custom_class": "",
-                    "text": "<p>ARTISAN</p>",
-                    "width": "fit-content",
-                    "max_width": "normal",
-                    "alignment": "left",
-                    "type_preset": "rte",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "color": "var(--color-foreground)",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                },
-                "image_nHND9g": {
-                  "type": "image",
-                  "name": "t:names.image",
-                  "settings": {
-                    "image": "shopify://shop_images/Frame_123.png",
-                    "link": "",
-                    "image_ratio": "adapt",
-                    "width": "fill",
-                    "custom_width": 100,
-                    "width_mobile": "fill",
                     "custom_width_mobile": 100,
                     "height": "fit",
+                    "custom_height": 100,
+                    "inherit_color_scheme": true,
+                    "color_scheme": "",
+                    "background_media": "none",
+                    "video_position": "cover",
+                    "background_image_position": "cover",
                     "border": "none",
                     "border_width": 1,
                     "border_opacity": 100,
                     "border_radius": 0,
+                    "toggle_overlay": false,
+                    "overlay_color": "#00000026",
+                    "overlay_style": "solid",
+                    "gradient_direction": "to top",
+                    "link": "",
+                    "open_in_new_tab": false,
+                    "placeholder": "",
                     "padding-block-start": 0,
                     "padding-block-end": 0,
-                    "padding-inline-start": 0,
+                    "padding-inline-start": 100,
                     "padding-inline-end": 0
                   },
-                  "blocks": {}
+                  "blocks": {
+                    "text_HLREdC": {
+                      "type": "text",
+                      "name": "t:names.heading",
+                      "settings": {
+                        "custom_class": "custom-artisan-title",
+                        "text": "<h1>ARTISAN</h1>",
+                        "width": "fit-content",
+                        "max_width": "normal",
+                        "alignment": "center",
+                        "type_preset": "rte",
+                        "font": "var(--font-body--family)",
+                        "font_size": "24px",
+                        "line_height": "normal",
+                        "letter_spacing": "normal",
+                        "case": "none",
+                        "wrap": "pretty",
+                        "color": "#F4ECE6",
+                        "background": false,
+                        "background_color": "#00000026",
+                        "corner_radius": 0,
+                        "padding-block-start": 0,
+                        "padding-block-end": 12,
+                        "padding-inline-start": 0,
+                        "padding-inline-end": 0
+                      },
+                      "blocks": {}
+                    },
+                    "text_378hUF": {
+                      "type": "text",
+                      "name": "t:names.heading",
+                      "settings": {
+                        "custom_class": "custom-artisan-subtitle",
+                        "text": "<h2>The Genius of  Christian Cera</h2>",
+                        "width": "fit-content",
+                        "max_width": "normal",
+                        "alignment": "center",
+                        "type_preset": "rte",
+                        "font": "var(--font-body--family)",
+                        "font_size": "48px",
+                        "line_height": "normal",
+                        "letter_spacing": "normal",
+                        "case": "none",
+                        "wrap": "pretty",
+                        "color": "#F4ECE6",
+                        "background": false,
+                        "background_color": "#00000026",
+                        "corner_radius": 0,
+                        "padding-block-start": 0,
+                        "padding-block-end": 12,
+                        "padding-inline-start": 0,
+                        "padding-inline-end": 0
+                      },
+                      "blocks": {}
+                    },
+                    "button_HCHQwD": {
+                      "type": "button",
+                      "name": "t:names.button",
+                      "settings": {
+                        "label": "READ MORE",
+                        "link": "shopify://collections/all",
+                        "open_in_new_tab": false,
+                        "style_class": "button",
+                        "width": "fit-content",
+                        "custom_width": 100,
+                        "width_mobile": "fit-content",
+                        "custom_width_mobile": 100
+                      },
+                      "blocks": {}
+                    }
+                  },
+                  "block_order": ["text_HLREdC", "text_378hUF", "button_HCHQwD"]
                 }
               },
-              "block_order": [
-                "button_HCHQwD",
-                "text_378hUF",
-                "text_HLREdC",
-                "image_nHND9g"
-              ]
+              "block_order": ["group_header_content"]
             }
           },
-          "block_order": [
-            "group_6yGH6L"
-          ]
+          "block_order": ["group_6yGH6L"]
         },
         "static-collection-card": {
           "type": "_collection-card",
@@ -403,14 +415,10 @@
               "blocks": {}
             }
           },
-          "block_order": [
-            "collection_title_iWyhWV"
-          ]
+          "block_order": ["collection_title_iWyhWV"]
         }
       },
-      "block_order": [
-        "group_gGC7XM"
-      ],
+      "block_order": ["group_gGC7XM"],
       "name": "t:names.collections_grid",
       "settings": {
         "collection_list": [],
@@ -426,15 +434,12 @@
         "icons_style": "arrow",
         "icons_shape": "none",
         "section_width": "page-width",
-        "gap": 12,
+        "gap": 32,
         "color_scheme": "",
-        "padding-block-start": 48,
+        "padding-block-start": 0,
         "padding-block-end": 48
       }
     }
   },
-  "order": [
-    "main",
-    "collection_list_eVKQzT"
-  ]
+  "order": ["main", "collection_list_eVKQzT"]
 }
