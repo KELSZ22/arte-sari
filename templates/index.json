@@ -223,7 +223,7 @@
         "subheading_color": "#f4ece6",
         "text_alignment": "center",
         "collection": "frontpage",
-        "products_to_show": 5,
+        "products_to_show": 20,
         "columns": 5,
         "background_image": "shopify://shop_images/Frame121_3.png",
         "background_image_mobile": "shopify://shop_images/fav-mobile-bg.webp",
