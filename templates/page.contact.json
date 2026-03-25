@@ -152,20 +152,21 @@
       "type": "new-contact",
       "name": "Contact Section",
       "settings": {
-        "heading": "CONTACT",
+        "heading": "contAct",
         "subtext": "Feel free to reach out to us whether this is about an order inquiry or a collaboration idea, we'd love to hear it! Alternatively, you may reach us at artesari.wfa@gmail.com",
         "email_recipient": "artesari.wfa@gmail.com"
       }
     },
     "contact_details_PMqnyY": {
       "type": "contact-details",
+      "custom_css": [],
       "name": "Contact Details",
       "settings": {
         "left_image": "shopify://shop_images/202506_ASDelRay-21_1.png",
         "background_image": "shopify://shop_images/acd64bea08c97c90b99b6d2f2e83a883125cbfcd_1.jpg",
         "heading": "Arte Sari is run mostly by the founder with a small team, and we do our best to reply and process orders within our business hours.",
         "description": "",
-        "hours_label": "Business Hours",
+        "hours_label": "Business Schedule",
         "hours_value": "Monday – Friday            11:00AM-8:00PM",
         "location_label": "Location",
         "location_value": "Virginia, USA"

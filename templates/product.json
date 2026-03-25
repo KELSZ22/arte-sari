@@ -548,6 +548,9 @@
         "review_QE3Wmw",
         "review_MgG9AA"
       ],
+      "custom_css": [
+        ".review-text {letter-spacing: 0px;}"
+      ],
       "name": "Static Reviews",
       "settings": {
         "heading": "REVIEWS"
@@ -678,7 +681,8 @@
         "text_cbcgyb"
       ],
       "custom_css": [
-        ".section-resource-list__content {text-align: center; align-items: center;}"
+        ".section-resource-list__content {text-align: center; align-items: center;}",
+        ".price {font-size: 16px !important;}"
       ],
       "name": "t:names.product_recommendations",
       "settings": {
