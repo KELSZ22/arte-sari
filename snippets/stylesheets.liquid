@@ -40,8 +40,21 @@
       background-position: top left;
     }
 
-    main.content-for-layout,
-    body.article-page-bg #MainContent {
+    main.content-for-layout {
+      background: transparent !important;
+    }
+
+    /*
+      Blog post (article): section + inner wrapper use flat #f4ece6, which hides the repeating pattern.
+      Let the wallpaper show through like other mobile pages.
+    */
+    body.article-page-bg #MainContent .shopify-section > .section-background,
+    body.article-page-bg #MainContent .shopify-section > .section {
+      background-color: transparent !important;
+      background-image: none !important;
+    }
+
+    body.article-page-bg #MainContent .blog-post-article-background {
       background: transparent !important;
     }
   }

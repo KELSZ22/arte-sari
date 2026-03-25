@@ -108,6 +108,56 @@
     </div>
     {%- content_for 'block', id: 'blog-post-content', type: '_blog-post-content' %}
 
+    {% liquid
+      comment
+        Shopify names the blog post object `article` in Liquid; it is the current blog post.
+      endcomment
+      assign blog_post_featured_product = blank
+      assign featured_mf = article.metafields.custom.featured_product
+      if featured_mf != blank
+        assign blog_post_featured_product = featured_mf.value
+        if featured_mf.list?
+          assign blog_post_featured_product = featured_mf.value.first
+        endif
+      endif
+      if blog_post_featured_product == blank
+        assign blog_fp_mf = blog.metafields.custom.featured_product
+        if blog_fp_mf != blank
+          assign blog_post_featured_product = blog_fp_mf.value
+          if blog_fp_mf.list?
+            assign blog_post_featured_product = blog_fp_mf.value.first
+          endif
+        endif
+      endif
+      comment
+        Metafields missing in admin: tag the blog post feat_<handle> (product URL slug).
+      endcomment
+      if blog_post_featured_product == blank
+        for tag in article.tags
+          assign feat_prefix = tag | slice: 0, 5
+          if feat_prefix == 'feat_'
+            assign feat_handle = tag | remove_first: 'feat_'
+            if feat_handle != blank
+              assign blog_post_featured_product = all_products[feat_handle]
+              if blog_post_featured_product != blank
+                break
+              endif
+            endif
+          endif
+        endfor
+      endif
+      if blog_post_featured_product == blank
+        assign blog_post_featured_product = section.settings.article_featured_product_fallback
+      endif
+    %}
+    {% if section.settings.show_article_featured_product %}
+      {% render 'custom-article-featured-product',
+        featured_product: blog_post_featured_product,
+        blog_post: article,
+        instagram_url: section.settings.article_share_instagram_url
+      %}
+    {% endif %}
+
     {% comment %} Dynamic area for @app blocks only, at the bottom {% endcomment %}
     {% content_for 'blocks' %}
 
@@ -401,6 +451,35 @@
       "type": "image_picker",
       "id": "header_image",
       "label": "Header image"
+    },
+    {
+      "type": "header",
+      "content": "Featured product (below blog post)"
+    },
+    {
+      "type": "paragraph",
+      "content": "Per blog post: add tag feat_<product-handle> (example: feat_linens-tote). Handle = last part of the product’s admin URL. Or metafield custom.featured_product (Blog posts) under Settings → Custom data → Blog posts (pin definition if needed)."
+    },
+    {
+      "type": "paragraph",
+      "content": "If no tag or metafield, Fallback product below applies to every blog post."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_article_featured_product",
+      "label": "Show featured product card",
+      "default": true
+    },
+    {
+      "type": "product",
+      "id": "article_featured_product_fallback",
+      "label": "Fallback product"
+    },
+    {
+      "type": "url",
+      "id": "article_share_instagram_url",
+      "label": "Instagram profile URL (share row)",
+      "info": "Shown next to Facebook under the product card. Leave blank to hide the Instagram icon."
     },
     {
       "type": "header",
