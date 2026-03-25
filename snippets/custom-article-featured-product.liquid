@@ -1,0 +1,110 @@
+{%- doc -%}
+  Featured product card + share row for a blog post.
+  Product: blog post metafield custom.featured_product, blog metafield, blog post tag feat_<handle>, section fallback.
+  Eyebrow line: product metafield custom.category, else vendor.
+  Param `blog_post` is Shopify’s `article` object for the current post.
+{%- enddoc -%}
+
+{% liquid
+  assign blog_post_share_url = shop.url | append: blog_post.url
+%}
+
+<div class="custom-article-featured-product" data-custom-article-featured-product>
+  {% if featured_product != blank %}
+    {% liquid
+      assign feat_alt = featured_product.featured_media.alt | default: featured_product.title
+    %}
+    <div class="custom-article-featured-product__card">
+      <a
+        class="custom-article-featured-product__media"
+        href="{{ featured_product.url }}"
+        aria-label="{{ featured_product.title | escape }}"
+      >
+        {%- if featured_product.featured_media != blank -%}
+          {{
+            featured_product.featured_media
+            | image_url: width: 800
+            | image_tag:
+              loading: 'lazy',
+              class: 'custom-article-featured-product__image',
+              widths: '200, 400, 600, 800',
+              sizes: '(min-width: 750px) 280px, 100vw',
+              alt: feat_alt
+          }}
+        {%- endif -%}
+      </a>
+      <div class="custom-article-featured-product__body">
+        {% liquid
+          assign feat_category = featured_product.metafields.custom.category.value
+          assign feat_category_label = ''
+          if feat_category != blank
+            if feat_category.title != blank
+              assign feat_category_label = feat_category.title
+            elsif feat_category.name != blank
+              assign feat_category_label = feat_category.name
+            else
+              assign feat_category_label = feat_category
+            endif
+          endif
+        %}
+        {% if feat_category_label != blank %}
+          <p class="custom-article-featured-product__vendor">{{ feat_category_label | upcase }}</p>
+        {% elsif featured_product.vendor != blank %}
+          <p class="custom-article-featured-product__vendor">{{ featured_product.vendor | upcase }}</p>
+        {% endif %}
+        <h2 class="custom-article-featured-product__title">
+          <a href="{{ featured_product.url }}">{{ featured_product.title }}</a>
+        </h2>
+        <div class="custom-article-featured-product__price-row">
+          <p class="custom-article-featured-product__price">
+            {{ featured_product.price | money }}
+          </p>
+          {% if featured_product.compare_at_price > featured_product.price %}
+            <span class="custom-article-featured-product__sale-badge">
+              {{- 'blogs.article.featured_product_sale' | t -}}
+            </span>
+          {% endif %}
+        </div>
+        <a class="custom-article-featured-product__cta" href="{{ featured_product.url }}">
+          {{- 'blogs.article.featured_product_buy_now' | t -}}
+        </a>
+      </div>
+    </div>
+  {% elsif request.design_mode %}
+    <div class="custom-article-featured-product__editor-note" role="status">
+      {{- 'blogs.article.featured_product_editor_empty' | t -}}
+    </div>
+  {% endif %}
+
+  <div class="custom-article-featured-product__share">
+    <p class="custom-article-featured-product__share-heading">
+      {{- 'blogs.article.featured_product_share_heading' | t -}}
+    </p>
+    <div class="custom-article-featured-product__share-icons">
+      <a
+        href="https://www.facebook.com/sharer/sharer.php?u={{ blog_post_share_url | url_encode }}"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="custom-article-featured-product__share-link"
+        aria-label="{{ 'blogs.article.share_facebook' | t }}"
+      >
+        <svg aria-hidden="true" focusable="false" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          {%- render 'icon', icon: 'facebook' -%}
+        </svg>
+      </a>
+      {% if instagram_url != blank %}
+        <a
+          href="{{ instagram_url }}"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="custom-article-featured-product__share-link"
+          aria-label="{{ 'blogs.article.share_instagram' | t }}"
+        >
+          <svg aria-hidden="true" focusable="false" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            {%- render 'icon', icon: 'instagram' -%}
+          </svg>
+        </a>
+      {% endif %}
+    </div>
+  </div>
+</div>

@@ -2,7 +2,6 @@
   --collection-page-bg: #f4ece5;
   --collection-page-bg-rgb: 244 236 229;
 }
-
 .custom-artisan-title,
 .custom-artisan-title :is(h1, h2, h3, h4, h5, h6, p, span) {
   color: #f4ece6 !important;

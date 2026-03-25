@@ -134,7 +134,13 @@
         "one": "{{ count }} comment",
         "other": "{{ count }} comments"
       },
-      "comment_author_separator": "•"
+      "comment_author_separator": "•",
+      "featured_product_buy_now": "Buy now",
+      "featured_product_sale": "Sale",
+      "featured_product_share_heading": "Share this story",
+      "share_facebook": "Share on Facebook",
+      "share_instagram": "Open Instagram",
+      "featured_product_editor_empty": "No featured product for this blog post. Add a tag: feat_ plus the product handle (e.g. feat_pumpkin-midi), set the Featured Product metafield if your admin shows it, or pick Fallback product in this section."
     },
     "comment_form": {
       "email": "Email",

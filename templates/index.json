@@ -211,7 +211,6 @@
       ],
       "name": "Collection showcase",
       "settings": {
-        "enable_border123": true,
         "heading": "SUKI FAVORITES",
         "subheading": "Most loved by our loyal customers",
         "heading_font_family": "facelio",
@@ -365,13 +364,13 @@
         "product_price_color": "#969696",
         "product_1": "product-1",
         "product_2": "pumpkin-midi-10",
-        "products_padding_top": 80,
+        "products_padding_top": 0,
         "products_padding_bottom": 0,
         "products_padding_left": 0,
         "products_padding_right": 0,
         "mobile_paper_image": "shopify://shop_images/featured_artisan_white_texture_be658701-5d63-47a4-9803-f7b1e1bd07c8.png",
         "mobile_paper_max_width": 400,
-        "background_image": "shopify://shop_images/Frame_145.png",
+        "background_image": "shopify://shop_images/Featured_Artisan_Background_84ef41de-5d9d-47e6-a67f-7c8c831e2523.png",
         "background_image_mobile": "shopify://shop_images/featured_artisan_background.png",
         "background_overlay": 0,
         "background_size": "100% 100%",
@@ -571,6 +570,9 @@
         "grid_item_rNwmRp",
         "grid_item_haWcpf",
         "grid_item_yphpGy"
+      ],
+      "custom_css": [
+        "h2 {letter-spacing: 1px;}"
       ],
       "name": "Genuine Connections",
       "settings": {

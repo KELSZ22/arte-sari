@@ -87,6 +87,9 @@
         "gap": 32,
         "header_image": "shopify://shop_images/Frame_123.png",
         "color_scheme": "",
+        "show_article_featured_product": true,
+        "article_featured_product_fallback": "",
+        "article_share_instagram_url": "",
         "padding-block-start": 40,
         "padding-block-end": 80
       }
