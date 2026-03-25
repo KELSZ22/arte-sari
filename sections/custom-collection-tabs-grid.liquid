@@ -143,26 +143,24 @@
             <ul class="custom-collection-tabs-grid__products" role="list">
               {% if tab_collection != blank and tab_collection.products_count > 0 %}
                 {% for product in tab_collection.products limit: 8 %}
-                  {% comment %} {% assign collection_label = product.metafields.custom.category.value %} {% endcomment %}
+                  {% assign collection_label = product.metafields.custom.category.value %}
                   <li class="custom-collection-tabs-grid__item">
-                    <div style="position: relative;">
-                    <a href="{{ product.url }}" class="custom-collection-tabs-grid__fallback-card">
-                      {% if product.featured_image != blank %}
-                        <div class="custom-collection-tabs-grid__image">
+                    {% if product.featured_image != blank %}
+                      <div class="custom-collection-tabs-grid__image">
+                        <a href="{{ product.url }}">
                           <div class="cardGalleryBorderInner"></div>
                           {{
                             product.featured_image
                             | image_url: width: 900
                             | image_tag: class: 'custom-collection-tabs-grid__fallback-image', loading: 'lazy'
                           }}
-                        </div>
-                      {% endif %}
-                      {% if collection_label != blank %}
-                        <span class="custom-collection-tabs-grid__collection-label">{{ collection_label }}</span>
-                      {% endif %}
-                    </a>
-                          {% render 'custom-quick-view-cta', product: product %}
-                    </div>
+                        </a>
+                        {% render 'custom-quick-view-cta', product: product %}
+                      </div>
+                    {% endif %}
+                    {% if collection_label != blank %}
+                      <span class="custom-collection-tabs-grid__collection-label">{{ collection_label }}</span>
+                    {% endif %}
                     <a href="{{ product.url }}" class="custom-collection-tabs-grid__fallback-card">
                       <span class="custom-collection-tabs-grid__fallback-title">{{ product.title }}</span>
                       <span class="custom-collection-tabs-grid__fallback-price">{{ product.price | money }}</span>
@@ -184,14 +182,14 @@
 
             {% if block.settings.button_label != blank %}
             <div class="custom-collection-tabs-grid__footer">
-              
+              <a
+                class="button custom-collection-tabs-grid__button"
                 {% if block.settings.button_link != blank %}
-                <a  href="{{ block.settings.button_link }}"
+                  href="{{ block.settings.button_link }}"
                 {% else %}
                   role="link"
                   aria-disabled="true"
                 {% endif %}
-                class="button custom-collection-tabs-grid__button"
               >
                 {{ block.settings.button_label }}
               </a>
@@ -493,7 +491,14 @@
     }
   }
   .custom-collection-tabs-grid__image {
+    position: relative;
     margin-bottom: 5px;
+  }
+
+  .custom-collection-tabs-grid__image .custom-quick-view {
+    left: 0;
+    right: 0;
+    bottom: 10px;
   }
 {% endstylesheet %}
 
