@@ -31,7 +31,7 @@
   endif
 %}
 
-<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<div class="ccs section-background color-{{ section.settings.color_scheme }}"></div>
 <section
   class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }} custom-collection-showcase spacing-style"
   style="
@@ -151,6 +151,12 @@
 </section>
 
 {% stylesheet %}
+.product-title .text-block p {
+  font-size: 20px;
+}
+.paragraph.price>* {
+  font-size: 16px;
+}
   @font-face {
     font-family: 'Agrandir';
     src: url('https://cdn.shopify.com/s/files/1/0728/1321/5942/files/Agrandir-Regular.woff2?v=1771643523') format('woff2');

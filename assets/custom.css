@@ -979,3 +979,8 @@ html .card-gallery .cardGalleryBorderInner,
 .checkbox--has-color .icon-checkmark path {
   stroke: #fff;
 }
+
+
+.menu-list__link {
+  font-size: 16px !important;
+}
