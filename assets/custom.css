@@ -322,6 +322,10 @@ main.content-for-layout {
   padding-block-end: clamp(3rem, 7vw, 5.5rem);
 }
 
+main.content-for-layout[data-template="page.contact"] {
+  padding-block-end: 0;
+}
+
 /* CUSTOM MODAL */
 .custom-modal {
   position: fixed;
