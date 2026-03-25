@@ -423,6 +423,12 @@ main.content-for-layout[data-template="page.contact"] {
 .qv-inner > *:not(:last-child) {
   margin-bottom: 2rem;
 }
+.qv-inner > .qv-product-description {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 10 !important;
+}
 .qv-interactions {
   display: grid;
   grid-template-columns: 1fr 3fr;
@@ -458,7 +464,7 @@ main.content-for-layout[data-template="page.contact"] {
   font-size: 16px;
   color: #969696;
 }
-.qv-product-description {
+.qv-selectors .qv-product-description {
   font-family: Fraunces2, serif;
   line-height: 1.5;
   font-size: 18px;
@@ -559,11 +565,13 @@ main.content-for-layout[data-template="page.contact"] {
   leading-trim: NONE !important;
   line-height: 100% !important;
   letter-spacing: 6% !important;
-  color: #969696 !important;
+  color: #303030 !important;
 }
 .qv-quantity-selector .qty-decrease,
 .qv-quantity-selector .qty-increase {
   cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
 }
 .qv-quantity-selector .qty-input {
   /* border-left: 0;
@@ -571,7 +579,7 @@ main.content-for-layout[data-template="page.contact"] {
   width: 50px;
   text-align: center;
   cursor: initial;
-  font-size: 14px;
+  font-size: 16px;
 }
 .qv-quantity-selector .qty-input:focus {
   outline: none;
@@ -983,7 +991,6 @@ html .card-gallery .cardGalleryBorderInner,
 .checkbox--has-color .icon-checkmark path {
   stroke: #fff;
 }
-
 
 .menu-list__link {
   font-size: 16px !important;
