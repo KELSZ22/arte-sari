@@ -102,12 +102,16 @@
   else
     assign mobile_paper_src = nil
   endif
+
+  if section.settings.paper_image_desktop != blank
+    assign paper_desktop_src = section.settings.paper_image_desktop | image_url: width: 1200
+  else
+    assign paper_desktop_src = 'paper-overlay.png' | asset_url
+  endif
 %}
 
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
-<section
-  class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }} featured-artisan spacing-style"
-  style="
+<section class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }} featured-artisan spacing-style" style="
     {% render 'spacing-style', settings: section.settings %}
     --featured-artisan-overlay: {{ overlay_opacity }};
     --featured-artisan-bg-size: {{ section.settings.background_size }};
@@ -163,9 +167,19 @@
     {% else %}
       --featured-artisan-bg-image-mobile: var(--featured-artisan-bg-image);
     {% endif %}
-  "
->
+  ">
   <div class="featured-artisan__background"></div>
+  {% if paper_desktop_src != blank %}
+    <div class="featured-artisan__paper" aria-hidden="true">
+      <img
+        class="featured-artisan__paper-image"
+        src="{{ paper_desktop_src }}"
+        loading="lazy"
+        alt=""
+        width="1200"
+        height="1200">
+    </div>
+  {% endif %}
 
   <div class="featured-artisan__inner">
     <div class="featured-artisan__content">
@@ -187,13 +201,12 @@
         <div class="featured-artisan__footer">
           <a
             {% if section.settings.button_link != blank %}
-              href="{{ section.settings.button_link }}"
+            href="{{ section.settings.button_link }}"
             {% else %}
-              role="link"
-              aria-disabled="true"
+            role="link"
+            aria-disabled="true"
             {% endif %}
-            class="featured-artisan__button"
-          >
+            class="featured-artisan__button">
             {{ section.settings.button_label }}
           </a>
         </div>
@@ -206,30 +219,28 @@
         <li class="featured-artisan__item">
           {% if product_1 != blank %}
             {% assign collection_label_1 = product_1.metafields.custom.category.value %}
-              <a href="{{ product_1.url }}" class="featured-artisan__card">
-                <span class="featured-artisan__card-image-wrap">
-                  <div class="cardGalleryBorder">
+            <a href="{{ product_1.url }}" class="featured-artisan__card">
+              <span class="featured-artisan__card-image-wrap">
+                <div class="cardGalleryBorder">
                   <div class="cardGalleryBorder2">
-                  <div class="cardGalleryBorder3">
-                  {% if product_1.featured_image != blank %}
-                    {{
-                      product_1.featured_image
-                      | image_url: width: 600
-                      | image_tag: class: 'featured-artisan__card-image', loading: 'lazy'
-                    }}
-                  {% else %}
-                    <span class="featured-artisan__card-image featured-artisan__card-image--placeholder"></span>
-                  {% endif %}
+                    <div class="cardGalleryBorder3">
+                      {% if product_1.featured_image != blank %}
+                        {{
+                          product_1.featured_image | image_url: width: 600 | image_tag: class: 'featured-artisan__card-image', loading: 'lazy'
+                        }}
+                      {% else %}
+                        <span class="featured-artisan__card-image featured-artisan__card-image--placeholder"></span>
+                      {% endif %}
+                    </div>
                   </div>
-                  </div>
-                  </div>
-                </span>
-                {% if collection_label_1 != blank %}
-                  <span class="featured-artisan__card-collection-label">{{ collection_label_1 }}</span>
-                {% endif %}
-                <span class="featured-artisan__card-title">{{ product_1.title }}</span>
-                <span class="featured-artisan__card-price">{{ product_1.price | money }}</span>
-              </a>
+                </div>
+              </span>
+              {% if collection_label_1 != blank %}
+                <span class="featured-artisan__card-collection-label">{{ collection_label_1 }}</span>
+              {% endif %}
+              <span class="featured-artisan__card-title">{{ product_1.title }}</span>
+              <span class="featured-artisan__card-price">{{ product_1.price | money }}</span>
+            </a>
           {% else %}
             <div class="featured-artisan__card featured-artisan__card--placeholder">
               <span class="featured-artisan__card-image-wrap">
@@ -240,7 +251,7 @@
             </div>
           {% endif %}
         </li>
-        
+
         <!-- Product 2 -->
         <li class="featured-artisan__item">
           {% if product_2 != blank %}
@@ -248,19 +259,17 @@
             <a href="{{ product_2.url }}" class="featured-artisan__card">
               <span class="featured-artisan__card-image-wrap">
                 <div class="cardGalleryBorder">
-                <div class="cardGalleryBorder2">
-                <div class="cardGalleryBorder3">
-                {% if product_2.featured_image != blank %}
-                  {{
-                    product_2.featured_image
-                    | image_url: width: 600
-                    | image_tag: class: 'featured-artisan__card-image', loading: 'lazy'
-                  }}
-                {% else %}
-                  <span class="featured-artisan__card-image featured-artisan__card-image--placeholder"></span>
-                {% endif %}
-                </div>
-                </div>
+                  <div class="cardGalleryBorder2">
+                    <div class="cardGalleryBorder3">
+                      {% if product_2.featured_image != blank %}
+                        {{
+                          product_2.featured_image | image_url: width: 600 | image_tag: class: 'featured-artisan__card-image', loading: 'lazy'
+                        }}
+                      {% else %}
+                        <span class="featured-artisan__card-image featured-artisan__card-image--placeholder"></span>
+                      {% endif %}
+                    </div>
+                  </div>
                 </div>
               </span>
               {% if collection_label_2 != blank %}
@@ -290,8 +299,7 @@
             class="featured-artisan__mobile-paper-image"
             loading="lazy"
             width="800"
-            height="auto"
-          >
+            height="auto">
           <div class="featured-artisan__mobile-paper-content">
             <ul class="featured-artisan__products featured-artisan__products--mobile" role="list">
               <!-- Product 1 (mobile) -->
@@ -301,19 +309,17 @@
                   <a href="{{ product_1.url }}" class="featured-artisan__card">
                     <span class="featured-artisan__card-image-wrap">
                       <div class="cardGalleryBorder">
-                      <div class="cardGalleryBorder2">
-                      <div class="cardGalleryBorder3">
-                      {% if product_1.featured_image != blank %}
-                        {{
-                          product_1.featured_image
-                          | image_url: width: 600
-                          | image_tag: class: 'featured-artisan__card-image', loading: 'lazy'
-                        }}
-                      {% else %}
-                        <span class="featured-artisan__card-image featured-artisan__card-image--placeholder"></span>
-                      {% endif %}
-                      </div>
-                      </div>
+                        <div class="cardGalleryBorder2">
+                          <div class="cardGalleryBorder3">
+                            {% if product_1.featured_image != blank %}
+                              {{
+                                product_1.featured_image | image_url: width: 600 | image_tag: class: 'featured-artisan__card-image', loading: 'lazy'
+                              }}
+                            {% else %}
+                              <span class="featured-artisan__card-image featured-artisan__card-image--placeholder"></span>
+                            {% endif %}
+                          </div>
+                        </div>
                       </div>
                     </span>
                     {% if collection_label_1 != blank %}
@@ -332,7 +338,7 @@
                   </div>
                 {% endif %}
               </li>
-              
+
               <!-- Product 2 (mobile) -->
               <li class="featured-artisan__item">
                 {% if product_2 != blank %}
@@ -340,19 +346,17 @@
                   <a href="{{ product_2.url }}" class="featured-artisan__card">
                     <span class="featured-artisan__card-image-wrap">
                       <div class="cardGalleryBorder">
-                      <div class="cardGalleryBorder2">
-                      <div class="cardGalleryBorder3">
-                      {% if product_2.featured_image != blank %}
-                        {{
-                          product_2.featured_image
-                          | image_url: width: 600
-                          | image_tag: class: 'featured-artisan__card-image', loading: 'lazy'
-                        }}
-                      {% else %}
-                        <span class="featured-artisan__card-image featured-artisan__card-image--placeholder"></span>
-                      {% endif %}
-                      </div>
-                      </div>
+                        <div class="cardGalleryBorder2">
+                          <div class="cardGalleryBorder3">
+                            {% if product_2.featured_image != blank %}
+                              {{
+                                product_2.featured_image | image_url: width: 600 | image_tag: class: 'featured-artisan__card-image', loading: 'lazy'
+                              }}
+                            {% else %}
+                              <span class="featured-artisan__card-image featured-artisan__card-image--placeholder"></span>
+                            {% endif %}
+                          </div>
+                        </div>
                       </div>
                     </span>
                     {% if collection_label_2 != blank %}
@@ -406,7 +410,7 @@
 
   .featured-artisan {
     position: relative;
-    overflow: visible;
+    overflow: hidden;
     isolation: isolate;
     min-height: var(--featured-artisan-height);
   }
@@ -432,14 +436,27 @@
     background: rgba(0, 0, 0, var(--featured-artisan-overlay));
   }
 
+  .featured-artisan__paper {
+    position: absolute;
+    left: -50px;
+    bottom: -70px;
+    z-index: 0;
+    width: 800px;
+    pointer-events: none;
+  }
+
+  .featured-artisan__paper-image {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
   .featured-artisan__inner {
     position: relative;
     z-index: 1;
     max-width: 1200px;
-    margin: 0;
-    margin-right: auto;
+    margin: 0 auto 0 0;
     padding: 40px 24px 48px 48px;
-    display: flex;
     flex-direction: column;
     gap: 150px;
   }
@@ -467,14 +484,14 @@
     line-height: 1.2;
     color: var(--featured-artisan-title-color);
   }
-@media screen and (max-width: 750px) {
-  .featured-artisan__title {
-    font-size: var(--featured-artisan-title-size-mobile);
+  @media screen and (max-width: 750px) {
+    .featured-artisan__title {
+      font-size: var(--featured-artisan-title-size-mobile);
+    }
+    .featured-artisan__subtitle {
+      font-size: var(--featured-artisan-subtitle-size-mobile);
+    }
   }
-  .featured-artisan__subtitle {
-    font-size: var(--featured-artisan-subtitle-size-mobile);
-  }
-}
   .featured-artisan__text {
     margin: 0 0 24px;
     font-family: var(--featured-artisan-text-font);
@@ -521,11 +538,8 @@
   }
 
   .featured-artisan__products-wrap {
-    margin-top: -180px;
-    padding-top: var(--featured-artisan-products-padding-top);
-    padding-bottom: var(--featured-artisan-products-padding-bottom);
-    padding-left: var(--featured-artisan-products-padding-left);
-    padding-right: var(--featured-artisan-products-padding-right);
+    margin-top: 60px;
+    padding: var(--featured-artisan-products-padding-top) var(--featured-artisan-products-padding-right) var(--featured-artisan-products-padding-bottom) var(--featured-artisan-products-padding-left);
   }
 
   .featured-artisan__products {
@@ -615,711 +629,899 @@
   }
 
   @media screen and (max-width: 749px) {
+    .featured-artisan {
+      min-height: auto;
+    }
+
+    .featured-artisan__background {
+      left: 0;
+      width: 100%;
+      margin-left: 0;
+      background-size: cover;
+      background-position: top center;
+    }
+
     .featured-artisan__button {
       width: 180px;
     }
 
     .featured-artisan__inner {
-      padding: 0;
+      padding: 24px 16px 32px;
+      gap: 24px;
+      max-width: 100%;
     }
 
-    .featured-artisan__background {
-      background-image: var(--featured-artisan-bg-image-mobile);
-      background-position: left;
+    .featured-artisan__paper {
+      left: -60px;
+      transform: none;
+      bottom: 0;
+      width: 760px;
+    }
+
+    .featured-artisan__paper-image {
+      display: block;
+      width: 56%;
+      height: 250px;
+    }
+
+    .featured-artisan__mobile-paper {
+      display: none;
     }
 
     .featured-artisan__content {
-      padding: 24px 16px 32px 24px;
-      padding-top: 250px;
+      padding: 180px 0 0;
+      max-width: 60%;
+      width: 75%;
     }
 
     .featured-artisan__text p {
       font-size: 14px;
-      padding-right: 120px;
     }
 
-    .featured-artisan__products--desktop {
-      display: none !important;
+    .featured-artisan__products-wrap {
+      margin-top: 0;
     }
 
-    .featured-artisan__mobile-paper {
-      display: block;
-      position: relative;
-      width: 100%;
-      max-width: var(--featured-artisan-mobile-paper-max-width);
-      margin: 50px auto 0;
-      text-align: center;
-    }
-
-    .featured-artisan__mobile-paper-image {
-      display: block;
-      width: 100%;
-      height: auto;
-    }
-
-    .featured-artisan__mobile-paper-content {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 85%;
-    }
-
-    .featured-artisan__products--mobile {
-      display: grid !important;
-      grid-template-columns: repeat(2, 1fr);
+    .featured-artisan__products {
+      grid-template-columns: repeat(2, minmax(0, 160px));
+      max-width: 340px;
       gap: 12px;
-      max-width: 100%;
+      margin-left: auto;
+      margin-right: auto;
+      justify-content: center;
     }
 
-    .featured-artisan__products--mobile .featured-artisan__card {
-      max-width: 100%;
-      text-align: left;
-      /* background: white; */
-      /* padding: 12px; */
-      /* border-radius: 8px; */
-      /* box-shadow: 0 2px 8px rgba(0,0,0,0.1); */
+    .featured-artisan__card {
+      max-width: 160px;
     }
   }
 
-  @media screen and (max-width: 480px) {
-    .featured-artisan__mobile-paper-content {
-      width: 90%;
-    }
-    
-    .featured-artisan__products--mobile .featured-artisan__card {
-      padding: 8px;
-    }
-  }
 
-  
   .featured-artisan__card-image-wrap .cardGalleryBorder,
   .featured-artisan__card-image-wrap .cardGalleryBorder3 {
-      border: 10px solid #686A54;
+    border: 10px solid #686A54;
   }
   .featured-artisan__card-image-wrap .cardGalleryBorder2 {
-      border: 1px solid #ffffff;
+    border: 1px solid #ffffff;
   }
   @media screen and (max-width: 750px) {
-      .featured-artisan__card-image-wrap .cardGalleryBorder,
-      .featured-artisan__card-image-wrap .cardGalleryBorder3 {
-          border: 5px solid #686A54;
-      }
+    .featured-artisan__card-image-wrap .cardGalleryBorder,
+    .featured-artisan__card-image-wrap .cardGalleryBorder3 {
+      border: 5px solid #686A54;
+    }
   }
 
   @media screen and (max-width: 480px) {
-      .featured-artisan__mobile-paper-content {
-          margin-top: -50px;
-      }
+    .featured-artisan__mobile-paper-content {
+      margin-top: -50px;
+    }
   }
 {% endstylesheet %}
 
 <!-- Create a snippet for the product card to avoid duplication -->
 {% comment %}
   Create a file called "featured-artisan-product-card.liquid" in the snippets folder with this content:
-  
   {% assign product = product %}
   {% if product != blank %}
-    {% assign collection_label = product.metafields.custom.collection.value %}
-    <li class="featured-artisan__item">
-      <a href="{{ product.url }}" class="featured-artisan__card">
-        <span class="featured-artisan__card-image-wrap">
-          {% if product.featured_image != blank %}
-            {{
-              product.featured_image
-              | image_url: width: 600
-              | image_tag: class: 'featured-artisan__card-image', loading: 'lazy'
-            }}
-          {% else %}
-            <span class="featured-artisan__card-image featured-artisan__card-image--placeholder"></span>
-          {% endif %}
-        </span>
-        {% if collection_label != blank %}
-          <span class="featured-artisan__card-collection-label">{{ collection_label }}</span>
-        {% endif %}
-        <span class="featured-artisan__card-title">{{ product.title }}</span>
-        <span class="featured-artisan__card-price">{{ product.price | money }}</span>
-      </a>
-    </li>
+  {% assign collection_label = product.metafields.custom.collection.value %}
+  <li class="featured-artisan__item">
+  <a href="{{ product.url }}" class="featured-artisan__card">
+  <span class="featured-artisan__card-image-wrap">
+  {% if product.featured_image != blank %}
+  {{
+  product.featured_image
+  | image_url: width: 600
+  | image_tag: class: 'featured-artisan__card-image', loading: 'lazy'
+  }}
   {% else %}
-    <li class="featured-artisan__item">
-      <div class="featured-artisan__card featured-artisan__card--placeholder">
-        <span class="featured-artisan__card-image-wrap">
-          <span class="featured-artisan__card-image featured-artisan__card-image--placeholder"></span>
-        </span>
-        <span class="featured-artisan__card-title">Product title</span>
-        <span class="featured-artisan__card-price">{{ 1999 | money }}</span>
-      </div>
-    </li>
+  <span class="featured-artisan__card-image featured-artisan__card-image--placeholder"></span>
+  {% endif %}
+  </span>
+  {% if collection_label != blank %}
+  <span class="featured-artisan__card-collection-label">{{ collection_label }}</span>
+  {% endif %}
+  <span class="featured-artisan__card-title">{{ product.title }}</span>
+  <span class="featured-artisan__card-price">{{ product.price | money }}</span>
+  </a>
+  </li>
+  {% else %}
+  <li class="featured-artisan__item">
+  <div class="featured-artisan__card featured-artisan__card--placeholder">
+  <span class="featured-artisan__card-image-wrap">
+  <span class="featured-artisan__card-image featured-artisan__card-image--placeholder"></span>
+  </span>
+  <span class="featured-artisan__card-title">Product title</span>
+  <span class="featured-artisan__card-price">{{ 1999 | money }}</span>
+  </div>
+  </li>
   {% endif %}
 {% endcomment %}
 
 {% schema %}
-{
-  "name": "Featured artisan",
-  "class": "featured-artisan-section",
-  "disabled_on": {
-    "groups": ["header", "footer"]
-  },
-  "settings": [
-    {
-      "type": "header",
-      "content": "Content"
+  {
+    "name": "Featured artisan",
+    "class": "featured-artisan-section",
+    "disabled_on": {
+      "groups": ["header", "footer"]
     },
-    {
-      "type": "text",
-      "id": "subtitle",
-      "label": "Subtitle",
-      "default": "Featured Artisan"
-    },
-    {
-      "type": "text",
-      "id": "title",
-      "label": "Title",
-      "default": "Christian Cera"
-    },
-    {
-      "type": "richtext",
-      "id": "text",
-      "label": "Text",
-      "default": "<p>Known for creating handcrafted leather bags that highlight artistry and function. His brand focuses on small-batch, design-driven pieces that celebrate Filipino craftsmanship.</p>"
-    },
-    {
-      "type": "text",
-      "id": "button_label",
-      "label": "Button label",
-      "default": "Read the blog"
-    },
-    {
-      "type": "url",
-      "id": "button_link",
-      "label": "Button link"
-    },
-    {
-      "type": "header",
-      "content": "Subtitle Typography"
-    },
-    {
-      "type": "select",
-      "id": "subtitle_font_family",
-      "label": "Subtitle font",
-      "options": [
-        { "value": "agrandir", "label": "Agrandir" },
-        { "value": "ss-bruney", "label": "SS Bruney" },
-        { "value": "facelio", "label": "Facelio" },
-        { "value": "fraunces", "label": "Fraunces" },
-        { "value": "inherit", "label": "Default" }
-      ],
-      "default": "inherit"
-    },
-    {
-      "type": "range",
-      "id": "subtitle_font_size",
-      "label": "Subtitle font size",
-      "min": 10,
-      "max": 60,
-      "step": 1,
-      "unit": "px",
-      "default": 12
-    },
-    {
-      "type": "range",
-      "id": "subtitle_font_size_mobile",
-      "label": "Subtitle font size Mobile",
-      "min": 10,
-      "max": 60,
-      "step": 1,
-      "unit": "px",
-      "default": 16
-    },
-    {
-      "type": "select",
-      "id": "subtitle_font_weight",
-      "label": "Subtitle font weight",
-      "options": [
-        { "value": "100", "label": "Thin" },
-        { "value": "200", "label": "Extra Light" },
-        { "value": "300", "label": "Light" },
-        { "value": "400", "label": "Regular" },
-        { "value": "500", "label": "Medium" },
-        { "value": "600", "label": "Semi Bold" },
-        { "value": "700", "label": "Bold" },
-        { "value": "800", "label": "Extra Bold" },
-        { "value": "900", "label": "Black" }
-      ],
-      "default": "500"
-    },
-    {
-      "type": "header",
-      "content": "Title Typography"
-    },
-    {
-      "type": "select",
-      "id": "title_font_family",
-      "label": "Title font",
-      "options": [
-        { "value": "agrandir", "label": "Agrandir" },
-        { "value": "ss-bruney", "label": "SS Bruney" },
-        { "value": "facelio", "label": "Facelio" },
-        { "value": "fraunces", "label": "Fraunces" },
-        { "value": "inherit", "label": "Default" }
-      ],
-      "default": "inherit"
-    },
-    {
-      "type": "range",
-      "id": "title_font_size",
-      "label": "Title font size",
-      "min": 12,
-      "max": 120,
-      "step": 2,
-      "unit": "px",
-      "default": 40
-    },
-    {
-      "type": "range",
-      "id": "title_font_size_mobile",
-      "label": "Title font size",
-      "min": 12,
-      "max": 120,
-      "step": 2,
-      "unit": "px",
-      "default": 38
-    },
-    {
-      "type": "select",
-      "id": "title_font_weight",
-      "label": "Title font weight",
-      "options": [
-        { "value": "100", "label": "Thin" },
-        { "value": "200", "label": "Extra Light" },
-        { "value": "300", "label": "Light" },
-        { "value": "400", "label": "Regular" },
-        { "value": "500", "label": "Medium" },
-        { "value": "600", "label": "Semi Bold" },
-        { "value": "700", "label": "Bold" },
-        { "value": "800", "label": "Extra Bold" },
-        { "value": "900", "label": "Black" }
-      ],
-      "default": "400"
-    },
-    {
-      "type": "header",
-      "content": "Text Typography"
-    },
-    {
-      "type": "select",
-      "id": "text_font_family",
-      "label": "Text font",
-      "options": [
-        { "value": "agrandir", "label": "Agrandir" },
-        { "value": "ss-bruney", "label": "SS Bruney" },
-        { "value": "facelio", "label": "Facelio" },
-        { "value": "fraunces", "label": "Fraunces" },
-        { "value": "inherit", "label": "Default" }
-      ],
-      "default": "inherit"
-    },
-    {
-      "type": "range",
-      "id": "text_font_size",
-      "label": "Text font size",
-      "min": 10,
-      "max": 60,
-      "step": 1,
-      "unit": "px",
-      "default": 15
-    },
-    {
-      "type": "select",
-      "id": "text_font_weight",
-      "label": "Text font weight",
-      "options": [
-        { "value": "100", "label": "Thin" },
-        { "value": "200", "label": "Extra Light" },
-        { "value": "300", "label": "Light" },
-        { "value": "400", "label": "Regular" },
-        { "value": "500", "label": "Medium" },
-        { "value": "600", "label": "Semi Bold" },
-        { "value": "700", "label": "Bold" },
-        { "value": "800", "label": "Extra Bold" },
-        { "value": "900", "label": "Black" }
-      ],
-      "default": "400"
-    },
-    {
-      "type": "header",
-      "content": "Button Typography"
-    },
-    {
-      "type": "select",
-      "id": "button_font_family",
-      "label": "Button font",
-      "options": [
-        { "value": "agrandir", "label": "Agrandir" },
-        { "value": "ss-bruney", "label": "SS Bruney" },
-        { "value": "facelio", "label": "Facelio" },
-        { "value": "fraunces", "label": "Fraunces" },
-        { "value": "inherit", "label": "Default" }
-      ],
-      "default": "inherit"
-    },
-    {
-      "type": "range",
-      "id": "button_font_size",
-      "label": "Button font size",
-      "min": 10,
-      "max": 40,
-      "step": 1,
-      "unit": "px",
-      "default": 12
-    },
-    {
-      "type": "select",
-      "id": "button_font_weight",
-      "label": "Button font weight",
-      "options": [
-        { "value": "100", "label": "Thin" },
-        { "value": "200", "label": "Extra Light" },
-        { "value": "300", "label": "Light" },
-        { "value": "400", "label": "Regular" },
-        { "value": "500", "label": "Medium" },
-        { "value": "600", "label": "Semi Bold" },
-        { "value": "700", "label": "Bold" },
-        { "value": "800", "label": "Extra Bold" },
-        { "value": "900", "label": "Black" }
-      ],
-      "default": "500"
-    },
-    {
-      "type": "header",
-      "content": "Product title typography"
-    },
-    {
-      "type": "select",
-      "id": "product_title_font_family",
-      "label": "Product title font",
-      "options": [
-        { "value": "agrandir", "label": "Agrandir" },
-        { "value": "ss-bruney", "label": "SS Bruney" },
-        { "value": "facelio", "label": "Facelio" },
-        { "value": "fraunces", "label": "Fraunces" },
-        { "value": "inherit", "label": "Default" }
-      ],
-      "default": "inherit"
-    },
-    {
-      "type": "range",
-      "id": "product_title_font_size",
-      "label": "Product title font size",
-      "min": 10,
-      "max": 48,
-      "step": 1,
-      "unit": "px",
-      "default": 15
-    },
-    {
-      "type": "select",
-      "id": "product_title_font_weight",
-      "label": "Product title font weight",
-      "options": [
-        { "value": "100", "label": "Thin" },
-        { "value": "200", "label": "Extra Light" },
-        { "value": "300", "label": "Light" },
-        { "value": "400", "label": "Regular" },
-        { "value": "500", "label": "Medium" },
-        { "value": "600", "label": "Semi Bold" },
-        { "value": "700", "label": "Bold" },
-        { "value": "800", "label": "Extra Bold" },
-        { "value": "900", "label": "Black" }
-      ],
-      "default": "400"
-    },
-    {
-      "type": "color",
-      "id": "product_title_color",
-      "label": "Product title color",
-      "default": "#5D5C5A"
-    },
-    {
-      "type": "header",
-      "content": "Product price typography"
-    },
-    {
-      "type": "select",
-      "id": "product_price_font_family",
-      "label": "Product price font",
-      "options": [
-        { "value": "agrandir", "label": "Agrandir" },
-        { "value": "ss-bruney", "label": "SS Bruney" },
-        { "value": "facelio", "label": "Facelio" },
-        { "value": "fraunces", "label": "Fraunces" },
-        { "value": "inherit", "label": "Default" }
-      ],
-      "default": "inherit"
-    },
-    {
-      "type": "range",
-      "id": "product_price_font_size",
-      "label": "Product price font size",
-      "min": 10,
-      "max": 40,
-      "step": 1,
-      "unit": "px",
-      "default": 14
-    },
-    {
-      "type": "select",
-      "id": "product_price_font_weight",
-      "label": "Product price font weight",
-      "options": [
-        { "value": "100", "label": "Thin" },
-        { "value": "200", "label": "Extra Light" },
-        { "value": "300", "label": "Light" },
-        { "value": "400", "label": "Regular" },
-        { "value": "500", "label": "Medium" },
-        { "value": "600", "label": "Semi Bold" },
-        { "value": "700", "label": "Bold" },
-        { "value": "800", "label": "Extra Bold" },
-        { "value": "900", "label": "Black" }
-      ],
-      "default": "700"
-    },
-    {
-      "type": "color",
-      "id": "product_price_color",
-      "label": "Product price color",
-      "default": "#969696"
-    },
-    {
-      "type": "header",
-      "content": "Featured products"
-    },
-    {
-      "type": "product",
-      "id": "product_1",
-      "label": "Product 1"
-    },
-    {
-      "type": "product",
-      "id": "product_2",
-      "label": "Product 2"
-    },
-    {
-      "type": "header",
-      "content": "Featured products padding"
-    },
-    {
-      "type": "range",
-      "id": "products_padding_top",
-      "label": "Top",
-      "min": 0,
-      "max": 80,
-      "step": 4,
-      "unit": "px",
-      "default": 0
-    },
-    {
-      "type": "range",
-      "id": "products_padding_bottom",
-      "label": "Bottom",
-      "min": 0,
-      "max": 80,
-      "step": 4,
-      "unit": "px",
-      "default": 0
-    },
-    {
-      "type": "range",
-      "id": "products_padding_left",
-      "label": "Left",
-      "min": 0,
-      "max": 80,
-      "step": 4,
-      "unit": "px",
-      "default": 0
-    },
-    {
-      "type": "range",
-      "id": "products_padding_right",
-      "label": "Right",
-      "min": 0,
-      "max": 80,
-      "step": 4,
-      "unit": "px",
-      "default": 0
-    },
-    {
-      "type": "header",
-      "content": "Mobile paper overlay"
-    },
-    {
-      "type": "image_picker",
-      "id": "mobile_paper_image",
-      "label": "Paper image (mobile only)",
-      "info": "Wraps the product cards on mobile. If not set, no paper overlay is shown."
-    },
-    {
-      "type": "range",
-      "id": "mobile_paper_max_width",
-      "label": "Paper max width (mobile)",
-      "min": 200,
-      "max": 800,
-      "step": 10,
-      "unit": "px",
-      "default": 400
-    },
-    {
-      "type": "header",
-      "content": "Background image"
-    },
-    {
-      "type": "image_picker",
-      "id": "background_image",
-      "label": "Background image (desktop)"
-    },
-    {
-      "type": "image_picker",
-      "id": "background_image_mobile",
-      "label": "Background image (mobile)",
-      "info": "Shown on screens below 750px. Falls back to desktop image if not set."
-    },
-    {
-      "type": "range",
-      "id": "background_overlay",
-      "label": "Background overlay",
-      "min": 0,
-      "max": 70,
-      "step": 5,
-      "unit": "%",
-      "default": 0
-    },
-    {
-      "type": "select",
-      "id": "background_size",
-      "label": "Background image size",
-      "options": [
-        { "value": "cover", "label": "Cover" },
-        { "value": "contain", "label": "Contain" },
-        { "value": "100% 100%", "label": "Fill" }
-      ],
-      "default": "cover"
-    },
-    {
-      "type": "select",
-      "id": "background_position",
-      "label": "Background image position",
-      "options": [
-        { "value": "center center", "label": "Center" },
-        { "value": "center top", "label": "Top" },
-        { "value": "center bottom", "label": "Bottom" }
-      ],
-      "default": "center center"
-    },
-    {
-      "type": "header",
-      "content": "Colors"
-    },
-    {
-      "type": "color",
-      "id": "subtitle_color",
-      "label": "Subtitle color",
-      "default": "#9a9a9a"
-    },
-    {
-      "type": "color",
-      "id": "title_color",
-      "label": "Title color",
-      "default": "#2d2d2d"
-    },
-    {
-      "type": "color",
-      "id": "text_color",
-      "label": "Text and product labels",
-      "default": "#6b6b6b"
-    },
-    {
-      "type": "color",
-      "id": "button_bg_color",
-      "label": "Button background",
-      "default": "#686A54"
-    },
-    {
-      "type": "color",
-      "id": "button_text_color",
-      "label": "Button text",
-      "default": "#FFFFFF"
-    },
-    {
-      "type": "select",
-      "id": "section_height",
-      "label": "Section height",
-      "options": [
-        { "value": "", "label": "Auto" },
-        { "value": "small", "label": "Small" },
-        { "value": "medium", "label": "Medium" },
-        { "value": "large", "label": "Large" },
-        { "value": "full-screen", "label": "Full screen" },
-        { "value": "custom", "label": "Custom" }
-      ],
-      "default": "large"
-    },
-    {
-      "type": "range",
-      "id": "section_height_custom",
-      "label": "Custom height (viewport)",
-      "min": 20,
-      "max": 100,
-      "step": 5,
-      "unit": "%",
-      "default": 80,
-      "info": "Used when Section height is set to Custom"
-    },
-    {
-      "type": "select",
-      "id": "section_width",
-      "label": "Section width",
-      "options": [
-        { "value": "page-width", "label": "Page" },
-        { "value": "full-width", "label": "Full" }
-      ],
-      "default": "full-width"
-    },
-    {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "Color scheme",
-      "default": "scheme-1"
-    },
-    {
-      "type": "header",
-      "content": "Padding"
-    },
-    {
-      "type": "range",
-      "id": "padding-block-start",
-      "label": "Top",
-      "min": 0,
-      "max": 100,
-      "step": 1,
-      "unit": "px",
-      "default": 48
-    },
-    {
-      "type": "range",
-      "id": "padding-block-end",
-      "label": "Bottom",
-      "min": 0,
-      "max": 100,
-      "step": 1,
-      "unit": "px",
-      "default": 48
-    }
-  ],
-  "presets": [
-    {
-      "name": "Featured artisan"
-    }
-  ]
-}
+    "settings": [
+      {
+        "type": "header",
+        "content": "Content"
+      },
+      {
+        "type": "text",
+        "id": "subtitle",
+        "label": "Subtitle",
+        "default": "Featured Artisan"
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title",
+        "default": "Christian Cera"
+      },
+      {
+        "type": "richtext",
+        "id": "text",
+        "label": "Text",
+        "default": "<p>Known for creating handcrafted leather bags that highlight artistry and function. His brand focuses on small-batch, design-driven pieces that celebrate Filipino craftsmanship.</p>"
+      }, {
+        "type": "text",
+        "id": "button_label",
+        "label": "Button label",
+        "default": "Read the blog"
+      }, {
+        "type": "url",
+        "id": "button_link",
+        "label": "Button link"
+      }, {
+        "type": "header",
+        "content": "Subtitle Typography"
+      }, {
+        "type": "select",
+        "id": "subtitle_font_family",
+        "label": "Subtitle font",
+        "options": [
+          {
+            "value": "agrandir",
+            "label": "Agrandir"
+          },
+          {
+            "value": "ss-bruney",
+            "label": "SS Bruney"
+          },
+          {
+            "value": "facelio",
+            "label": "Facelio"
+          },
+          {
+            "value": "fraunces",
+            "label": "Fraunces"
+          }, {
+            "value": "inherit",
+            "label": "Default"
+          }
+        ],
+        "default": "inherit"
+      }, {
+        "type": "range",
+        "id": "subtitle_font_size",
+        "label": "Subtitle font size",
+        "min": 10,
+        "max": 60,
+        "step": 1,
+        "unit": "px",
+        "default": 12
+      }, {
+        "type": "range",
+        "id": "subtitle_font_size_mobile",
+        "label": "Subtitle font size Mobile",
+        "min": 10,
+        "max": 60,
+        "step": 1,
+        "unit": "px",
+        "default": 16
+      }, {
+        "type": "select",
+        "id": "subtitle_font_weight",
+        "label": "Subtitle font weight",
+        "options": [
+          {
+            "value": "100",
+            "label": "Thin"
+          },
+          {
+            "value": "200",
+            "label": "Extra Light"
+          },
+          {
+            "value": "300",
+            "label": "Light"
+          },
+          {
+            "value": "400",
+            "label": "Regular"
+          }, {
+            "value": "500",
+            "label": "Medium"
+          }, {
+            "value": "600",
+            "label": "Semi Bold"
+          }, {
+            "value": "700",
+            "label": "Bold"
+          }, {
+            "value": "800",
+            "label": "Extra Bold"
+          }, {
+            "value": "900",
+            "label": "Black"
+          }
+        ],
+        "default": "500"
+      }, {
+        "type": "header",
+        "content": "Title Typography"
+      }, {
+        "type": "select",
+        "id": "title_font_family",
+        "label": "Title font",
+        "options": [
+          {
+            "value": "agrandir",
+            "label": "Agrandir"
+          },
+          {
+            "value": "ss-bruney",
+            "label": "SS Bruney"
+          },
+          {
+            "value": "facelio",
+            "label": "Facelio"
+          },
+          {
+            "value": "fraunces",
+            "label": "Fraunces"
+          }, {
+            "value": "inherit",
+            "label": "Default"
+          }
+        ],
+        "default": "inherit"
+      }, {
+        "type": "range",
+        "id": "title_font_size",
+        "label": "Title font size",
+        "min": 12,
+        "max": 120,
+        "step": 2,
+        "unit": "px",
+        "default": 40
+      }, {
+        "type": "range",
+        "id": "title_font_size_mobile",
+        "label": "Title font size",
+        "min": 12,
+        "max": 120,
+        "step": 2,
+        "unit": "px",
+        "default": 38
+      }, {
+        "type": "select",
+        "id": "title_font_weight",
+        "label": "Title font weight",
+        "options": [
+          {
+            "value": "100",
+            "label": "Thin"
+          },
+          {
+            "value": "200",
+            "label": "Extra Light"
+          },
+          {
+            "value": "300",
+            "label": "Light"
+          },
+          {
+            "value": "400",
+            "label": "Regular"
+          }, {
+            "value": "500",
+            "label": "Medium"
+          }, {
+            "value": "600",
+            "label": "Semi Bold"
+          }, {
+            "value": "700",
+            "label": "Bold"
+          }, {
+            "value": "800",
+            "label": "Extra Bold"
+          }, {
+            "value": "900",
+            "label": "Black"
+          }
+        ],
+        "default": "400"
+      }, {
+        "type": "header",
+        "content": "Text Typography"
+      }, {
+        "type": "select",
+        "id": "text_font_family",
+        "label": "Text font",
+        "options": [
+          {
+            "value": "agrandir",
+            "label": "Agrandir"
+          },
+          {
+            "value": "ss-bruney",
+            "label": "SS Bruney"
+          },
+          {
+            "value": "facelio",
+            "label": "Facelio"
+          },
+          {
+            "value": "fraunces",
+            "label": "Fraunces"
+          }, {
+            "value": "inherit",
+            "label": "Default"
+          }
+        ],
+        "default": "inherit"
+      }, {
+        "type": "range",
+        "id": "text_font_size",
+        "label": "Text font size",
+        "min": 10,
+        "max": 60,
+        "step": 1,
+        "unit": "px",
+        "default": 15
+      }, {
+        "type": "select",
+        "id": "text_font_weight",
+        "label": "Text font weight",
+        "options": [
+          {
+            "value": "100",
+            "label": "Thin"
+          },
+          {
+            "value": "200",
+            "label": "Extra Light"
+          },
+          {
+            "value": "300",
+            "label": "Light"
+          },
+          {
+            "value": "400",
+            "label": "Regular"
+          }, {
+            "value": "500",
+            "label": "Medium"
+          }, {
+            "value": "600",
+            "label": "Semi Bold"
+          }, {
+            "value": "700",
+            "label": "Bold"
+          }, {
+            "value": "800",
+            "label": "Extra Bold"
+          }, {
+            "value": "900",
+            "label": "Black"
+          }
+        ],
+        "default": "400"
+      }, {
+        "type": "header",
+        "content": "Button Typography"
+      }, {
+        "type": "select",
+        "id": "button_font_family",
+        "label": "Button font",
+        "options": [
+          {
+            "value": "agrandir",
+            "label": "Agrandir"
+          },
+          {
+            "value": "ss-bruney",
+            "label": "SS Bruney"
+          },
+          {
+            "value": "facelio",
+            "label": "Facelio"
+          },
+          {
+            "value": "fraunces",
+            "label": "Fraunces"
+          }, {
+            "value": "inherit",
+            "label": "Default"
+          }
+        ],
+        "default": "inherit"
+      }, {
+        "type": "range",
+        "id": "button_font_size",
+        "label": "Button font size",
+        "min": 10,
+        "max": 40,
+        "step": 1,
+        "unit": "px",
+        "default": 12
+      }, {
+        "type": "select",
+        "id": "button_font_weight",
+        "label": "Button font weight",
+        "options": [
+          {
+            "value": "100",
+            "label": "Thin"
+          },
+          {
+            "value": "200",
+            "label": "Extra Light"
+          },
+          {
+            "value": "300",
+            "label": "Light"
+          },
+          {
+            "value": "400",
+            "label": "Regular"
+          }, {
+            "value": "500",
+            "label": "Medium"
+          }, {
+            "value": "600",
+            "label": "Semi Bold"
+          }, {
+            "value": "700",
+            "label": "Bold"
+          }, {
+            "value": "800",
+            "label": "Extra Bold"
+          }, {
+            "value": "900",
+            "label": "Black"
+          }
+        ],
+        "default": "500"
+      }, {
+        "type": "header",
+        "content": "Product title typography"
+      }, {
+        "type": "select",
+        "id": "product_title_font_family",
+        "label": "Product title font",
+        "options": [
+          {
+            "value": "agrandir",
+            "label": "Agrandir"
+          },
+          {
+            "value": "ss-bruney",
+            "label": "SS Bruney"
+          },
+          {
+            "value": "facelio",
+            "label": "Facelio"
+          },
+          {
+            "value": "fraunces",
+            "label": "Fraunces"
+          }, {
+            "value": "inherit",
+            "label": "Default"
+          }
+        ],
+        "default": "inherit"
+      }, {
+        "type": "range",
+        "id": "product_title_font_size",
+        "label": "Product title font size",
+        "min": 10,
+        "max": 48,
+        "step": 1,
+        "unit": "px",
+        "default": 15
+      }, {
+        "type": "select",
+        "id": "product_title_font_weight",
+        "label": "Product title font weight",
+        "options": [
+          {
+            "value": "100",
+            "label": "Thin"
+          },
+          {
+            "value": "200",
+            "label": "Extra Light"
+          },
+          {
+            "value": "300",
+            "label": "Light"
+          },
+          {
+            "value": "400",
+            "label": "Regular"
+          }, {
+            "value": "500",
+            "label": "Medium"
+          }, {
+            "value": "600",
+            "label": "Semi Bold"
+          }, {
+            "value": "700",
+            "label": "Bold"
+          }, {
+            "value": "800",
+            "label": "Extra Bold"
+          }, {
+            "value": "900",
+            "label": "Black"
+          }
+        ],
+        "default": "400"
+      }, {
+        "type": "color",
+        "id": "product_title_color",
+        "label": "Product title color",
+        "default": "#5D5C5A"
+      }, {
+        "type": "header",
+        "content": "Product price typography"
+      }, {
+        "type": "select",
+        "id": "product_price_font_family",
+        "label": "Product price font",
+        "options": [
+          {
+            "value": "agrandir",
+            "label": "Agrandir"
+          },
+          {
+            "value": "ss-bruney",
+            "label": "SS Bruney"
+          },
+          {
+            "value": "facelio",
+            "label": "Facelio"
+          },
+          {
+            "value": "fraunces",
+            "label": "Fraunces"
+          }, {
+            "value": "inherit",
+            "label": "Default"
+          }
+        ],
+        "default": "inherit"
+      }, {
+        "type": "range",
+        "id": "product_price_font_size",
+        "label": "Product price font size",
+        "min": 10,
+        "max": 40,
+        "step": 1,
+        "unit": "px",
+        "default": 14
+      }, {
+        "type": "select",
+        "id": "product_price_font_weight",
+        "label": "Product price font weight",
+        "options": [
+          {
+            "value": "100",
+            "label": "Thin"
+          },
+          {
+            "value": "200",
+            "label": "Extra Light"
+          },
+          {
+            "value": "300",
+            "label": "Light"
+          },
+          {
+            "value": "400",
+            "label": "Regular"
+          }, {
+            "value": "500",
+            "label": "Medium"
+          }, {
+            "value": "600",
+            "label": "Semi Bold"
+          }, {
+            "value": "700",
+            "label": "Bold"
+          }, {
+            "value": "800",
+            "label": "Extra Bold"
+          }, {
+            "value": "900",
+            "label": "Black"
+          }
+        ],
+        "default": "700"
+      }, {
+        "type": "color",
+        "id": "product_price_color",
+        "label": "Product price color",
+        "default": "#969696"
+      }, {
+        "type": "header",
+        "content": "Featured products"
+      }, {
+        "type": "product",
+        "id": "product_1",
+        "label": "Product 1"
+      }, {
+        "type": "product",
+        "id": "product_2",
+        "label": "Product 2"
+      }, {
+        "type": "header",
+        "content": "Featured products padding"
+      }, {
+        "type": "range",
+        "id": "products_padding_top",
+        "label": "Top",
+        "min": 0,
+        "max": 80,
+        "step": 4,
+        "unit": "px",
+        "default": 0
+      }, {
+        "type": "range",
+        "id": "products_padding_bottom",
+        "label": "Bottom",
+        "min": 0,
+        "max": 80,
+        "step": 4,
+        "unit": "px",
+        "default": 0
+      }, {
+        "type": "range",
+        "id": "products_padding_left",
+        "label": "Left",
+        "min": 0,
+        "max": 80,
+        "step": 4,
+        "unit": "px",
+        "default": 0
+      }, {
+        "type": "range",
+        "id": "products_padding_right",
+        "label": "Right",
+        "min": 0,
+        "max": 80,
+        "step": 4,
+        "unit": "px",
+        "default": 0
+      }, {
+        "type": "header",
+        "content": "Mobile paper overlay"
+      }, {
+        "type": "image_picker",
+        "id": "mobile_paper_image",
+        "label": "Paper image (mobile only)",
+        "info": "Wraps the product cards on mobile. If not set, no paper overlay is shown."
+      }, {
+        "type": "range",
+        "id": "mobile_paper_max_width",
+        "label": "Paper max width (mobile)",
+        "min": 200,
+        "max": 800,
+        "step": 10,
+        "unit": "px",
+        "default": 400
+      }, {
+        "type": "header",
+        "content": "Desktop paper overlay"
+      }, {
+        "type": "image_picker",
+        "id": "paper_image_desktop",
+        "label": "Paper image (desktop only)",
+        "info": "Shown in the bottom corner on desktop. Does not affect mobile."
+      }, {
+        "type": "header",
+        "content": "Background image"
+      }, {
+        "type": "image_picker",
+        "id": "background_image",
+        "label": "Background image (desktop)"
+      }, {
+        "type": "image_picker",
+        "id": "background_image_mobile",
+        "label": "Background image (mobile)",
+        "info": "Shown on screens below 750px. Falls back to desktop image if not set."
+      }, {
+        "type": "range",
+        "id": "background_overlay",
+        "label": "Background overlay",
+        "min": 0,
+        "max": 70,
+        "step": 5,
+        "unit": "%",
+        "default": 0
+      }, {
+        "type": "select",
+        "id": "background_size",
+        "label": "Background image size",
+        "options": [
+          {
+            "value": "cover",
+            "label": "Cover"
+          }, {
+            "value": "contain",
+            "label": "Contain"
+          }, {
+            "value": "100% 100%",
+            "label": "Fill"
+          }
+        ],
+        "default": "cover"
+      }, {
+        "type": "select",
+        "id": "background_position",
+        "label": "Background image position",
+        "options": [
+          {
+            "value": "center center",
+            "label": "Center"
+          }, {
+            "value": "center top",
+            "label": "Top"
+          }, {
+            "value": "center bottom",
+            "label": "Bottom"
+          }
+        ],
+        "default": "center center"
+      }, {
+        "type": "header",
+        "content": "Colors"
+      }, {
+        "type": "color",
+        "id": "subtitle_color",
+        "label": "Subtitle color",
+        "default": "#9a9a9a"
+      }, {
+        "type": "color",
+        "id": "title_color",
+        "label": "Title color",
+        "default": "#2d2d2d"
+      }, {
+        "type": "color",
+        "id": "text_color",
+        "label": "Text and product labels",
+        "default": "#6b6b6b"
+      }, {
+        "type": "color",
+        "id": "button_bg_color",
+        "label": "Button background",
+        "default": "#686A54"
+      }, {
+        "type": "color",
+        "id": "button_text_color",
+        "label": "Button text",
+        "default": "#FFFFFF"
+      }, {
+        "type": "select",
+        "id": "section_height",
+        "label": "Section height",
+        "options": [
+          {
+            "value": "",
+            "label": "Auto"
+          },
+          {
+            "value": "small",
+            "label": "Small"
+          },
+          {
+            "value": "medium",
+            "label": "Medium"
+          },
+          {
+            "value": "large",
+            "label": "Large"
+          }, {
+            "value": "full-screen",
+            "label": "Full screen"
+          }, {
+            "value": "custom",
+            "label": "Custom"
+          }
+        ],
+        "default": "large"
+      }, {
+        "type": "range",
+        "id": "section_height_custom",
+        "label": "Custom height (viewport)",
+        "min": 20,
+        "max": 100,
+        "step": 5,
+        "unit": "%",
+        "default": 80,
+        "info": "Used when Section height is set to Custom"
+      }, {
+        "type": "select",
+        "id": "section_width",
+        "label": "Section width",
+        "options": [
+          {
+            "value": "page-width",
+            "label": "Page"
+          }, {
+            "value": "full-width",
+            "label": "Full"
+          }
+        ],
+        "default": "full-width"
+      }, {
+        "type": "color_scheme",
+        "id": "color_scheme",
+        "label": "Color scheme",
+        "default": "scheme-1"
+      }, {
+        "type": "header",
+        "content": "Padding"
+      }, {
+        "type": "range",
+        "id": "padding-block-start",
+        "label": "Top",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "px",
+        "default": 48
+      }, {
+        "type": "range",
+        "id": "padding-block-end",
+        "label": "Bottom",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "px",
+        "default": 48
+      }
+    ],
+    "presets": [
+      {
+        "name": "Featured artisan"
+      }
+    ]
+  }
 {% endschema %}
