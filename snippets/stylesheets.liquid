@@ -5,15 +5,44 @@
 
 
 <style>
-  @media screen and (max-width: 589px) {
- 
-    main.content-for-layout[data-template^='collection'] {
-      --collection-page-bg: #F4ECE6;
-      background-color: #F4ECE6 !important;
+  /*
+    Collection + list-collections (all viewports): base color + repeating pattern on main.
+    Section surfaces transparent so the wallpaper shows (text still uses scheme foreground vars).
+  */
+  main.content-for-layout[data-template^='collection'],
+  main.content-for-layout[data-template='list-collections'] {
+    background-color: #f4ece6 !important;
+    background-image: url({{ 'mobile-bg.png' | asset_url }}) !important;
+    background-repeat: repeat !important;
+    background-position: top left !important;
+  }
+
+  main.content-for-layout[data-template^='collection'] .section-background,
+  main.content-for-layout[data-template^='collection'] results-list.product-grid-container {
+    background-color: transparent !important;
+    background-image: none !important;
+  }
+
+  main.content-for-layout[data-template='list-collections'] .section-background,
+  main.content-for-layout[data-template='list-collections']
+    .section.section-resource-list.custom-list-collections-page {
+    background-color: transparent !important;
+    background-image: none !important;
+  }
+
+  /* Mobile-only: same wallpaper on body for other templates; main stays transparent there */
+  @media screen and (max-width: 749px) {
+    body,
+    body.article-page-bg {
+      background-color: #f4ece6;
       background-image: url({{ 'mobile-bg.png' | asset_url }});
       background-repeat: repeat;
       background-position: top left;
-      background-size: auto;
+    }
+
+    main.content-for-layout,
+    body.article-page-bg #MainContent {
+      background: transparent !important;
     }
   }
 </style>

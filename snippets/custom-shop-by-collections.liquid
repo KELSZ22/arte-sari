@@ -1,0 +1,102 @@
+{%- doc -%}
+  Shop-by: clicking "SHOP BY" + chevron opens native `<select>` (invisible overlay). No placeholder option text.
+{%- enddoc -%}
+
+{% if section.settings.enable_shop_by %}
+  {% liquid
+    assign menu_handle = section.settings.shop_by_menu
+    assign menu_links = blank
+    if menu_handle != blank
+      assign menu_links = linklists[menu_handle].links
+    endif
+
+    assign has_menu_filters = false
+    if menu_links != blank and menu_links.size > 0
+      assign has_menu_filters = true
+    endif
+
+    assign groups_raw = section.settings.shop_by_groups | strip
+    assign has_group_filters = false
+    if groups_raw != blank
+      assign has_group_filters = true
+    endif
+
+    assign select_id = 'custom-shop-by-select-' | append: section.id
+    assign label_id = 'custom-shop-by-label-' | append: section.id
+    assign accent = section.settings.shop_by_accent_color | default: '#4e5c2e'
+    assign heading_text = section.settings.shop_by_heading | strip
+    if heading_text == blank
+      assign heading_text = 'SHOP BY'
+    endif
+  %}
+
+  <div
+    class="custom-shop-by-collections"
+    data-custom-shop-by-root
+    data-section-id="{{ section.id }}"
+    style="--shop-by-accent: {{ accent }};"
+  >
+    <div class="custom-shop-by-collections__trigger">
+      <label
+        class="custom-shop-by-collections__label"
+        id="{{ label_id }}"
+        for="{{ select_id }}"
+      >
+        <span class="custom-shop-by-collections__label-text">{{ heading_text | escape }}</span>
+        <span class="custom-shop-by-collections__chevron" aria-hidden="true">
+          <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </label>
+      <select
+        id="{{ select_id }}"
+        class="custom-shop-by-collections__select"
+        data-custom-shop-by-select
+        aria-labelledby="{{ label_id }}"
+      >
+        <option value="" data-handles="" selected></option>
+
+        {% if has_menu_filters %}
+          {% for link in menu_links %}
+            {% liquid
+              assign handles_joined = ''
+              if link.links != blank and link.links.size > 0
+                for child in link.links
+                  if child.type == 'collection_link' and child.object
+                    if handles_joined != ''
+                      assign handles_joined = handles_joined | append: ','
+                    endif
+                    assign handles_joined = handles_joined | append: child.object.handle
+                  endif
+                endfor
+              elsif link.type == 'collection_link' and link.object
+                assign handles_joined = link.object.handle
+              endif
+            %}
+            {% if handles_joined != blank %}
+              <option value="{{ 'm' | append: forloop.index }}" data-handles="{{ handles_joined | escape }}">
+                {{- link.title | escape -}}
+              </option>
+            {% endif %}
+          {% endfor %}
+        {% elsif has_group_filters %}
+          {% assign group_lines = groups_raw | newline_to_br | split: '<br />' %}
+          {% for line in group_lines %}
+            {% assign line_stripped = line | strip %}
+            {% if line_stripped != blank %}
+              {% assign pair = line_stripped | split: '|' %}
+              {% assign filter_label = pair[0] | strip %}
+              {% assign filter_handles = pair[1] | strip %}
+              {% if filter_label != blank and filter_handles != blank %}
+                <option value="{{ 'g' | append: forloop.index }}" data-handles="{{ filter_handles | escape }}">
+                  {{- filter_label | escape -}}
+                </option>
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      </select>
+    </div>
+  </div>
+{% endif %}

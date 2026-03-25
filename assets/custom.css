@@ -309,14 +309,7 @@ a.button[class*="button_HCHQwD"] {
       format("woff");
 }
 
-main.content-for-layout[data-template^="collection"] {
-  background-color: var(--collection-page-bg);
-}
-
-main.content-for-layout[data-template^="collection"] {
-  --collection-page-bg: #f4ece5;
-  background-color: var(--collection-page-bg);
-}
+/* Collection page background (color + pattern): see snippets/stylesheets.liquid */
 
 main.content-for-layout {
   padding-block-end: clamp(3rem, 7vw, 5.5rem);

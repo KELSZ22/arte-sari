@@ -56,7 +56,7 @@
               "type": "text",
               "name": "t:names.text",
               "settings": {
-                "custom_class": "",
+                "custom_class": "custom-list-collections-heading",
                 "text": "<h1>Beautiful Collections</h1>",
                 "width": "100%",
                 "max_width": "none",
@@ -83,7 +83,7 @@
               "type": "text",
               "name": "t:names.text",
               "settings": {
-                "custom_class": "",
+                "custom_class": "custom-list-collections-intro",
                 "text": "<p>We meticulously curate products that tell stories, bring meaning, and support communities they’re part of.</p>",
                 "width": "fit-content",
                 "max_width": "none",
@@ -159,7 +159,7 @@
               "name": "t:names.collection_card_image",
               "static": true,
               "settings": {
-                "image_ratio": "adapt",
+                "image_ratio": "square",
                 "toggle_overlay": false,
                 "overlay_color": "#00000026",
                 "overlay_style": "solid",
@@ -195,6 +195,14 @@
         "section_width": "page-width",
         "gap": 12,
         "color_scheme": "",
+        "enable_shop_by": true,
+        "shop_by_heading": "SHOP BY",
+        "shop_by_menu": "",
+        "shop_by_groups": "",
+        "shop_by_accent_color": "#4e5c2e",
+        "enable_shop_all_button": true,
+        "shop_all_label": "SHOP ALL",
+        "shop_all_link": "",
         "padding-block-start": 48,
         "padding-block-end": 48
       }
