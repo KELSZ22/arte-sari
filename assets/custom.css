@@ -309,6 +309,10 @@ a.button[class*="button_HCHQwD"] {
       format("woff");
 }
 
+main.content-for-layout[data-template="page.contact"] {
+  padding-block-end: 0;
+}
+
 main.content-for-layout[data-template^="collection"] {
   background-color: var(--collection-page-bg);
 }
@@ -318,13 +322,9 @@ main.content-for-layout[data-template^="collection"] {
   background-color: var(--collection-page-bg);
 }
 
-main.content-for-layout {
+/* main.content-for-layout {
   padding-block-end: clamp(3rem, 7vw, 5.5rem);
-}
-
-main.content-for-layout[data-template="page.contact"] {
-  padding-block-end: 0;
-}
+} */
 
 /* CUSTOM MODAL */
 .custom-modal {
@@ -423,12 +423,14 @@ main.content-for-layout[data-template="page.contact"] {
 .qv-inner > *:not(:last-child) {
   margin-bottom: 2rem;
 }
+
 .qv-inner > .qv-product-description {
   display: flex;
   flex-direction: column;
   gap: 12px;
   margin-bottom: 10 !important;
 }
+
 .qv-interactions {
   display: grid;
   grid-template-columns: 1fr 3fr;
@@ -820,7 +822,7 @@ main.content-for-layout[data-template="page.contact"] {
   font-style: Regular;
   font-size: 16px;
   leading-trim: NONE;
-  line-height: 125%;
+  line-height: 150%;
   letter-spacing: 0%;
   vertical-align: middle;
 }
@@ -992,6 +994,12 @@ html .card-gallery .cardGalleryBorderInner,
   stroke: #fff;
 }
 
+
 .menu-list__link {
   font-size: 16px !important;
+}
+
+.quantity-selector,
+.quantity-selector input[type=number] {
+  font-family: Agrandir;
 }

@@ -1,37 +1,38 @@
 {% schema %}
-  {
-    "name": "Contact Section",
-    "settings": [
-      {
-        "type": "text",
-        "id": "heading",
-        "label": "Heading",
-        "default": "CONTACT"
-      }, {
-        "type": "textarea",
-        "id": "subtext",
-        "label": "Subtext",
-        "default": "Feel free to reach out to us whether this is about an order inquiry or a collaboration idea, we'd love to hear it! Alternatively, you may reach us at artesari.wfa@gmail.com"
-      }, {
-        "type": "text",
-        "id": "email_recipient",
-        "label": "Recipient Email",
-        "default": "artesari.wfa@gmail.com"
-      }
-    ],
-    "presets": [
-      {
-        "name": "Contact Section"
-      }
-    ]
-  }
+{
+  "name": "Contact Section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "CONTACT"
+    },
+    {
+      "type": "textarea",
+      "id": "subtext",
+      "label": "Subtext",
+      "default": "Feel free to reach out to us whether this is about an order inquiry or a collaboration idea, we'd love to hear it! Alternatively, you may reach us at artesari.wfa@gmail.com"
+    },
+    {
+      "type": "text",
+      "id": "email_recipient",
+      "label": "Recipient Email",
+      "default": "artesari.wfa@gmail.com"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Contact Section"
+    }
+  ]
+}
 {% endschema %}
 
 <style>
   .as-contact-section {
     background-color: #F4ECE6;
-    background-image: url("https://cdn.shopify.com/s/files/1/0728/1321/5942/files/Pattern_Background.png?v=1774441646");
-    background-repeat: repeat;
+    background-image: url("https://cdn.shopify.com/s/files/1/0728/1321/5942/files/Pattern_Background.png?v=1774441646");    background-repeat: repeat;
     background-size: auto;
     min-height: 100vh;
     display: flex;
@@ -39,8 +40,7 @@
     align-items: center;
     justify-content: center;
     padding: 60px 20px;
-    font-family: 'Georgia'
-    , serif;
+    font-family: 'Georgia', serif;
     position: relative;
   }
 
@@ -71,7 +71,7 @@
     font-size: 32px;
     color: #686A54;
     font-weight: 400;
-    margin: 0 0 18px;
+    margin: 0 0 18px 0;
     font-family: 'SS Bruney';
   }
 
@@ -81,16 +81,16 @@
     text-align: center;
     max-width: 520px;
     line-height: 1.65;
-    margin: 0 0 32px;
+    margin: 0 0 32px 0;
     font-family: 'Fraunces';
   }
 
   .as-contact-card {
     background: #fff;
     border-radius: 4px;
-    padding: 36px 40px 40px;
+    padding: 36px 40px 40px 40px;
     width: 100%;
-    box-shadow: 0 2px 16px rgba(104, 106, 84, 0.07);
+    box-shadow: 0 2px 16px rgba(104,106,84,0.07);
     box-sizing: border-box;
   }
 
@@ -138,7 +138,7 @@
   }
 
   .as-contact-field select {
-    background-image: url("data:image/svg+xml, %3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23686A54' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23686A54' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 14px center;
     padding-right: 36px;
@@ -199,8 +199,7 @@
     font-size: 14px;
     text-align: center;
     margin-top: 16px;
-    font-family: 'Georgia'
-    , serif;
+    font-family: 'Georgia', serif;
   }
 
   @media (max-width: 600px) {
@@ -217,7 +216,7 @@
     }
 
     .as-contact-card {
-      padding: 24px 18px 28px;
+      padding: 24px 18px 28px 18px;
     }
 
     .as-contact-row {
@@ -234,122 +233,17 @@
 
 <section class="as-contact-section">
   <div class="as-contact-bg-pattern">
-    <svg
-      width="80"
-      height="80"
-      style="top:20px;left:20px;"
-      viewBox="0 0 80 80">
-      <text
-        x="10"
-        y="50"
-        font-size="38"
-        fill="#686A54"
-        font-family="Georgia,serif"
-        font-style="italic">AS</text>
-    </svg>
-    <svg
-      width="80"
-      height="80"
-      style="top:20px;right:20px;"
-      viewBox="0 0 80 80">
-      <text
-        x="10"
-        y="50"
-        font-size="38"
-        fill="#686A54"
-        font-family="Georgia,serif"
-        font-style="italic">AS</text>
-    </svg>
-    <svg
-      width="80"
-      height="80"
-      style="top:50%;left:20px;transform:translateY(-50%);"
-      viewBox="0 0 80 80">
-      <text
-        x="10"
-        y="50"
-        font-size="38"
-        fill="#686A54"
-        font-family="Georgia,serif"
-        font-style="italic">AS</text>
-    </svg>
-    <svg
-      width="80"
-      height="80"
-      style="top:50%;right:20px;transform:translateY(-50%);"
-      viewBox="0 0 80 80">
-      <text
-        x="10"
-        y="50"
-        font-size="38"
-        fill="#686A54"
-        font-family="Georgia,serif"
-        font-style="italic">AS</text>
-    </svg>
-    <svg
-      width="80"
-      height="80"
-      style="bottom:20px;left:20px;"
-      viewBox="0 0 80 80">
-      <text
-        x="10"
-        y="50"
-        font-size="38"
-        fill="#686A54"
-        font-family="Georgia,serif"
-        font-style="italic">AS</text>
-    </svg>
-    <svg
-      width="80"
-      height="80"
-      style="bottom:20px;right:20px;"
-      viewBox="0 0 80 80">
-      <text
-        x="10"
-        y="50"
-        font-size="38"
-        fill="#686A54"
-        font-family="Georgia,serif"
-        font-style="italic">AS</text>
-    </svg>
-    <svg
-      width="60"
-      height="120"
-      style="top:10%;left:50%;transform:translateX(-50%);"
-      viewBox="0 0 60 120">
-      <line
-        x1="30"
-        y1="0"
-        x2="30"
-        y2="120"
-        stroke="#686A54"
-        stroke-width="1" />
-      <ellipse
-        cx="30"
-        cy="20"
-        rx="12"
-        ry="18"
-        fill="none"
-        stroke="#686A54"
-        stroke-width="1" />
-      <ellipse
-        cx="15"
-        cy="55"
-        rx="10"
-        ry="15"
-        fill="none"
-        stroke="#686A54"
-        stroke-width="1"
-        transform="rotate(-30 15 55)" />
-      <ellipse
-        cx="45"
-        cy="55"
-        rx="10"
-        ry="15"
-        fill="none"
-        stroke="#686A54"
-        stroke-width="1"
-        transform="rotate(30 45 55)" />
+    <svg width="80" height="80" style="top:20px;left:20px;" viewBox="0 0 80 80"><text x="10" y="50" font-size="38" fill="#686A54" font-family="Georgia,serif" font-style="italic">AS</text></svg>
+    <svg width="80" height="80" style="top:20px;right:20px;" viewBox="0 0 80 80"><text x="10" y="50" font-size="38" fill="#686A54" font-family="Georgia,serif" font-style="italic">AS</text></svg>
+    <svg width="80" height="80" style="top:50%;left:20px;transform:translateY(-50%);" viewBox="0 0 80 80"><text x="10" y="50" font-size="38" fill="#686A54" font-family="Georgia,serif" font-style="italic">AS</text></svg>
+    <svg width="80" height="80" style="top:50%;right:20px;transform:translateY(-50%);" viewBox="0 0 80 80"><text x="10" y="50" font-size="38" fill="#686A54" font-family="Georgia,serif" font-style="italic">AS</text></svg>
+    <svg width="80" height="80" style="bottom:20px;left:20px;" viewBox="0 0 80 80"><text x="10" y="50" font-size="38" fill="#686A54" font-family="Georgia,serif" font-style="italic">AS</text></svg>
+    <svg width="80" height="80" style="bottom:20px;right:20px;" viewBox="0 0 80 80"><text x="10" y="50" font-size="38" fill="#686A54" font-family="Georgia,serif" font-style="italic">AS</text></svg>
+    <svg width="60" height="120" style="top:10%;left:50%;transform:translateX(-50%);" viewBox="0 0 60 120">
+      <line x1="30" y1="0" x2="30" y2="120" stroke="#686A54" stroke-width="1"/>
+      <ellipse cx="30" cy="20" rx="12" ry="18" fill="none" stroke="#686A54" stroke-width="1"/>
+      <ellipse cx="15" cy="55" rx="10" ry="15" fill="none" stroke="#686A54" stroke-width="1" transform="rotate(-30 15 55)"/>
+      <ellipse cx="45" cy="55" rx="10" ry="15" fill="none" stroke="#686A54" stroke-width="1" transform="rotate(30 45 55)"/>
     </svg>
   </div>
 
@@ -358,15 +252,11 @@
     <p class="as-contact-subtext">{{ section.settings.subtext }}</p>
 
     <div class="as-contact-card">
-      {%- form 'contact'
-        , id: 'as-contact-form' -%}
+      {%- form 'contact', id: 'as-contact-form' -%}
         <div class="as-contact-field">
           <label for="as-inquiry">Inquiry</label>
           <select id="as-inquiry" name="contact[inquiry]">
-            <option
-              value=""
-              disabled
-              selected>Select</option>
+            <option value="" disabled selected>Select</option>
             <option value="order">Order Inquiry</option>
             <option value="collaboration">Collaboration</option>
             <option value="other">Other</option>
@@ -375,58 +265,33 @@
 
         <div class="as-contact-field">
           <label for="as-fullname">Full Name</label>
-          <input
-            type="text"
-            id="as-fullname"
-            name="contact[name]"
-            placeholder="Ex. Juan Dela Cruz"
-            required>
+          <input type="text" id="as-fullname" name="contact[name]" placeholder="Ex. Juan Dela Cruz" required>
         </div>
 
         <div class="as-contact-row">
           <div class="as-contact-field">
             <label for="as-email">Email</label>
-            <input
-              type="email"
-              id="as-email"
-              name="contact[email]"
-              placeholder="Ex. juandelacruz@gmail.com"
-              required>
+            <input type="email" id="as-email" name="contact[email]" placeholder="Ex. juandelacruz@gmail.com" required>
           </div>
           <div class="as-contact-field">
             <label for="as-contact-num">Contact</label>
-            <input
-              type="tel"
-              id="as-contact-num"
-              name="contact[contact]"
-              placeholder="+">
+            <input type="tel" id="as-contact-num" name="contact[contact]" placeholder="+">
           </div>
         </div>
 
         <div class="as-contact-field">
           <label for="as-brand">Brand</label>
-          <input
-            type="text"
-            id="as-brand"
-            name="contact[brand]"
-            placeholder="Enter your brand name">
+          <input type="text" id="as-brand" name="contact[brand]" placeholder="Enter your brand name">
         </div>
 
         <div class="as-contact-field">
           <label for="as-website">Website or Socials (For brands):</label>
-          <input
-            type="text"
-            id="as-website"
-            name="contact[website]"
-            placeholder="Enter your website or social handles">
+          <input type="text" id="as-website" name="contact[website]" placeholder="Enter your website or social handles">
         </div>
 
         <div class="as-contact-field">
           <label for="as-message">Message</label>
-          <textarea
-            id="as-message"
-            name="contact[body]"
-            placeholder="Write your inquiry or a collaboration idea here..."></textarea>
+          <textarea id="as-message" name="contact[body]" placeholder="Write your inquiry or a collaboration idea here..."></textarea>
         </div>
 
         <div class="as-contact-submit-wrap">
