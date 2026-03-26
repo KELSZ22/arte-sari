@@ -10,8 +10,8 @@
 {
   "current": {
     "logo": "shopify://shop_images/ArteSari_Horizontal_2.svg",
-    "logo_height": 50,
-    "logo_height_mobile": 43,
+    "logo_height": 70,
+    "logo_height_mobile": 55,
     "favicon": "shopify://shop_images/Group_3.png",
     "type_body_font": "fraunces_n4",
     "type_subheading_font": "inter_n5",
