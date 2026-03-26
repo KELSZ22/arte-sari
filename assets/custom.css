@@ -16,7 +16,7 @@
   font-size: 48px !important;
   font-family: Facelio !important;
   font-weight: 400;
-  letter-spacing:1px !important;
+  letter-spacing: 1px !important;
 }
 
 .group-block:has(.custom-artisan-title) {
@@ -240,13 +240,15 @@ a.button[class*="button_HCHQwD"] {
 .blog-header-filters__link:hover,
 .blog-header-filters__link.is-active {
   color: #686a54;
-  font-weight: 800;}
+  font-weight: 800;
+}
 
 @media screen and (max-width: 749px) {
   .blog-header-filters {
     gap: 36px;
-    padding-inline-start: 36px;
+    justify-content: center;
     padding-block: 16px;
+    padding-inline: 0;
     margin-block-start: 36px;
   }
 
@@ -287,11 +289,12 @@ a.button[class*="button_HCHQwD"] {
 
 @media screen and (max-width: 768px) {
   .blog-header-filters {
-    gap: 20px;
+    gap: 36px;
     padding-top: 0;
-    padding-inline-start: 0;
+    justify-content: center;
+    padding-block: 20px;
+    padding-inline: 0;
     margin-block-start: 16px;
-    padding-inline-start: 36px;
   }
 
   .blog-header-filters__link {
@@ -996,12 +999,11 @@ html .card-gallery .cardGalleryBorderInner,
   stroke: #fff;
 }
 
-
 .menu-list__link {
   font-size: 16px !important;
 }
 
 .quantity-selector,
-.quantity-selector input[type=number] {
+.quantity-selector input[type="number"] {
   font-family: Agrandir;
 }
