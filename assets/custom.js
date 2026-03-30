@@ -104,7 +104,7 @@ async function openQuickView(handle, category, price) {
                 <svg width="12" height="10" viewBox="0 0 12 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M4 9.4L0 5.4L1.4 4L4 6.6L10.6 0L12 1.4L4 9.4Z" fill="white"/>
                 </svg> 
-                  Add ₱50 Gift Card
+                  ₱50 Gift Card
               </label>
 
               <label class="addon-option">
@@ -112,7 +112,7 @@ async function openQuickView(handle, category, price) {
                 <svg width="12" height="10" viewBox="0 0 12 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M4 9.4L0 5.4L1.4 4L4 6.6L10.6 0L12 1.4L4 9.4Z" fill="white"/>
                 </svg> 
-                Add ₱10 Gift Box
+                ₱10 Gift Box
               </label>
             </div>
           </div>

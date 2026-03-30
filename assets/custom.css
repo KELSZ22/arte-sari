@@ -547,6 +547,7 @@ main.content-for-layout[data-template^="collection"] {
 }
 .qv-atc-btn {
   width: 100%;
+  height: 36px;
   padding: 16px;
   color: #ffffff;
   background: #686a54;
@@ -558,6 +559,7 @@ main.content-for-layout[data-template^="collection"] {
 }
 .qv-quantity-selector {
   width: auto;
+  height: 36px;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   border: 1px solid #0c0c0d1a;
