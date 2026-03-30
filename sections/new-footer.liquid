@@ -156,7 +156,7 @@
     display: block;
     color: {{ section.settings.text_color }};
     text-decoration: none;
-    font-size: 17px;
+    font-size: 20px;
     font-weight: 400;
     letter-spacing: 0.12em;
     line-height: 1.8;
@@ -242,8 +242,8 @@
 
 
   #shopify-section-{{ section.id }} .as-footer__socials svg {
-    width: 26px;
-    height: 30px;
+    width: 24px;
+    height: 24px;
   }
 
   #shopify-section-{{ section.id }} .as-footer__bottom {
@@ -259,6 +259,10 @@
     color: #926532;
     margin: 0;
     font-family: 'Agrandir';
+  }
+
+  #shopify-section-{{ section.id }} .as-footer__daydream-break {
+    display: none;
   }
 
   @media (max-width: 768px) {
@@ -295,6 +299,7 @@
     #shopify-section-{{ section.id }} .as-footer__copyright {
       font-size: 12px;
       padding-right: 20px;
+      letter-spacing: 0;
     }
     #shopify-section-{{ section.id }} .as-footer__description {
       font-size: 14px;
@@ -302,6 +307,10 @@
 
     #shopify-section-{{ section.id }} .as-footer__description p {
     font-size: 14px !important;
+    }
+
+    #shopify-section-{{ section.id }} .as-footer__daydream-break {
+      display: block;
     }
   }
 
@@ -380,6 +389,10 @@
   </div>
 
   <div class="as-footer__bottom">
-    <p class="as-footer__copyright">{{ section.settings.copyright_text }}</p>
+    {% assign copyright_mobile = section.settings.copyright_text
+      | replace: 'Daydream ', 'Daydream<br class="as-footer__daydream-break">'
+      | replace: 'DAYDREAM ', 'DAYDREAM<br class="as-footer__daydream-break">'
+    %}
+    <p class="as-footer__copyright">{{ copyright_mobile }}</p>
   </div>
 </footer>
