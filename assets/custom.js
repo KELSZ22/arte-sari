@@ -57,7 +57,16 @@ async function openQuickView(handle, category, price) {
 
         <div class="qv-interactions">
           <div class="qv-images">
-            <img src="${product.featured_image}">
+            ${product.images && product.images.length > 1 ? `
+              <div class="qv-thumbnails">
+                ${product.images.map((img, i) => `
+                  <img class="qv-thumb${i === 0 ? ' active' : ''}" src="${img}" data-index="${i}" alt="">
+                `).join('')}
+              </div>
+            ` : ''}
+            <div class="qv-main-image">
+              <img src="${product.featured_image}" alt="${product.title}">
+            </div>
           </div>
           <div class="qv-selectors">
             <div class="qv-product-description">${product.description}</div>
@@ -133,6 +142,9 @@ async function openQuickView(handle, category, price) {
               </button>
             </form>
           </product-form>
+          <button type="button" class="qv-buy-now-btn">
+            Buy Now
+          </button>
           <a class="qv-cta" href="${product.url}">
             View full details
           </a>
@@ -167,55 +179,76 @@ async function openQuickView(handle, category, price) {
 
     initQuickViewVariants(product);
 
+    modal.querySelectorAll('.qv-thumb').forEach(thumb => {
+      thumb.addEventListener('click', () => {
+        modal.querySelectorAll('.qv-thumb').forEach(t => t.classList.remove('active'));
+        thumb.classList.add('active');
+        modal.querySelector('.qv-main-image img').src = thumb.src;
+      });
+    });
+
     const atcForm = modal.querySelector('product-form form');
+    const buyNowBtn = modal.querySelector('.qv-buy-now-btn');
+
+    const getSelectedItems = () => {
+      const formData = new FormData(atcForm);
+      const mainVariantId = formData.get('id');
+      const quantity = parseInt(formData.get('quantity')) || 1;
+      const addons = modal.querySelectorAll('.addon-checkbox:checked');
+
+      const items = [{ id: mainVariantId, quantity }];
+      addons.forEach(a => {
+        items.push({
+          id: a.dataset.variant,
+          quantity: 1
+        });
+      });
+
+      return items;
+    };
+
+    const addItemsToCart = async () => {
+      const items = getSelectedItems();
+      await fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ items })
+      });
+    };
 
     atcForm.addEventListener('submit', async (e) => {
-  e.preventDefault();
+      e.preventDefault();
 
-  const formData = new FormData(atcForm);
+      try {
+        await addItemsToCart();
 
-  // Get selected main product variant and quantity
-  const mainVariantId = formData.get('id');
-  const quantity = parseInt(formData.get('quantity')) || 1;
+        const cartRes = await fetch('/cart.js');
+        const cart = await cartRes.json();
 
-  // Add selected add-ons
-  const addons = modal.querySelectorAll('.addon-checkbox:checked');
+        document.dispatchEvent(
+          new CustomEvent('cart:update', {
+            bubbles: true,
+            detail: { resource: cart, sourceId: 'quick-view', data: { itemCount: cart.item_count } }
+          })
+        );
 
-  const items = [
-    { id: mainVariantId, quantity: quantity }
-  ];
-
-  addons.forEach(a => {
-    items.push({
-      id: a.dataset.variant,
-      quantity: 1
-    });
-  });
-
-  try {
-    await fetch('/cart/add.js', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ items })
+        const drawer = document.querySelector('cart-drawer-component');
+        if (drawer?.open) drawer.open();
+      } catch (err) {
+        console.error(err);
+      }
     });
 
-    const cartRes = await fetch('/cart.js');
-    const cart = await cartRes.json();
-
-    document.dispatchEvent(
-      new CustomEvent('cart:update', {
-        bubbles: true,
-        detail: { resource: cart, sourceId: 'quick-view', data: { itemCount: cart.item_count } }
-      })
-    );
-
-    const drawer = document.querySelector('cart-drawer-component');
-    if (drawer?.open) drawer.open();
-
-  } catch (err) {
-    console.error(err);
-  }
-});
+    if (buyNowBtn) {
+      buyNowBtn.addEventListener('click', async () => {
+        try {
+          await addItemsToCart();
+          window.location.href = '/checkout';
+        } catch (err) {
+          console.error(err);
+        }
+      });
+    }
 
     function initQuickViewVariants(product) {
       const optionButtons = modal.querySelectorAll('.qv-option-variant');
