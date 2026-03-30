@@ -3,9 +3,9 @@
   {% assign product_title = '<p>' | append: text | append: '</p>' %}
   {% render 'text', fallback_text: product_title, block: block %}
 {% else %}
-  {% assign collection_label = closest.product.metafields.custom.category.value %}
-  {% if collection_label != blank %}
-    {% comment %} <p class="product-card__collection-label">{{ collection_label }}</p> {% endcomment %}
+  {% assign category_metafield = closest.product.metafields.custom.category %}
+  {% assign collection_label = category_metafield.value %}  {% if collection_label != blank %}
+    <p class="product_metafield_category">{{ collection_label }}</p>
   {% endif %}
   {% assign product_title = '<p>' | append: closest.product.title | append: '</p>' %}
   

@@ -16,7 +16,7 @@
   font-size: 48px !important;
   font-family: Facelio !important;
   font-weight: 400;
-  letter-spacing:1px !important;
+  letter-spacing: 1px !important;
 }
 
 .group-block:has(.custom-artisan-title) {
@@ -240,7 +240,8 @@ a.button[class*="button_HCHQwD"] {
 .blog-header-filters__link:hover,
 .blog-header-filters__link.is-active {
   color: #686a54;
-  font-weight: 800;}
+  font-weight: 800;
+}
 
 @media screen and (max-width: 749px) {
   .blog-header-filters {
@@ -952,13 +953,14 @@ html .card-gallery .cardGalleryBorderInner,
   font-family: Agrandir;
   font-size: 16px;
   line-height: 100%;
-  color: #f4ece6;
+  color: #969696;
   text-transform: uppercase;
+  padding-top: 10px;
 }
 
 .facets .checkbox:not(.checkbox--disabled):hover .icon-checkmark {
   border-color: var(--checkbox-border) !important;
-  background-color: var(--color-background) !important;
+  background-color: transparent !important;
 }
 .facets
   .checkbox:not(.checkbox--disabled):hover
@@ -981,6 +983,7 @@ html .card-gallery .cardGalleryBorderInner,
 .checkbox--has-color .icon-checkmark {
   width: 20px;
   height: 20px;
+  border-radius: 2px;
 }
 .checkbox--has-color .checkbox__label-text {
   padding-inline-start: 12px;
@@ -995,16 +998,37 @@ html .card-gallery .cardGalleryBorderInner,
   background-color: #686a54 !important;
   border-color: #686a54 !important;
 }
+.facets
+  .checkbox
+  .checkbox__input:not(:checked)
+  + .checkbox__label
+  .icon-checkmark {
+  background-color: transparent !important;
+  border-color: #969696 !important;
+}
 .checkbox--has-color .icon-checkmark path {
   stroke: #fff;
 }
-
 
 .menu-list__link {
   font-size: 16px !important;
 }
 
 .quantity-selector,
-.quantity-selector input[type=number] {
+.quantity-selector input[type="number"] {
   font-family: Agrandir;
+}
+
+main.content-for-layout[data-template^="collection"]
+  .product-card
+  a
+  .text-block,
+main.content-for-layout[data-template^="collection"]
+  .product-card
+  product-price.text-block,
+main.content-for-layout[data-template^="collection"]
+  .product-card
+  product-price
+  .price {
+  font-size: 16px !important;
 }
