@@ -1,262 +1,426 @@
 {% schema %}
-{
-  "name": "Contact Section",
-  "settings": [
-    {
-      "type": "text",
-      "id": "heading",
-      "label": "Heading",
-      "default": "CONTACT"
-    },
-    {
-      "type": "textarea",
-      "id": "subtext",
-      "label": "Subtext",
-      "default": "Feel free to reach out to us whether this is about an order inquiry or a collaboration idea, we'd love to hear it! Alternatively, you may reach us at artesari.wfa@gmail.com"
-    },
-    {
-      "type": "text",
-      "id": "email_recipient",
-      "label": "Recipient Email",
-      "default": "artesari.wfa@gmail.com"
-    }
-  ],
-  "presets": [
-    {
-      "name": "Contact Section"
-    }
-  ]
-}
+  {
+    "name": "Contact Section",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Content"
+      },
+      {
+        "type": "text",
+        "id": "heading",
+        "label": "Heading",
+        "default": "CONTACT"
+      },
+      {
+        "type": "textarea",
+        "id": "subtext",
+        "label": "Subtext",
+        "default": "Feel free to reach out to us whether this is about an order inquiry or a collaboration idea, we'd love to hear it! Alternatively, you may reach us at artesari.wfa@gmail.com"
+      },
+      {
+        "type": "text",
+        "id": "email_recipient",
+        "label": "Recipient Email (reference)",
+        "info": "The storefront contact form sends to your store’s contact email in Shopify admin. This field is for your notes or future use.",
+        "default": "artesari.wfa@gmail.com"
+      }, {
+        "type": "header",
+        "content": "Layout"
+      }, {
+        "type": "select",
+        "id": "content_width",
+        "label": "Content width",
+        "options": [
+          {
+            "value": "page",
+            "label": "Page width"
+          }, {
+            "value": "full",
+            "label": "Full width"
+          }
+        ],
+        "default": "page"
+      }, {
+        "type": "range",
+        "id": "content_max_width",
+        "min": 0,
+        "max": 1600,
+        "step": 20,
+        "unit": "px",
+        "label": "Custom max content width",
+        "info": "0 = use the theme’s page content width. Only applies when Content width is Page width.",
+        "default": 0
+      }, {
+        "type": "range",
+        "id": "padding_top",
+        "min": 0,
+        "max": 120,
+        "step": 4,
+        "unit": "px",
+        "label": "Padding top",
+        "default": 60
+      }, {
+        "type": "range",
+        "id": "padding_bottom",
+        "min": 0,
+        "max": 120,
+        "step": 4,
+        "unit": "px",
+        "label": "Padding bottom",
+        "default": 60
+      }, {
+        "type": "range",
+        "id": "padding_top_mobile",
+        "min": 0,
+        "max": 120,
+        "step": 4,
+        "unit": "px",
+        "label": "Padding top (mobile)",
+        "default": 40
+      }, {
+        "type": "range",
+        "id": "padding_bottom_mobile",
+        "min": 0,
+        "max": 120,
+        "step": 4,
+        "unit": "px",
+        "label": "Padding bottom (mobile)",
+        "default": 40
+      }
+    ],
+    "presets": [
+      {
+        "name": "Contact Section"
+      }
+    ]
+  }
 {% endschema %}
 
-<style>
-  .as-contact-section {
-    background-color: #F4ECE6;
-    background-image: url("https://cdn.shopify.com/s/files/1/0728/1321/5942/files/Pattern_Background.png?v=1774441646");    background-repeat: repeat;
-    background-size: auto;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 60px 20px;
-    font-family: 'Georgia', serif;
-    position: relative;
-  }
+{% liquid
+  assign as_contact_layout = section.settings.content_width | default: 'page'
+  assign as_contact_max_w = section.settings.content_max_width | default: 0 | plus: 0
+  assign as_pad_top = section.settings.padding_top | default: 60
+  assign as_pad_bottom = section.settings.padding_bottom | default: 60
+  assign as_pad_top_m = section.settings.padding_top_mobile | default: 40
+  assign as_pad_bottom_m = section.settings.padding_bottom_mobile | default: 40
+%}
 
-  .as-contact-bg-pattern {
-    position: absolute;
-    inset: 0;
-    overflow: hidden;
-    pointer-events: none;
-    z-index: 0;
-  }
+<section
+  class="as-contact-section as-contact-layout--{{ as_contact_layout }}"
+  style="--as-contact-pad-top: {{ as_pad_top }}px; --as-contact-pad-bottom: {{ as_pad_bottom }}px; --as-contact-pad-top-mobile: {{ as_pad_top_m }}px; --as-contact-pad-bottom-mobile: {{ as_pad_bottom_m }}px;{% if as_contact_layout == 'page' and as_contact_max_w > 0 %} --as-contact-max-width: {{ as_contact_max_w }}px;{% endif %}"
+  {{ section.shopify_attributes }}>
+  <style>
+    /* Uses theme --page-content-width / --page-margin from body (see assets/base.css) */
+    .as-contact-section .page-width {
+      box-sizing: border-box;
+      width: 100%;
+      max-width: min(var(--as-contact-max-width, var(--page-content-width)), 100%);
+      margin-inline: auto;
+    }
 
-  .as-contact-bg-pattern svg {
-    position: absolute;
-    opacity: 0.18;
-  }
+    .as-contact-layout--full .page-width {
+      max-width: 100%;
+    }
 
-  .as-contact-inner {
-    position: relative;
-    z-index: 1;
-    width: 100%;
-    max-width: 700px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .as-contact-heading {
-    font-size: 32px;
-    color: #686A54;
-    font-weight: 400;
-    margin: 0 0 18px 0;
-    font-family: 'SS Bruney';
-  }
-
-  .as-contact-subtext {
-    font-size: 14px;
-    color: #686A54;
-    text-align: center;
-    max-width: 520px;
-    line-height: 1.65;
-    margin: 0 0 32px 0;
-    font-family: 'Fraunces';
-  }
-
-  .as-contact-card {
-    background: #fff;
-    border-radius: 4px;
-    padding: 36px 40px 40px 40px;
-    width: 100%;
-    box-shadow: 0 2px 16px rgba(104,106,84,0.07);
-    box-sizing: border-box;
-  }
-
-  .as-contact-field {
-    margin-bottom: 18px;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .as-contact-field label {
-    font-size: 13px;
-    color: #686A54;
-    margin-bottom: 6px;
-    font-family: 'Agrandir';
-    font-weight: 400;
-  }
-
-  .as-contact-field input,
-  .as-contact-field select,
-  .as-contact-field textarea {
-    border: 1px solid #d6cfc8;
-    border-radius: 3px;
-    padding: 10px 14px;
-    font-size: 13px;
-    color: #686A54;
-    font-family: 'Fraunces';
-    background: #fff;
-    outline: none;
-    transition: border-color 0.2s;
-    width: 100%;
-    box-sizing: border-box;
-    appearance: none;
-    -webkit-appearance: none;
-  }
-
-  .as-contact-field input::placeholder,
-  .as-contact-field textarea::placeholder {
-    color: #b8b2aa;
-  }
-
-  .as-contact-field input:focus,
-  .as-contact-field select:focus,
-  .as-contact-field textarea:focus {
-    border-color: #B7A160;
-  }
-
-  .as-contact-field select {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23686A54' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 14px center;
-    padding-right: 36px;
-    cursor: pointer;
-  }
-
-  .as-contact-field select option[value=""] {
-    color: #b8b2aa;
-  }
-
-  .as-contact-field textarea {
-    resize: vertical;
-    min-height: 110px;
-  }
-
-  .as-contact-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin-bottom: 18px;
-  }
-
-  .as-contact-row .as-contact-field {
-    margin-bottom: 0;
-  }
-
-  .as-contact-submit-wrap {
-    display: flex;
-    justify-content: center;
-    margin-top: 8px;
-  }
-
-  .as-contact-submit {
-    background: #B7A160;
-    color: #fff;
-    border: none;
-    padding: 13px 52px;
-    font-size: 13px;
-    letter-spacing: 0.12em;
-    font-family: 'Agrandir';
-    cursor: pointer;
-    border-radius: 2px;
-    text-transform: uppercase;
-    transition: background 0.2s;
-  }
-
-  .as-contact-submit:hover {
-    background: #9e8b52;
-  }
-
-  .as-contact-success {
-    display: none;
-    background: #f0ebe3;
-    border: 1px solid #B7A160;
-    color: #686A54;
-    padding: 14px 20px;
-    border-radius: 3px;
-    font-size: 14px;
-    text-align: center;
-    margin-top: 16px;
-    font-family: 'Georgia', serif;
-  }
-
-  @media (max-width: 600px) {
     .as-contact-section {
-      padding: 40px 16px;
+      background-color: #F4ECE6;
+      background-image: url("https://cdn.shopify.com/s/files/1/0728/1321/5942/files/Pattern_Background.png?v=1774441646");
+      background-repeat: repeat;
+      background-size: auto;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: var(--as-contact-pad-top, 60px) var(--page-margin, 16px);
+      font-family: 'Georgia'
+      , serif;
+      position: relative;
+    }
+
+    .as-contact-bg-pattern {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .as-contact-bg-pattern svg {
+      position: absolute;
+      opacity: 0.18;
+    }
+
+    .as-contact-inner {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .as-contact-header {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 48px;
     }
 
     .as-contact-heading {
-      font-size: 24px;
+      font-size: 48px;
+      color: #686A54;
+      font-weight: 400;
+      margin: 0;
+      font-family: 'SS Bruney';
     }
 
     .as-contact-subtext {
-      font-size: 13px;
+      font-size: 20px;
+      color: #686A54;
+      text-align: center;
+      width: 65%;
+      line-height: 1.65;
+      margin: 24px 0 0;
+      font-family: 'Fraunces';
     }
 
     .as-contact-card {
-      padding: 24px 18px 28px 18px;
+      background: rgba(255, 255, 255, 0.35);
+      border: 1px solid rgba(104, 106, 84, 0.12);
+      border-radius: 4px;
+      padding: 36px clamp(20px, 4vw, 40px);
+      width: 50%;
+      max-width: 100%;
+      margin-inline: auto;
+      box-shadow: 0 2px 16px rgba(104, 106, 84, 0.06);
+      box-sizing: border-box;
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+    }
+
+    .as-contact-field {
+      margin-bottom: 18px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .as-contact-field label {
+      font-size: 16px;
+      color: #1E1E1E;
+      margin-bottom: 6px;
+      font-family: 'Agrandir';
+      font-weight: 400;
+    }
+
+    .as-contact-field input,
+    .as-contact-field select,
+    .as-contact-field textarea {
+      border: 1px solid #d6cfc8;
+      border-radius: 3px;
+      padding: 10px 14px;
+      font-size: 14px;
+      color: #686A54;
+      font-family: 'Fraunces';
+      background: #fff;
+      outline: none;
+      transition: border-color 0.2s;
+      width: 100%;
+      box-sizing: border-box;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
+    .as-contact-field input::placeholder,
+    .as-contact-field textarea::placeholder {
+      color: #969696;
+      font-size: 14px;
+    }
+
+    .as-contact-field input:focus,
+    .as-contact-field select:focus,
+    .as-contact-field textarea:focus {
+      border-color: #B7A160;
+    }
+
+    .as-contact-field select {
+      background-image: url("data:image/svg+xml, %3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23686A54' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 36px;
+      cursor: pointer;
+    }
+
+    .as-contact-field select option[value=""] {
+      color: #969696;
+    }
+
+    .as-contact-field textarea {
+      resize: vertical;
+      min-height: 110px;
     }
 
     .as-contact-row {
-      grid-template-columns: 1fr;
-      gap: 0;
-      margin-bottom: 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 18px;
     }
 
     .as-contact-row .as-contact-field {
-      margin-bottom: 18px;
+      margin-bottom: 0;
     }
-  }
-</style>
 
-<section class="as-contact-section">
+    .as-contact-submit-wrap {
+      display: flex;
+      justify-content: center;
+      margin-top: 8px;
+    }
+
+    .as-contact-submit {
+      background: #B7A160;
+      color: #fff;
+      border: none;
+      padding: 14px 60px;
+      font-size: 14px;
+      letter-spacing: 0.12em;
+      font-family: 'Agrandir';
+      cursor: pointer;
+      border-radius: 2px;
+      text-transform: uppercase;
+      transition: background 0.2s;
+    }
+
+    .as-contact-submit:hover {
+      background: #9e8b52;
+    }
+
+    .as-contact-success {
+      display: none;
+      background: #f0ebe3;
+      border: 1px solid rgba(183, 161, 96, 0.65);
+      color: #686A54;
+      padding: 14px 20px;
+      border-radius: 3px;
+      font-size: 14px;
+      text-align: center;
+      margin-top: 16px;
+      font-family: 'Georgia'
+      , serif;
+    }
+
+    .as-contact-field--inquiry {
+      max-width: 308px;
+    }
+
+    .as-contact-field--inquiry select {
+      background-color: #fff;
+      border-color: #d6cfc8;
+    }
+
+    @media (max-width: 768px) {
+      .as-contact-header,
+      .as-contact-inner {
+        width: 100%;
+        max-width: 100%;
+      }
+
+      .as-contact-card {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .as-contact-section {
+        padding: var(--as-contact-pad-top-mobile, 40px) var(--page-margin, 16px);
+      }
+
+      .as-contact-header,
+      .as-contact-inner {
+        width: 100%;
+        max-width: 100%;
+      }
+
+      .as-contact-heading {
+        font-size: 32px;
+      }
+
+      .as-contact-subtext {
+        font-size: 16px;
+        margin-bottom: 0;
+      }
+
+      .as-contact-header {
+        margin-bottom: 130px;
+      }
+
+      .as-contact-card {
+        padding: 24px 18px 28px;
+        width: 100%;
+      }
+
+      .as-contact-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+        margin-bottom: 0;
+      }
+
+      .as-contact-row .as-contact-field {
+        margin-bottom: 18px;
+      }
+
+      .as-contact-field label {
+        font-size: 14px;
+      }
+
+      .as-contact-submit-wrap {
+        justify-content: flex-start;
+      }
+
+      .as-contact-submit {
+        font-size: 12px;
+      }
+    }
+  </style>
   {% comment %} <div class="as-contact-bg-pattern">
-    <svg width="80" height="80" style="top:20px;left:20px;" viewBox="0 0 80 80"><text x="10" y="50" font-size="38" fill="#686A54" font-family="Georgia,serif" font-style="italic">AS</text></svg>
-    <svg width="80" height="80" style="top:20px;right:20px;" viewBox="0 0 80 80"><text x="10" y="50" font-size="38" fill="#686A54" font-family="Georgia,serif" font-style="italic">AS</text></svg>
-    <svg width="80" height="80" style="top:50%;left:20px;transform:translateY(-50%);" viewBox="0 0 80 80"><text x="10" y="50" font-size="38" fill="#686A54" font-family="Georgia,serif" font-style="italic">AS</text></svg>
-    <svg width="80" height="80" style="top:50%;right:20px;transform:translateY(-50%);" viewBox="0 0 80 80"><text x="10" y="50" font-size="38" fill="#686A54" font-family="Georgia,serif" font-style="italic">AS</text></svg>
-    <svg width="80" height="80" style="bottom:20px;left:20px;" viewBox="0 0 80 80"><text x="10" y="50" font-size="38" fill="#686A54" font-family="Georgia,serif" font-style="italic">AS</text></svg>
-    <svg width="80" height="80" style="bottom:20px;right:20px;" viewBox="0 0 80 80"><text x="10" y="50" font-size="38" fill="#686A54" font-family="Georgia,serif" font-style="italic">AS</text></svg>
-    <svg width="60" height="120" style="top:10%;left:50%;transform:translateX(-50%);" viewBox="0 0 60 120">
-      <line x1="30" y1="0" x2="30" y2="120" stroke="#686A54" stroke-width="1"/>
-      <ellipse cx="30" cy="20" rx="12" ry="18" fill="none" stroke="#686A54" stroke-width="1"/>
-      <ellipse cx="15" cy="55" rx="10" ry="15" fill="none" stroke="#686A54" stroke-width="1" transform="rotate(-30 15 55)"/>
-      <ellipse cx="45" cy="55" rx="10" ry="15" fill="none" stroke="#686A54" stroke-width="1" transform="rotate(30 45 55)"/>
-    </svg>
-  </div> {% endcomment %}
+                                                                                                                            <svg width="80" height="80" style="top:20px;left:20px;" viewBox="0 0 80 80"><text x="10" y="50" font-size="38" fill="#686A54" font-family="Georgia,serif" font-style="italic">AS</text></svg>
+                                                                                                                            <svg width="80" height="80" style="top:20px;right:20px;" viewBox="0 0 80 80"><text x="10" y="50" font-size="38" fill="#686A54" font-family="Georgia,serif" font-style="italic">AS</text></svg>
+                                                                                                                            <svg width="80" height="80" style="top:50%;left:20px;transform:translateY(-50%);" viewBox="0 0 80 80"><text x="10" y="50" font-size="38" fill="#686A54" font-family="Georgia,serif" font-style="italic">AS</text></svg>
+                                                                                                                            <svg width="80" height="80" style="top:50%;right:20px;transform:translateY(-50%);" viewBox="0 0 80 80"><text x="10" y="50" font-size="38" fill="#686A54" font-family="Georgia,serif" font-style="italic">AS</text></svg>
+                                                                                                                            <svg width="80" height="80" style="bottom:20px;left:20px;" viewBox="0 0 80 80"><text x="10" y="50" font-size="38" fill="#686A54" font-family="Georgia,serif" font-style="italic">AS</text></svg>
+                                                                                                                            <svg width="80" height="80" style="bottom:20px;right:20px;" viewBox="0 0 80 80"><text x="10" y="50" font-size="38" fill="#686A54" font-family="Georgia,serif" font-style="italic">AS</text></svg>
+                                                                                                                            <svg width="60" height="120" style="top:10%;left:50%;transform:translateX(-50%);" viewBox="0 0 60 120">
+                                                                                                                              <line x1="30" y1="0" x2="30" y2="120" stroke="#686A54" stroke-width="1"/>
+                                                                                                                              <ellipse cx="30" cy="20" rx="12" ry="18" fill="none" stroke="#686A54" stroke-width="1"/>
+                                                                                                                              <ellipse cx="15" cy="55" rx="10" ry="15" fill="none" stroke="#686A54" stroke-width="1" transform="rotate(-30 15 55)"/>
+                                                                                                                              <ellipse cx="45" cy="55" rx="10" ry="15" fill="none" stroke="#686A54" stroke-width="1" transform="rotate(30 45 55)"/>
+                                                                                                                            </svg>
+                                                              </div> {% endcomment %}
 
-  <div class="as-contact-inner">
+  <div class="as-contact-header page-width">
     <h2 class="as-contact-heading">{{ section.settings.heading }}</h2>
     <p class="as-contact-subtext">{{ section.settings.subtext }}</p>
+  </div>
 
+  <div class="as-contact-inner page-width">
     <div class="as-contact-card">
-      {%- form 'contact', id: 'as-contact-form' -%}
-        <div class="as-contact-field">
+      {%- form 'contact'
+        , id: 'as-contact-form' -%}
+        <div class="as-contact-field as-contact-field--inquiry">
           <label for="as-inquiry">Inquiry</label>
           <select id="as-inquiry" name="contact[inquiry]">
-            <option value="" disabled selected>Select</option>
+            <option
+              value=""
+              disabled
+              selected>Select</option>
             <option value="order">Order Inquiry</option>
             <option value="collaboration">Collaboration</option>
             <option value="other">Other</option>
@@ -265,33 +429,58 @@
 
         <div class="as-contact-field">
           <label for="as-fullname">Full Name</label>
-          <input type="text" id="as-fullname" name="contact[name]" placeholder="Ex. Juan Dela Cruz" required>
+          <input
+            type="text"
+            id="as-fullname"
+            name="contact[name]"
+            placeholder="Ex. Juan Dela Cruz"
+            required>
         </div>
 
         <div class="as-contact-row">
           <div class="as-contact-field">
             <label for="as-email">Email</label>
-            <input type="email" id="as-email" name="contact[email]" placeholder="Ex. juandelacruz@gmail.com" required>
+            <input
+              type="email"
+              id="as-email"
+              name="contact[email]"
+              placeholder="Ex. juandelacruz@gmail.com"
+              required>
           </div>
           <div class="as-contact-field">
             <label for="as-contact-num">Contact</label>
-            <input type="tel" id="as-contact-num" name="contact[contact]" placeholder="+">
+            <input
+              type="tel"
+              id="as-contact-num"
+              name="contact[contact]"
+              placeholder="+">
           </div>
         </div>
 
         <div class="as-contact-field">
           <label for="as-brand">Brand</label>
-          <input type="text" id="as-brand" name="contact[brand]" placeholder="Enter your brand name">
+          <input
+            type="text"
+            id="as-brand"
+            name="contact[brand]"
+            placeholder="Enter your brand name">
         </div>
 
         <div class="as-contact-field">
           <label for="as-website">Website or Socials (For brands):</label>
-          <input type="text" id="as-website" name="contact[website]" placeholder="Enter your website or social handles">
+          <input
+            type="text"
+            id="as-website"
+            name="contact[website]"
+            placeholder="Enter your website or social handles">
         </div>
 
         <div class="as-contact-field">
           <label for="as-message">Message</label>
-          <textarea id="as-message" name="contact[body]" placeholder="Write your inquiry or a collaboration idea here..."></textarea>
+          <textarea
+            id="as-message"
+            name="contact[body]"
+            placeholder="Write your inquiry or a collaboration idea here..."></textarea>
         </div>
 
         <div class="as-contact-submit-wrap">
