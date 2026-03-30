@@ -223,11 +223,11 @@
                         "width": "fit-content",
                         "max_width": "normal",
                         "alignment": "center",
-                        "type_preset": "rte",
+                        "type_preset": "custom",
                         "font": "var(--font-body--family)",
                         "font_size": "48px",
                         "line_height": "normal",
-                        "letter_spacing": "normal",
+                        "letter_spacing": "tight",
                         "case": "none",
                         "wrap": "pretty",
                         "color": "#F4ECE6",
@@ -288,7 +288,7 @@
                 "border": "none",
                 "border_width": 1,
                 "border_opacity": 100,
-                "border_radius": 4
+                "border_radius": 0
               },
               "blocks": {}
             },
@@ -360,8 +360,11 @@
       "custom_css": [],
       "settings": {
         "color_scheme": "",
+        "enable_custom_background": true,
+        "background_color": "#ffffff",
+        "background_image": "shopify://shop_images/Pattern_Background_d1098fe6-5b76-4277-9461-888224bb5587.png",
         "padding-block-start": 0,
-        "padding-block-end": 0
+        "padding-block-end": 80
       }
     }
   },

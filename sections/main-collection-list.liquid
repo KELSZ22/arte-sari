@@ -36,16 +36,25 @@
     {% assign section_collections = section_collections | split: ',' %}
   {% endif %}
 
-  {% capture list_items %}
-    {% for collection in section_collections limit: max_items %}
+{% liquid
+  assign ordered_handles = "gift-picks,fresh-drops,bags,bracelets,rings,earrings,necklaces,sale" | split: ","
+  assign max_items = 20
+%}
+
+{% capture list_items %}
+  {% for handle in ordered_handles limit: max_items %}
+    {% assign handle = handle | strip %}
+    {% assign collection = collections[handle] %}
+    {% if collection != blank %}
       <div class="resource-list__item" data-collection-handle="{{ collection.handle }}">
         {% content_for 'block', type: '_collection-card', id: 'static-collection-card', closest.collection: collection %}
       </div>
       {% unless forloop.last %}
         <!--@list/split-->
       {% endunless %}
-    {% endfor %}
-  {% endcapture %}
+    {% endif %}
+  {% endfor %}
+{% endcapture %}
 
   {% liquid
     # Create an array from the list items to be used for different layout types
@@ -92,6 +101,12 @@
     font-weight: 100 900;
     font-style: normal;
     font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Agrandir Regular';
+    src: url(https://cdn.shopify.com/s/files/1/0728/1321/5942/files/Agrandir-Regular.woff2?v=1771643523) format('woff2');
+    font-weight: 300;
   }
 
   .custom-list-collections-page .custom-list-collections-heading h1 {
@@ -222,7 +237,7 @@
     padding: 0.875rem clamp(2rem, 6vw, 5rem);
     background-color: #5b634e;
     color: #ffffff;
-    font-family: var(--font-body--family), system-ui, sans-serif;
+    font-family: 'Agrandir';
     font-size: 0.8125rem;
     font-weight: 500;
     letter-spacing: 0.1em;

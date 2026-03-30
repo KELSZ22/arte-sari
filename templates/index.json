@@ -313,7 +313,7 @@
         "tab_text_color": "#888888",
         "tab_active_color": "#b69a55",
         "tab_font_family": "agrandir",
-        "tab_font_size": 14,
+        "tab_font_size": 16,
         "tab_font_weight": "500",
         "background_image": "shopify://shop_images/Frame_122_7ec705b6-546b-4e9e-bdc8-f22e87477586.png",
         "background_overlay": 0,
@@ -572,7 +572,7 @@
         "grid_item_yphpGy"
       ],
       "custom_css": [
-        "h2 {letter-spacing: 1px; color:#686A54;}"
+        "h2 {letter-spacing: 1px; color: #686a54;}"
       ],
       "name": "Genuine Connections",
       "settings": {

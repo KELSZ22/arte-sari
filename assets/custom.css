@@ -16,6 +16,7 @@
   font-size: 48px !important;
   font-family: Facelio !important;
   font-weight: 400;
+  letter-spacing:1px !important;
 }
 
 .group-block:has(.custom-artisan-title) {
@@ -120,10 +121,11 @@ a.button[class*="button_HCHQwD"] {
 /* Blog post card date styling */
 .blog-post-item .blog-post-details {
   font-family: Agrandir, sans-serif;
+  font-weight: 400;
   font-size: 16px !important;
   letter-spacing: 0.02em;
   text-transform: uppercase;
-  color: rgb(var(--color-foreground-rgb) / 60%);
+  color: #5d5c5a;
 }
 
 .blog-post-item .blog-post-card__content a,
@@ -133,7 +135,7 @@ a.button[class*="button_HCHQwD"] {
   a
   .text-block
   :is(h1, h2, h3, h4, h5, h6, p, span) {
-  font-family: Agrandir, sans-serif;
+  font-family: Fraunces, serif;
   font-weight: 400;
   font-size: 20px !important;
   color: rgb(var(--color-foreground-rgb));
@@ -227,7 +229,7 @@ a.button[class*="button_HCHQwD"] {
 
 .blog-header-filters__link {
   text-decoration: none;
-  color: rgb(var(--color-foreground-rgb) / 80%);
+  color: #686a54;
   font-family: Agrandir, sans-serif;
   font-size: 20px;
   font-weight: 400;
@@ -237,14 +239,15 @@ a.button[class*="button_HCHQwD"] {
 
 .blog-header-filters__link:hover,
 .blog-header-filters__link.is-active {
-  color: rgb(var(--color-foreground-rgb));
-}
+  color: #686a54;
+  font-weight: 800;}
 
 @media screen and (max-width: 749px) {
   .blog-header-filters {
     gap: 36px;
-    padding-inline-start: 36px;
-    padding-top: 0;
+    justify-content: center;
+    padding-block: 16px;
+    padding-inline: 0;
     margin-block-start: 36px;
   }
 
@@ -285,11 +288,12 @@ a.button[class*="button_HCHQwD"] {
 
 @media screen and (max-width: 768px) {
   .blog-header-filters {
-    gap: 20px;
+    gap: 36px;
     padding-top: 0;
-    padding-inline-start: 0;
+    justify-content: center;
+    padding-block: 20px;
+    padding-inline: 0;
     margin-block-start: 16px;
-    padding-inline-start: 36px;
   }
 
   .blog-header-filters__link {
@@ -427,8 +431,8 @@ main.content-for-layout[data-template^="collection"] {
 .qv-inner > .qv-product-description {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  margin-bottom: 10 !important;
+  gap: 0px;
+  margin-bottom: 10px !important;
 }
 
 .qv-interactions {
@@ -457,6 +461,7 @@ main.content-for-layout[data-template^="collection"] {
   color: #5d5c5a;
 }
 .qv-product-price {
+  padding-block: 8px;
   font-family: Agrandir;
   font-weight: 400;
   font-style: Regular;
