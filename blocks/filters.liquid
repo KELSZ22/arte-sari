@@ -78,6 +78,8 @@
   if block_settings.enable_filtering == false and block_settings.enable_sorting
     assign should_use_select_on_mobile = false
   endif
+
+  assign collection_heading = collection.title | default: results.title | default: 'Gift picks'
 -%}
 
 {% if block_settings.enable_filtering or block_settings.enable_sorting or block_settings.enable_grid_density %}
@@ -87,7 +89,7 @@
       class="facets facets--horizontal facets-controls-wrapper spacing-style"
       style="{% render 'spacing-style', settings: block_settings %}{% if block_settings.text_label_case == 'uppercase' %} --facet-label-transform: uppercase;{% endif %}"
     >
-      <h4 class="facets--filters-title">gift picks</h4>
+      <h4 class="facets--filters-title">{{ collection_heading | downcase }}</h4>
 
       <div
         class="products-count-wrapper"
@@ -617,7 +619,7 @@
     </div>
   </div>
 
-  <h4 class="facets-mobile-gift-picks">gift picks</h4>
+  <h4 class="facets-mobile-gift-picks">{{ collection_heading | downcase }}</h4>
 
   <div
     class="facets-toggle{% if block_settings.enable_filtering == false %} facets-toggle--no-filters{% endif %}{% if block_settings.filter_style == 'horizontal' and block_settings.inherit_color_scheme == false %} color-{{ block_settings.color_scheme }}{% endif %}"
