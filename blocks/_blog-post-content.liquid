@@ -1,8 +1,62 @@
 
 
+{% liquid
+  assign featured_text_block_html = blank
+  assign featured_text_block = article.metafields.custom.featured_text_block
+  if featured_text_block != blank
+    if featured_text_block.type == 'rich_text_field'
+      assign featured_text_block_html = featured_text_block | metafield_tag
+    else
+      assign featured_text_block_html = featured_text_block.value | default: featured_text_block
+    endif
+  endif
+%}
+
 <div class="blog-post-content rte">
   <rte-formatter>
-    {{ article.content }}
+    {%- if featured_text_block_html != blank and article.content contains '</p>' -%}
+      {% liquid
+        assign paragraph_chunks = article.content | split: '</p>'
+        assign insert_after_index = paragraph_chunks.size | divided_by: 2
+        if insert_after_index < 1
+          assign insert_after_index = 1
+        endif
+        assign featured_inserted = false
+      %}
+
+      {% for paragraph_chunk in paragraph_chunks %}
+        {% assign trimmed_chunk = paragraph_chunk | strip %}
+        {% if trimmed_chunk == blank %}
+        {% else %}
+          {{ paragraph_chunk | append: '</p>' }}
+          {%- if featured_inserted == false and forloop.index == insert_after_index -%}
+            <aside class="blog-post-featured-text-block" aria-label="Featured quote">
+              <div class="blog-post-featured-text-block__inner rte">
+                {{ featured_text_block_html }}
+              </div>
+            </aside>
+            {% assign featured_inserted = true %}
+          {%- endif -%}
+        {% endif %}
+      {% endfor %}
+
+      {%- if featured_inserted == false -%}
+        <aside class="blog-post-featured-text-block" aria-label="Featured quote">
+          <div class="blog-post-featured-text-block__inner rte">
+            {{ featured_text_block_html }}
+          </div>
+        </aside>
+      {%- endif -%}
+    {%- else -%}
+      {{ article.content }}
+      {%- if featured_text_block_html != blank -%}
+        <aside class="blog-post-featured-text-block" aria-label="Featured quote">
+          <div class="blog-post-featured-text-block__inner rte">
+            {{ featured_text_block_html }}
+          </div>
+        </aside>
+      {%- endif -%}
+    {%- endif -%}
   </rte-formatter>
 </div>
 
@@ -10,6 +64,36 @@
   .blog-post-content {
     max-width: var(--normal-content-width);
     margin: 0 auto;
+  }
+
+  .blog-post-featured-text-block {
+    margin: clamp(1.75rem, 4vw, 2.5rem) 0;
+    padding: clamp(1.25rem, 2vw, 1.75rem) clamp(1rem, 3vw, 2rem);
+    background: #ee9677;
+  }
+
+  .blog-post-featured-text-block__inner {
+    margin: 0;
+    padding-left: clamp(1rem, 2vw, 1.5rem);
+    border-left: 2px solid #fff;
+    color: #fff;
+    font-family: "Fraunces", var(--font-heading--family), serif;
+    font-style: italic;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  .blog-post-featured-text-block__inner :is(p, h1, h2, h3, h4, h5, h6) {
+    margin: 0;
+    color: inherit;
+    font: inherit;
+    letter-spacing: normal;
+    text-transform: none;
+  }
+
+  .blog-post-featured-text-block__inner p + p {
+    margin-top: 0.75rem;
   }
 {% endstylesheet %}
 
