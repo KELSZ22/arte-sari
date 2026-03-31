@@ -759,7 +759,7 @@ main.content-for-layout[data-template^="collection"] {
 .product-addons {
   margin-bottom: 20px;
   border: 1px solid #0c0c0d1a;
-  padding: 2rem;
+  padding: 2rem 1rem 2rem 2rem;
 }
 .product-addons .addons-title {
   font-family: Fraunces2;
@@ -787,17 +787,32 @@ main.content-for-layout[data-template^="collection"] {
 }
 .product-addons .product-addons-flex {
   display: flex;
-  justify-content: space-between;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
   gap: 10px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
 }
 .product-addons .addon-option {
-  display: block;
+  display: flex;
+  flex-direction: column;
   padding: 1rem;
   background: #ededed;
-  flex: 1;
+  flex: 0 0 auto;
+  min-width: 200px;
+  max-width: 280px;
+  align-items: stretch;
+  box-sizing: border-box;
 }
 .product-addons .addon-option img {
   margin-bottom: 20px;
+  max-width: 100%;
+  height: auto;
 }
 .product-addons .addon-option :where(input[type="checkbox"]) {
   border: 1px solid #d9d9d9;
@@ -809,11 +824,14 @@ main.content-for-layout[data-template^="collection"] {
   background: #686a54;
   border: 1px solid #686a54;
 }
-@media screen and (max-width: 589px) {
-  .product-addons .product-addons-flex {
-    flex-direction: column;
+
+@media screen and (max-width: 749px) {
+  .product-addons {
+    padding-inline-end: 0;
+    padding-inline-start: var(--padding-md, 1rem);
   }
 }
+
 /* product-details */
 .product-details .pdp_pc.text-block > *,
 .product-details .pdp_pc.text-block {
@@ -850,6 +868,25 @@ main.content-for-layout[data-template^="collection"] {
   letter-spacing: 6%;
   color: #969696;
 }
+
+/* PDP mobile: main product title, price, category */
+@media screen and (max-width: 749px) {
+  main.content-for-layout[data-template^="product"] .product-details .pdp_pc.text-block > *,
+  main.content-for-layout[data-template^="product"] .product-details .pdp_pc.text-block {
+    font-size: 14px;
+  }
+
+  main.content-for-layout[data-template^="product"] .product-details .pdp_pt.text-block > *,
+  main.content-for-layout[data-template^="product"] .product-details .pdp_pt.text-block {
+    font-size: 24px;
+  }
+
+  main.content-for-layout[data-template^="product"] .product-details .pdp_price.text-block > *,
+  main.content-for-layout[data-template^="product"] .product-details .pdp_price.text-block {
+    font-size: 14px;
+  }
+}
+
 /* .product-details variants */
 .variant-option legend {
   font-family: Agrandir;
@@ -868,6 +905,16 @@ main.content-for-layout[data-template^="collection"] {
 .product-details .quantity-selector {
   border-radius: 0;
   background: none;
+}
+
+/* PDP desktop: quantity value uses Agrandir (input can inherit theme body font from base.css) */
+@media screen and (min-width: 750px) {
+  main.content-for-layout[data-template^="product"]
+    .product-details
+    .quantity-selector
+    input[type="number"] {
+    font-family: Agrandir, sans-serif;
+  }
 }
 .product-details .button.add-to-cart-button.button {
   border-radius: 0;
@@ -947,6 +994,24 @@ main.content-for-layout[data-template^="product"] {
 .product-recommendations .cardGalleryBorderInner {
   display: block;
 }
+
+/*
+ * Product template: `card-gallery` only outputs `.cardGalleryBorderInner` on collection templates.
+ * Restore the thin white inset frame for "Others also bought" cards on the PDP only.
+ */
+main.content-for-layout[data-template^="product"]
+  .product-recommendations
+  .card-gallery::after {
+  content: "";
+  position: absolute;
+  inset: 16px;
+  border: 1px solid #fff;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 3;
+  box-sizing: border-box;
+}
+
 .product-recommendations .section-resource-list__content .pdp_rp h3 {
   font-family: Facelio !important;
   font-weight: 400 !important;
@@ -962,7 +1027,7 @@ main.content-for-layout[data-template^="product"] {
   font-family: Fraunces2 !important;
   font-weight: 400 !important;
   font-style: Regular !important;
-  font-size: 16px !important;
+  font-size: 20px !important;
   leading-trim: NONE !important;
   line-height: 100% !important;
   letter-spacing: 0% !important;
@@ -971,11 +1036,50 @@ main.content-for-layout[data-template^="product"] {
   font-family: Agrandir !important;
   font-weight: 700 !important;
   font-style: Text Bold !important;
-  font-size: 12px !important;
+  font-size: 16px !important;
   leading-trim: NONE !important;
   line-height: 100% !important;
   letter-spacing: 0% !important;
   color: #969696;
+}
+
+/* PDP mobile: shipping lines, reviews + recommendations headings */
+@media screen and (max-width: 749px) {
+  main.content-for-layout[data-template^="product"] .product-shipping-info .shipping_info {
+    grid-template-columns: 20px minmax(0, 1fr);
+  }
+
+  main.content-for-layout[data-template^="product"]
+    .product-shipping-info
+    .shipping_info
+    > div {
+    font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+  }
+
+  main.content-for-layout[data-template^="product"] .reviews-section .reviews-heading {
+    font-size: 28px;
+  }
+
+  main.content-for-layout[data-template^="product"]
+    .product-recommendations
+    .section-resource-list__content
+    .pdp_rp
+    h3 {
+    font-size: 28px !important;
+  }
+
+  /* Others also bought: tighter type on small screens */
+  .product-recommendations .recommended-products--title .text-block p {
+    font-size: 16px !important;
+  }
+
+  .product-recommendations .recommended-products--price .price {
+    font-size: 12px !important;
+  }
 }
 
 .shopify-payment-button__button {
