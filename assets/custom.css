@@ -405,6 +405,13 @@ main.content-for-layout[data-template^="collection"] {
 .custom-collection-tabs-grid__item:hover .custom-quick-view {
   display: block;
 }
+
+/* Touch / narrow view: no hover, so keep Quick View visible on collection tabs grid */
+@media (hover: none), (pointer: coarse), screen and (max-width: 768px) {
+  .custom-collection-tabs-grid__item .custom-quick-view {
+    display: block;
+  }
+}
 .custom-quick-view-cta {
   padding: 10px 10px;
   margin: 0 20px 10px 20px;
@@ -1310,10 +1317,44 @@ html .card-gallery .cardGalleryBorderInner,
   }
   [id$="__custom_collection_tabs_grid_hrtEch"]
     .custom-collection-tabs-grid__image
+    .custom-quick-view {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 18px;
+    z-index: 3;
+    width: auto;
+    margin-top: 0;
+  }
+  [id$="__custom_collection_tabs_grid_hrtEch"]
+    .custom-collection-tabs-grid__image
     .custom-quick-view-cta {
+    margin: 0 48px;
+    padding: 8px 6px;
+    width: auto;
     white-space: nowrap;
-    font-size: 13px;
+    font-size: 12px;
     line-height: 1.2;
+  }
+}
+
+@media screen and (max-width: 390px) {
+  [id$="__custom_collection_tabs_grid_hrtEch"]
+    .custom-collection-tabs-grid__image
+    .custom-quick-view {
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+  }
+  [id$="__custom_collection_tabs_grid_hrtEch"]
+    .custom-collection-tabs-grid__image
+    .custom-quick-view-cta {
+    margin: 0;
+    padding: 7px 6px;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 11px;
+    line-height: 1.1;
   }
 }
 

@@ -67,7 +67,10 @@
           "blocks": {}
         }
       },
-      "block_order": ["title", "content"],
+      "block_order": [
+        "title",
+        "content"
+      ],
       "disabled": true,
       "settings": {
         "content_direction": "column",
@@ -112,7 +115,9 @@
           "block_order": []
         }
       },
-      "block_order": ["contact_form_UwiCkQ"],
+      "block_order": [
+        "contact_form_UwiCkQ"
+      ],
       "disabled": true,
       "name": "t:names.contact_form",
       "settings": {
@@ -150,7 +155,13 @@
       "settings": {
         "heading": "",
         "subtext": "Arte Sari offers wholesale partnerships for gifting, retail, and specialty collections. If you’d like to carry our products in your store or place bulk orders, we’d be delighted to work with you for bulk pricing and share Filipino artistry to your community.",
-        "email_recipient": "artesari.wfa@gmail.com"
+        "email_recipient": "artesari.wfa@gmail.com",
+        "content_width": "page",
+        "content_max_width": 0,
+        "padding_top": 60,
+        "padding_bottom": 60,
+        "padding_top_mobile": 40,
+        "padding_bottom_mobile": 40
       }
     },
     "wholesale_section_Am9tCV": {
@@ -160,10 +171,19 @@
         "heading": "wholesAle",
         "subtext": "Arte Sari offers wholesale partnerships for gifting, retail, and specialty collections. If you'd like to carry our products in your store or place bulk orders, we'd be delighted to work with you for bulk pricing and share Filipino artistry to your community.",
         "email_recipient": "artesari.wfa@gmail.com",
-        "background_color": "#F4ECE6",
-        "show_background_pattern": true
+        "gift_box_product": "10-gift-box",
+        "gift_box_hide_label": true,
+        "gift_box_custom_label": "",
+        "background_color": "#f4ece6",
+        "show_background_pattern": true,
+        "background_image": "shopify://shop_images/Pattern_Background_d1098fe6-5b76-4277-9461-888224bb5587.png"
       }
     }
   },
-  "order": ["main", "form", "new_contact_CHYiCH", "wholesale_section_Am9tCV"]
+  "order": [
+    "main",
+    "form",
+    "new_contact_CHYiCH",
+    "wholesale_section_Am9tCV"
+  ]
 }
