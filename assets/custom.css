@@ -466,7 +466,9 @@ main.content-for-layout[data-template^="collection"] {
   cursor: pointer;
   border: 2px solid transparent;
   opacity: 0.6;
-  transition: opacity 0.2s, border-color 0.2s;
+  transition:
+    opacity 0.2s,
+    border-color 0.2s;
 }
 .qv-thumb.active {
   opacity: 1;
@@ -871,18 +873,33 @@ main.content-for-layout[data-template^="collection"] {
 
 /* PDP mobile: main product title, price, category */
 @media screen and (max-width: 749px) {
-  main.content-for-layout[data-template^="product"] .product-details .pdp_pc.text-block > *,
-  main.content-for-layout[data-template^="product"] .product-details .pdp_pc.text-block {
+  main.content-for-layout[data-template^="product"]
+    .product-details
+    .pdp_pc.text-block
+    > *,
+  main.content-for-layout[data-template^="product"]
+    .product-details
+    .pdp_pc.text-block {
     font-size: 14px;
   }
 
-  main.content-for-layout[data-template^="product"] .product-details .pdp_pt.text-block > *,
-  main.content-for-layout[data-template^="product"] .product-details .pdp_pt.text-block {
+  main.content-for-layout[data-template^="product"]
+    .product-details
+    .pdp_pt.text-block
+    > *,
+  main.content-for-layout[data-template^="product"]
+    .product-details
+    .pdp_pt.text-block {
     font-size: 24px;
   }
 
-  main.content-for-layout[data-template^="product"] .product-details .pdp_price.text-block > *,
-  main.content-for-layout[data-template^="product"] .product-details .pdp_price.text-block {
+  main.content-for-layout[data-template^="product"]
+    .product-details
+    .pdp_price.text-block
+    > *,
+  main.content-for-layout[data-template^="product"]
+    .product-details
+    .pdp_price.text-block {
     font-size: 14px;
   }
 }
@@ -1045,7 +1062,9 @@ main.content-for-layout[data-template^="product"]
 
 /* PDP mobile: shipping lines, reviews + recommendations headings */
 @media screen and (max-width: 749px) {
-  main.content-for-layout[data-template^="product"] .product-shipping-info .shipping_info {
+  main.content-for-layout[data-template^="product"]
+    .product-shipping-info
+    .shipping_info {
     grid-template-columns: 20px minmax(0, 1fr);
   }
 
@@ -1060,7 +1079,9 @@ main.content-for-layout[data-template^="product"]
     min-width: 0;
   }
 
-  main.content-for-layout[data-template^="product"] .reviews-section .reviews-heading {
+  main.content-for-layout[data-template^="product"]
+    .reviews-section
+    .reviews-heading {
     font-size: 28px;
   }
 
@@ -1145,6 +1166,186 @@ html .card-gallery .cardGalleryBorderInner,
 }
 .custom-collection-tabs-grid__item .cardGalleryBorderInner {
   display: block;
+}
+
+/* Homepage only: Weaving Filipino Artistry section overrides */
+[id$="__custom_collection_tabs_grid_hrtEch"]
+  .custom-collection-tabs-grid__products {
+  gap: 24px;
+}
+[id$="__custom_collection_tabs_grid_hrtEch"]
+  .custom-collection-tabs-grid__item {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  text-align: left;
+}
+[id$="__custom_collection_tabs_grid_hrtEch"]
+  .custom-collection-tabs-grid__image {
+  overflow: hidden;
+  margin-bottom: 2px;
+}
+[id$="__custom_collection_tabs_grid_hrtEch"]
+  .custom-collection-tabs-grid__collection-label {
+  font-size: 16px;
+  display: block;
+  text-align: left;
+  margin: 12px 0 0;
+}
+[id$="__custom_collection_tabs_grid_hrtEch"]
+  .custom-collection-tabs-grid__fallback-card {
+  align-items: flex-start;
+  text-align: left;
+  gap: 4px;
+}
+[id$="__custom_collection_tabs_grid_hrtEch"]
+  .custom-collection-tabs-grid__fallback-title,
+[id$="__custom_collection_tabs_grid_hrtEch"]
+  .custom-collection-tabs-grid__fallback-price {
+  text-align: left;
+  width: 100%;
+}
+[id$="__custom_collection_tabs_grid_hrtEch"]
+  .custom-collection-tabs-grid__image
+  .cardGalleryBorderInner {
+  inset: 12px;
+  z-index: 2;
+}
+[id$="__custom_collection_tabs_grid_hrtEch"]
+  .custom-collection-tabs-grid__image
+  .custom-quick-view {
+  left: 0;
+  right: 0;
+  bottom: 18px;
+  z-index: 3;
+}
+[id$="__custom_collection_tabs_grid_hrtEch"]
+  .custom-collection-tabs-grid__image
+  .custom-quick-view-cta {
+  margin: 0 48px;
+  width: auto;
+}
+@media screen and (max-width: 768px) {
+  [id$="__custom_collection_tabs_grid_hrtEch"]
+    .custom-collection-tabs-grid__title {
+    padding-top: 100px;
+    font-size: 28px !important;
+    line-height: 1.15;
+  }
+  [id$="__custom_collection_tabs_grid_hrtEch"]
+    .custom-collection-tabs-grid__tabs {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    overflow-x: auto;
+    overflow-y: hidden;
+    gap: 32px;
+    margin-bottom: 24px;
+    padding-bottom: 8px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+  }
+  [id$="__custom_collection_tabs_grid_hrtEch"]
+    .custom-collection-tabs-grid__tab {
+    flex: 0 0 auto;
+    white-space: nowrap;
+  }
+  [id$="__custom_collection_tabs_grid_hrtEch"]
+    .custom-collection-tabs-grid__products {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+  [id$="__custom_collection_tabs_grid_hrtEch"]
+    .custom-collection-tabs-grid__item,
+  [id$="__custom_collection_tabs_grid_hrtEch"]
+    .custom-collection-tabs-grid__fallback-card {
+    width: 100%;
+  }
+  [id$="__custom_collection_tabs_grid_hrtEch"]
+    .custom-collection-tabs-grid__image {
+    width: 100%;
+    margin-bottom: 6px;
+    margin-left: 0;
+    margin-right: 0;
+  }
+  [id$="__custom_collection_tabs_grid_hrtEch"]
+    .custom-collection-tabs-grid__image
+    > a {
+    display: block;
+    width: 100%;
+    line-height: 0;
+  }
+  [id$="__custom_collection_tabs_grid_hrtEch"]
+    .custom-collection-tabs-grid__image
+    .custom-collection-tabs-grid__fallback-image {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    min-height: 0;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+  [id$="__custom_collection_tabs_grid_hrtEch"]
+    .custom-collection-tabs-grid__collection-label {
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    margin: 12px 0 2px;
+  }
+  [id$="__custom_collection_tabs_grid_hrtEch"]
+    .custom-collection-tabs-grid__fallback-card {
+    gap: 2px;
+  }
+  [id$="__custom_collection_tabs_grid_hrtEch"]
+    .custom-collection-tabs-grid__fallback-title {
+    font-size: 14px;
+    line-height: 1.2;
+  }
+  [id$="__custom_collection_tabs_grid_hrtEch"]
+    .custom-collection-tabs-grid__fallback-price {
+    font-size: 12px;
+    line-height: 1.2;
+  }
+  [id$="__custom_collection_tabs_grid_hrtEch"]
+    .custom-collection-tabs-grid__image
+    .custom-quick-view-cta {
+    white-space: nowrap;
+    font-size: 13px;
+    line-height: 1.2;
+  }
+}
+
+/* Homepage mobile: Inspired by the Sari-Sari Store (image + content) */
+@media screen and (max-width: 768px) {
+  [id$="__image_content_split_E8rT73"] .image-content-split__content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+  }
+  [id$="__image_content_split_E8rT73"] .image-content-split__heading,
+  [id$="__image_content_split_E8rT73"] .image-content-split__subheading,
+  [id$="__image_content_split_E8rT73"] .image-content-split__text {
+    width: 100%;
+    align-self: stretch;
+  }
+  [id$="__image_content_split_E8rT73"] .image-content-split__heading {
+    font-size: 28px !important;
+    line-height: 1.15;
+  }
+  [id$="__image_content_split_E8rT73"] .image-content-split__button {
+    display: inline-flex;
+    width: auto;
+    max-width: 100%;
+    align-self: flex-start;
+    margin-left: 0;
+    margin-right: auto;
+    padding-left: 16px;
+    padding-right: 16px;
+    box-sizing: border-box;
+  }
 }
 
 .product_metafield_category,

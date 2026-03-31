@@ -119,33 +119,6 @@
               },
               "blocks": {}
             },
-            "text_FKHnkG": {
-              "type": "text",
-              "name": "t:names.text",
-              "settings": {
-                "custom_class": "product_metafield_category",
-                "text": "<p>{{ closest.product.metafields.custom.category.value }}</p>",
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "rte",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "color": "var(--color-foreground)",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 10,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
             "product_title_jRTUKR": {
               "type": "product-title",
               "name": "t:names.product_title",
@@ -199,7 +172,6 @@
           },
           "block_order": [
             "product_card_gallery_pKQbAp",
-            "text_FKHnkG",
             "product_title_jRTUKR",
             "price_WBFkfb"
           ]
@@ -207,7 +179,8 @@
       },
       "custom_css": [
         ".price {color: white;}",
-        ".product-title {color: white;}"
+        ".product-title {color: white;}",
+        ".custom-collection-showcase .product_metafield_category {color: #F4ECE6;}"
       ],
       "name": "Collection showcase",
       "settings": {
@@ -245,12 +218,21 @@
     "custom_collection_tabs_grid_hrtEch": {
       "type": "custom-collection-tabs-grid",
       "blocks": {
+        "tab_shop_all_home": {
+          "type": "tab",
+          "settings": {
+            "tab_label": "SHOP ALL",
+            "collection": "frontpage",
+            "button_label": "SHOP ALL",
+            "button_link": "shopify://collections/all"
+          }
+        },
         "tab_ErWr7r": {
           "type": "tab",
           "settings": {
             "tab_label": "Bags",
             "collection": "frontpage",
-            "button_label": "SHOP BAGS",
+            "button_label": "SHOP ALL BAGS",
             "button_link": "shopify://collections/frontpage"
           }
         },
@@ -259,7 +241,7 @@
           "settings": {
             "tab_label": "Earrings",
             "collection": "frontpage",
-            "button_label": "SHOP EARRINGS",
+            "button_label": "SHOP ALL EARRINGS",
             "button_link": "shopify://collections/frontpage"
           }
         },
@@ -268,7 +250,7 @@
           "settings": {
             "tab_label": "Necklaces",
             "collection": "frontpage",
-            "button_label": "SHOP NECKLACES",
+            "button_label": "SHOP ALL NECKLACES",
             "button_link": "shopify://collections/frontpage"
           }
         },
@@ -277,7 +259,7 @@
           "settings": {
             "tab_label": "Bracelets",
             "collection": "frontpage",
-            "button_label": "SHOP BRACELETS",
+            "button_label": "SHOP ALL BRACELETS",
             "button_link": "shopify://collections/frontpage"
           }
         },
@@ -286,21 +268,20 @@
           "settings": {
             "tab_label": "Rings",
             "collection": "frontpage",
-            "button_label": "SHOP RINGS",
+            "button_label": "SHOP ALL RINGS",
             "button_link": "shopify://collections/frontpage"
           }
         }
       },
       "block_order": [
+        "tab_shop_all_home",
         "tab_ErWr7r",
         "tab_UTey9K",
         "tab_eTpGPq",
         "tab_YgAdEa",
         "tab_iYU6Dp"
       ],
-      "custom_css": [
-        "@media screen and (max-width: 768px) {.custom-collection-tabs-grid__title {padding-top: 100px; } .custom-collection-tabs-grid__products {padding-right: 20px; padding-left: 20px; }}"
-      ],
+      "custom_css": [],
       "name": "Collection tabs grid",
       "settings": {
         "heading": "WEAVING FILIPINO ARTISTRY",
@@ -355,11 +336,11 @@
         "button_font_size": 14,
         "button_font_weight": "500",
         "product_title_font_family": "inherit",
-        "product_title_font_size": 16,
+        "product_title_font_size": 20,
         "product_title_font_weight": "400",
         "product_title_color": "#5d5c5a",
         "product_price_font_family": "agrandir",
-        "product_price_font_size": 12,
+        "product_price_font_size": 16,
         "product_price_font_weight": "700",
         "product_price_color": "#969696",
         "product_1": "product-1",
@@ -458,9 +439,7 @@
           "blocks": {}
         }
       },
-      "block_order": [
-        "text_tbCzWt"
-      ],
+      "block_order": ["text_tbCzWt"],
       "name": "t:names.marquee_section",
       "settings": {
         "movement_direction": "normal",
@@ -571,9 +550,7 @@
         "grid_item_haWcpf",
         "grid_item_yphpGy"
       ],
-      "custom_css": [
-        "h2 {letter-spacing: 1px; color: #686a54;}"
-      ],
+      "custom_css": ["h2 {letter-spacing: 1px; color: #686a54;}"],
       "name": "Genuine Connections",
       "settings": {
         "background_image": "shopify://shop_images/842c4f8e3ea5071b9c97037b54e4b6d2fb16263c_b3453e5e-9ce5-4e2c-b7ed-af8acd74cc0d.jpg",
