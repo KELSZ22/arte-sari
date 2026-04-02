@@ -327,11 +327,6 @@ main.content-for-layout[data-template^="collection"] {
   background-color: var(--collection-page-bg);
 }
 
-/*
- * Fixed announcement bar and/or sticky header sit above the first paint of main (#header-group uses display:contents when sticky).
- * Header height + --nav-content-gap for breathing room between navbar and first section (all templates).
- * Skip transparent headers (first section is meant to sit under the nav).
- */
 body:not(:has(#header-component[transparent])):is(
   :has(.announcement-bar--fixed),
   :has(#header-component[sticky="always"]),
@@ -448,6 +443,15 @@ body:not(:has(#header-component[transparent])):is(
     margin: 0 5px 5px;
   }
 }
+
+@media screen and (max-width: 768px) {
+  .custom-quick-view-cta {
+    font-size: 12px;
+    width: 122px;
+    margin-left: -6px;
+  }
+}
+
 /* QUICK VIEW MODAL */
 .qv-inner > *:not(:last-child) {
   margin-bottom: 2rem;
