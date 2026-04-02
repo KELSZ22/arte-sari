@@ -86,8 +86,6 @@
         "image_k6JiqC"
       ],
       "custom_css": [
-        "@media screen and (min-width: 769px) {.about-hero {margin-top: 85px; }}",
-        "@media screen and (max-width: 769px) {.about-hero {margin-top: 85px; }}",
         ".about-hero__heading {font-weight: 100;}"
       ],
       "name": "Our Story",
@@ -122,7 +120,7 @@
         "content_W6hxgz"
       ],
       "custom_css": [
-        "@media screen and (max-width: 768px) {.arte-curated__wrapper {justify-content: center; }}"
+        "@media screen and (max-width: 768px) {.arte-curated__wrapper {justify-content: center; padding-top: 70px; padding-bottom: 70px; }}"
       ],
       "name": "About Us Image Text",
       "settings": {
@@ -136,7 +134,7 @@
         "bg_color": "#8b8f78",
         "bg_image": "shopify://shop_images/arte-sari-brand-texture-02_1.png",
         "heading_size": 48,
-        "text_size": 16,
+        "text_size": 20,
         "icon_size": 32,
         "heading_size_mobile": 28,
         "text_size_mobile": 16,
@@ -191,6 +189,7 @@
           "type": "value",
           "settings": {
             "icon": "shopify://shop_images/arte-sari-brand-elements-flower-santan.png",
+            "icon_width": 112,
             "title": "Community Empowerment",
             "text": "Supporting small businesses and fostering the growth of Filipino SMEs, helping to build stronger, more resilient communities both locally and globally.",
             "title_color": "#5b5b4f",
@@ -209,6 +208,7 @@
           "type": "value",
           "settings": {
             "icon": "shopify://shop_images/arte-sari-brand-elements-flower-sampaguita.png",
+            "icon_width": 112,
             "title": "Value for Money",
             "text": "Offering products that provide exceptional quality at accessible prices, ensuring that customers get the best balance of craftsmanship and affordability.",
             "title_color": "#5b5b4f",
@@ -227,6 +227,7 @@
           "type": "value",
           "settings": {
             "icon": "shopify://shop_images/arte-sari-brand-elements-pearl-jewelry.png",
+            "icon_width": 112,
             "title": "Filipino Artistry",
             "text": "Celebrating and supporting the skills and artistry of Filipino makers, ensuring culture is preserved and showcased.",
             "title_color": "#5b5b4f",
@@ -245,6 +246,7 @@
           "type": "value",
           "settings": {
             "icon": "shopify://shop_images/arte-sari-brand-elements-flower-rafflesia.png",
+            "icon_width": 112,
             "title": "Customer-Centric Experience",
             "text": "Providing an exceptional and personalized shipping experience, with a focus on building meaningful relationships with customers through attentive service, easy-to-use platforms, and engaging storytelling.",
             "title_color": "#5b5b4f",
@@ -276,7 +278,9 @@
         "heading_font_size": 48,
         "heading_font_weight": 400,
         "heading_font_family": "Facelio",
-        "heading_letter_spacing": 0
+        "heading_letter_spacing": 0,
+        "icon_area_height": 120,
+        "icon_spacing_bottom": 20
       }
     },
     "about_us_join_HiczaG": {
