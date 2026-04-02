@@ -150,6 +150,9 @@
     },
     "new_contact_CHYiCH": {
       "type": "new-contact",
+      "custom_css": [
+        ".as-contact-header {margin-bottom: 50px;}"
+      ],
       "name": "Contact Section",
       "settings": {
         "heading": "contAct",

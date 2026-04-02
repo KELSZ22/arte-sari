@@ -90,7 +90,7 @@
           "name": "t:names.product_card",
           "static": true,
           "settings": {
-            "product_card_gap": 4,
+            "product_card_gap": 0,
             "inherit_color_scheme": true,
             "color_scheme": "",
             "border": "none",
@@ -180,7 +180,8 @@
       "custom_css": [
         ".price {color: white;}",
         ".product-title {color: white;}",
-        ".custom-collection-showcase .product_metafield_category {color: #F4ECE6;}"
+        ".custom-collection-showcase .product_metafield_category {color: #f4ece6;}",
+        ".product_metafield_category {margin-top: 10px; margin-bottom: 5px;}"
       ],
       "name": "Collection showcase",
       "settings": {
@@ -222,7 +223,7 @@
           "type": "tab",
           "settings": {
             "tab_label": "SHOP ALL",
-            "collection": "frontpage",
+            "collection": "all-items",
             "button_label": "SHOP ALL",
             "button_link": "shopify://collections/all"
           }
@@ -231,7 +232,7 @@
           "type": "tab",
           "settings": {
             "tab_label": "Bags",
-            "collection": "frontpage",
+            "collection": "bags",
             "button_label": "SHOP ALL BAGS",
             "button_link": "shopify://collections/frontpage"
           }
@@ -240,7 +241,7 @@
           "type": "tab",
           "settings": {
             "tab_label": "Earrings",
-            "collection": "frontpage",
+            "collection": "earrings",
             "button_label": "SHOP ALL EARRINGS",
             "button_link": "shopify://collections/frontpage"
           }
@@ -249,7 +250,7 @@
           "type": "tab",
           "settings": {
             "tab_label": "Necklaces",
-            "collection": "frontpage",
+            "collection": "necklaces",
             "button_label": "SHOP ALL NECKLACES",
             "button_link": "shopify://collections/frontpage"
           }
@@ -258,7 +259,7 @@
           "type": "tab",
           "settings": {
             "tab_label": "Bracelets",
-            "collection": "frontpage",
+            "collection": "bracelets",
             "button_label": "SHOP ALL BRACELETS",
             "button_link": "shopify://collections/frontpage"
           }
@@ -267,7 +268,7 @@
           "type": "tab",
           "settings": {
             "tab_label": "Rings",
-            "collection": "frontpage",
+            "collection": "rings",
             "button_label": "SHOP ALL RINGS",
             "button_link": "shopify://collections/frontpage"
           }
@@ -314,6 +315,7 @@
     },
     "featured_artisan_kHHehy": {
       "type": "featured-artisan",
+      "custom_css": [],
       "name": "Featured artisan",
       "settings": {
         "subtitle": "Featured Artisan",
@@ -365,7 +367,7 @@
         "section_height_custom": 80,
         "section_width": "full-width",
         "color_scheme": "",
-        "padding-block-start": 48,
+        "padding-block-start": 100,
         "padding-block-end": 48
       }
     },
@@ -378,7 +380,7 @@
         "heading": "INSPIRED BY THE SARI-SARI STORE",
         "text": "<p>In the Philippines, the sari-sari store is more than a community convenience store.  It’s a  place where neighbors gather, share stories, and where every loyal customer is lovingly called “suki.”<br/><br/>At Arte Sari we bring that same spirit to the world. The brand hopes to reflect both the richness of Filipino artistry and the ethos of small, family-run businesses, offering a selection of authentic and meaningful products by Filipino artisans.</p>",
         "button_label": "Know our story",
-        "button_link": "",
+        "button_link": "shopify://pages/about-us",
         "subheading_font_family": "facelio",
         "subheading_font_size": 48,
         "subheading_font_weight": "400",
@@ -439,7 +441,9 @@
           "blocks": {}
         }
       },
-      "block_order": ["text_tbCzWt"],
+      "block_order": [
+        "text_tbCzWt"
+      ],
       "name": "t:names.marquee_section",
       "settings": {
         "movement_direction": "normal",
@@ -495,11 +499,15 @@
         "testimonial_RkEDjL",
         "testimonial_pcimQg"
       ],
+      "custom_css": [
+        ".testimonials__text {padding-top: 10px; padding-bottom: 5px; font-size: 16px;}",
+        ".testimonials__name {font-size: 20px; color: #969696;}"
+      ],
       "name": "Testimonials",
       "settings": {
         "heading": "TAKE IT FROM THEM",
         "button_label": "Shop now",
-        "button_link": "",
+        "button_link": "shopify://collections",
         "heading_color": "#5d5c5a",
         "text_color": "#5d5c5a",
         "name_color": "#5d5c5a",
@@ -550,7 +558,9 @@
         "grid_item_haWcpf",
         "grid_item_yphpGy"
       ],
-      "custom_css": ["h2 {letter-spacing: 1px; color: #686a54;}"],
+      "custom_css": [
+        "h2 {letter-spacing: 1px; color: #686a54;}"
+      ],
       "name": "Genuine Connections",
       "settings": {
         "background_image": "shopify://shop_images/842c4f8e3ea5071b9c97037b54e4b6d2fb16263c_b3453e5e-9ce5-4e2c-b7ed-af8acd74cc0d.jpg",

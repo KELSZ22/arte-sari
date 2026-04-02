@@ -1,0 +1,459 @@
+{% liquid
+  assign section_height = section.settings.section_height
+%}
+
+<section class="arte-sari" style="--section-height: {{ section_height }}vh;">
+  <div class="arte-sari__container">
+
+    <div class="arte-sari__block arte-sari__block--left">
+      <div class="arte-sari__media">
+        {% if section.settings.left_image != blank %}
+          <img 
+            src="{{ section.settings.left_image | image_url: width: 1500 }}" 
+            alt="Left Image"
+            class="arte-sari__image"
+          >
+        {% endif %}
+      </div>
+
+      <div class="arte-sari__content" style="
+        {% if section.settings.left_bg_image != blank %}
+          background-image: url('{{ section.settings.left_bg_image | image_url: width: 800 }}');
+          background-size: cover;
+          background-position: center;
+        {% else %}
+          background-color: {{ section.settings.left_bg_color }};
+        {% endif %}
+      ">
+        <h2 class="arte-sari__title" style="
+          font-size: {{ section.settings.left_title_font_size }}px;
+          color: {{ section.settings.left_title_color }};
+          font-weight: {{ section.settings.left_title_font_weight }};
+          font-family: {{ section.settings.left_title_font_family }};
+          margin-bottom: {{ section.settings.left_title_margin_bottom }}px;
+        ">
+          {{ section.settings.left_title }}
+        </h2>
+        <p class="arte-sari__text" style="
+          font-size: {{ section.settings.left_text_font_size }}px;
+          color: {{ section.settings.left_text_color }};
+          font-weight: {{ section.settings.left_text_font_weight }};
+          font-family: {{ section.settings.left_text_font_family }};
+          line-height: {{ section.settings.left_text_line_height }};
+        ">
+          {{ section.settings.left_text }}
+        </p>
+      </div>
+    </div>
+
+    <div class="arte-sari__block arte-sari__block--right">
+      <div class="arte-sari__media">
+        {% if section.settings.right_image != blank %}
+          <img 
+            src="{{ section.settings.right_image | image_url: width: 1500 }}" 
+            alt="Right Image"
+            class="arte-sari__image"
+          >
+        {% endif %}
+      </div>
+
+      <div class="arte-sari__content" style="
+        {% if section.settings.right_bg_image != blank %}
+          background-image: url('{{ section.settings.right_bg_image | image_url: width: 800 }}');
+          background-size: cover;
+          background-position: center;
+        {% else %}
+          background-color: {{ section.settings.right_bg_color }};
+        {% endif %}
+      ">
+        <h2 class="arte-sari__title" style="
+          font-size: {{ section.settings.right_title_font_size }}px;
+          color: {{ section.settings.right_title_color }};
+          font-weight: {{ section.settings.right_title_font_weight }};
+          font-family: {{ section.settings.right_title_font_family }};
+          margin-bottom: {{ section.settings.right_title_margin_bottom }}px;
+        ">
+          {{ section.settings.right_title }}
+        </h2>
+        <p class="arte-sari__text" style="
+          font-size: {{ section.settings.right_text_font_size }}px;
+          color: {{ section.settings.right_text_color }};
+          font-weight: {{ section.settings.right_text_font_weight }};
+          font-family: {{ section.settings.right_text_font_family }};
+          line-height: {{ section.settings.right_text_line_height }};
+        ">
+          {{ section.settings.right_text }}
+        </p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<style>
+    .arte-sari {
+  width: 100%;
+}
+
+.arte-sari__container {
+  display: flex;
+}
+
+.arte-sari__block {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+}
+
+.arte-sari__media {
+  height: var(--section-height);
+  overflow: hidden;
+}
+
+.arte-sari__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.arte-sari__content {
+  padding: 44px 88px 86px 110px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+@media screen and (min-width: 769px){
+  .arte-sari__content {
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    min-height: 350px;
+  }
+  .arte-sari__block:first-child .arte-sari__content {
+    border-right: 1px solid #686A54;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .arte-sari__container {
+    flex-direction: column;
+  }
+
+  .arte-sari__block {
+    width: 100%;
+  }
+
+  .arte-sari__media {
+    height: 60vh;
+  }
+  
+  .arte-sari__content {
+    padding: 32px 24px;
+  }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Arte & Sari Section",
+  "settings": [
+    {
+      "type": "range",
+      "id": "section_height",
+      "label": "Image Height (vh)",
+      "min": 30,
+      "max": 100,
+      "step": 5,
+      "default": 70
+    },
+
+    {
+      "type": "header",
+      "content": "Left Side Settings"
+    },
+    {
+      "type": "image_picker",
+      "id": "left_image",
+      "label": "Left Image"
+    },
+    {
+      "type": "text",
+      "id": "left_title",
+      "label": "Left Title",
+      "default": "ARTE"
+    },
+    {
+      "type": "textarea",
+      "id": "left_text",
+      "label": "Left Description",
+      "default": "Representing Filipino artistry..."
+    },
+    {
+      "type": "header",
+      "content": "Left Side Content Background"
+    },
+    {
+      "type": "color",
+      "id": "left_bg_color",
+      "label": "Background Color",
+      "default": "#f7f5f2"
+    },
+    {
+      "type": "image_picker",
+      "id": "left_bg_image",
+      "label": "Background Image (overrides color)"
+    },
+    {
+      "type": "header",
+      "content": "Left Side Title Styling"
+    },
+    {
+      "type": "range",
+      "id": "left_title_font_size",
+      "label": "Title Font Size (px)",
+      "min": 16,
+      "max": 72,
+      "step": 2,
+      "default": 32
+    },
+    {
+      "type": "color",
+      "id": "left_title_color",
+      "label": "Title Color",
+      "default": "#4a4a4a"
+    },
+    {
+      "type": "select",
+      "id": "left_title_font_weight",
+      "label": "Title Font Weight",
+      "options": [
+        { "value": "100", "label": "Thin (100)" },
+        { "value": "300", "label": "Light (300)" },
+        { "value": "400", "label": "Regular (400)" },
+        { "value": "500", "label": "Medium (500)" },
+        { "value": "600", "label": "Semi-bold (600)" },
+        { "value": "700", "label": "Bold (700)" },
+        { "value": "800", "label": "Extra-bold (800)" },
+        { "value": "900", "label": "Black (900)" }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "text",
+      "id": "left_title_font_family",
+      "label": "Title Font Family",
+      "default": "inherit",
+      "placeholder": "e.g., 'Helvetica Neue', Arial, sans-serif"
+    },
+    {
+      "type": "range",
+      "id": "left_title_margin_bottom",
+      "label": "Title Margin Bottom (px)",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Left Side Text Styling"
+    },
+    {
+      "type": "range",
+      "id": "left_text_font_size",
+      "label": "Text Font Size (px)",
+      "min": 12,
+      "max": 32,
+      "step": 1,
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "left_text_color",
+      "label": "Text Color",
+      "default": "#6b6b6b"
+    },
+    {
+      "type": "select",
+      "id": "left_text_font_weight",
+      "label": "Text Font Weight",
+      "options": [
+        { "value": "100", "label": "Thin (100)" },
+        { "value": "300", "label": "Light (300)" },
+        { "value": "400", "label": "Regular (400)" },
+        { "value": "500", "label": "Medium (500)" },
+        { "value": "600", "label": "Semi-bold (600)" },
+        { "value": "700", "label": "Bold (700)" }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "text",
+      "id": "left_text_font_family",
+      "label": "Text Font Family",
+      "default": "inherit",
+      "placeholder": "e.g., 'Helvetica Neue', Arial, sans-serif"
+    },
+    {
+      "type": "select",
+      "id": "left_text_line_height",
+      "label": "Text Line Height",
+      "options": [
+        { "value": "1.2", "label": "1.2" },
+        { "value": "1.4", "label": "1.4" },
+        { "value": "1.6", "label": "1.6" },
+        { "value": "1.8", "label": "1.8" },
+        { "value": "2.0", "label": "2.0" }
+      ],
+      "default": "1.6"
+    },
+
+    {
+      "type": "header",
+      "content": "Right Side Settings"
+    },
+    {
+      "type": "image_picker",
+      "id": "right_image",
+      "label": "Right Image"
+    },
+    {
+      "type": "text",
+      "id": "right_title",
+      "label": "Right Title",
+      "default": "SARI-SARI"
+    },
+    {
+      "type": "textarea",
+      "id": "right_text",
+      "label": "Right Description",
+      "default": "In the Philippines, the sari-sari store..."
+    },
+    {
+      "type": "header",
+      "content": "Right Side Content Background"
+    },
+    {
+      "type": "color",
+      "id": "right_bg_color",
+      "label": "Background Color",
+      "default": "#f7f5f2"
+    },
+    {
+      "type": "image_picker",
+      "id": "right_bg_image",
+      "label": "Background Image (overrides color)"
+    },
+    {
+      "type": "header",
+      "content": "Right Side Title Styling"
+    },
+    {
+      "type": "range",
+      "id": "right_title_font_size",
+      "label": "Title Font Size (px)",
+      "min": 16,
+      "max": 72,
+      "step": 2,
+      "default": 32
+    },
+    {
+      "type": "color",
+      "id": "right_title_color",
+      "label": "Title Color",
+      "default": "#4a4a4a"
+    },
+    {
+      "type": "select",
+      "id": "right_title_font_weight",
+      "label": "Title Font Weight",
+      "options": [
+        { "value": "100", "label": "Thin (100)" },
+        { "value": "300", "label": "Light (300)" },
+        { "value": "400", "label": "Regular (400)" },
+        { "value": "500", "label": "Medium (500)" },
+        { "value": "600", "label": "Semi-bold (600)" },
+        { "value": "700", "label": "Bold (700)" },
+        { "value": "800", "label": "Extra-bold (800)" },
+        { "value": "900", "label": "Black (900)" }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "text",
+      "id": "right_title_font_family",
+      "label": "Title Font Family",
+      "default": "inherit",
+      "placeholder": "e.g., 'Helvetica Neue', Arial, sans-serif"
+    },
+    {
+      "type": "range",
+      "id": "right_title_margin_bottom",
+      "label": "Title Margin Bottom (px)",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Right Side Text Styling"
+    },
+    {
+      "type": "range",
+      "id": "right_text_font_size",
+      "label": "Text Font Size (px)",
+      "min": 12,
+      "max": 32,
+      "step": 1,
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "right_text_color",
+      "label": "Text Color",
+      "default": "#6b6b6b"
+    },
+    {
+      "type": "select",
+      "id": "right_text_font_weight",
+      "label": "Text Font Weight",
+      "options": [
+        { "value": "100", "label": "Thin (100)" },
+        { "value": "300", "label": "Light (300)" },
+        { "value": "400", "label": "Regular (400)" },
+        { "value": "500", "label": "Medium (500)" },
+        { "value": "600", "label": "Semi-bold (600)" },
+        { "value": "700", "label": "Bold (700)" }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "text",
+      "id": "right_text_font_family",
+      "label": "Text Font Family",
+      "default": "inherit",
+      "placeholder": "e.g., 'Helvetica Neue', Arial, sans-serif"
+    },
+    {
+      "type": "select",
+      "id": "right_text_line_height",
+      "label": "Text Line Height",
+      "options": [
+        { "value": "1.2", "label": "1.2" },
+        { "value": "1.4", "label": "1.4" },
+        { "value": "1.6", "label": "1.6" },
+        { "value": "1.8", "label": "1.8" },
+        { "value": "2.0", "label": "2.0" }
+      ],
+      "default": "1.6"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Arte & Sari Section"
+    }
+  ]
+}
+{% endschema %}

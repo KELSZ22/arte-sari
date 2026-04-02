@@ -16,6 +16,7 @@
           "type": "text",
           "name": "Title",
           "settings": {
+            "custom_class": "",
             "text": "<h1>{{ closest.page.title }}</h1>",
             "width": "100%",
             "max_width": "normal",
@@ -48,6 +49,7 @@
         "heading",
         "page-content"
       ],
+      "disabled": true,
       "settings": {
         "content_direction": "column",
         "gap": 32,
@@ -55,9 +57,478 @@
         "padding-block-start": 40,
         "padding-block-end": 80
       }
+    },
+    "about_us_hero_WJimWB": {
+      "type": "about-us-hero",
+      "blocks": {
+        "heading_mNjpy8": {
+          "type": "heading",
+          "settings": {
+            "text": "OUR STORY"
+          }
+        },
+        "subheading_Ch4wdK": {
+          "type": "subheading",
+          "settings": {
+            "text": "Inspired by a cultural icon symbolizing  community, entrepreneurship, and accessibility."
+          }
+        },
+        "image_k6JiqC": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Group_4.png"
+          }
+        }
+      },
+      "block_order": [
+        "heading_mNjpy8",
+        "subheading_Ch4wdK",
+        "image_k6JiqC"
+      ],
+      "custom_css": [
+        "@media screen and (min-width: 769px) {.about-hero {margin-top: 85px; }}",
+        "@media screen and (max-width: 769px) {.about-hero {margin-top: 85px; }}",
+        ".about-hero__heading {font-weight: 100;}"
+      ],
+      "name": "Our Story",
+      "settings": {
+        "section_height": 55,
+        "bg_color": "#f5f5f5",
+        "bg_image": "shopify://shop_images/First.png",
+        "heading_size": 48,
+        "subheading_size": 20,
+        "mobile_heading_size": 32,
+        "mobile_subheading_size": 16,
+        "heading_color": "#686a54",
+        "subheading_color": "#6b6b6b",
+        "heading_font": "Facelio",
+        "subheading_font": "Fraunces",
+        "content_width": 560,
+        "image_width": 520
+      }
+    },
+    "about_us_image_text_JCFLTK": {
+      "type": "about-us-image-text",
+      "blocks": {
+        "content_W6hxgz": {
+          "type": "content",
+          "settings": {
+            "heading": "WHO WE ARE",
+            "text": "Arte Sari brings thoughtfully curated Filipino products to the US and global market. Born from a deep love for Filipino culture and a commitment to preserving its rich heritage, it seeks to house unique and diverse local products from all over the Philippines."
+          }
+        }
+      },
+      "block_order": [
+        "content_W6hxgz"
+      ],
+      "custom_css": [
+        "@media screen and (max-width: 768px) {.arte-curated__wrapper {justify-content: center; }}"
+      ],
+      "name": "About Us Image Text",
+      "settings": {
+        "section_height": 40,
+        "section_height_mobile": 40,
+        "layout": "text_first",
+        "content_width": 82,
+        "image_width": "500",
+        "image_fit": "contain",
+        "image_position": "center",
+        "bg_color": "#8b8f78",
+        "bg_image": "shopify://shop_images/arte-sari-brand-texture-02_1.png",
+        "heading_size": 48,
+        "text_size": 16,
+        "icon_size": 32,
+        "heading_size_mobile": 28,
+        "text_size_mobile": 16,
+        "icon_size_mobile": 24,
+        "heading_color": "#ffffff",
+        "text_color": "#ffffff",
+        "heading_font": "Facelio",
+        "text_font": "Fraunces"
+      }
+    },
+    "about_us_story_wJB69P": {
+      "type": "about-us-story",
+      "name": "Arte & Sari Section",
+      "settings": {
+        "section_height": 70,
+        "left_image": "shopify://shop_images/pexels-thadsx-15346842_1.png",
+        "left_title": "ARTE",
+        "left_text": "Representing Filipino artistry, embodies the brand’s commitment to showcasing the creativity of Filipino artisans. By combining Arte and Sari, the brand pays homage to the richness of Filipino craftsmanship",
+        "left_bg_color": "#f7f5f2",
+        "left_bg_image": "shopify://shop_images/arte-sari-brand-texture-04_2.png",
+        "left_title_font_size": 48,
+        "left_title_color": "#686a54",
+        "left_title_font_weight": "400",
+        "left_title_font_family": "Facelio",
+        "left_title_margin_bottom": 12,
+        "left_text_font_size": 16,
+        "left_text_color": "#5d5c5a",
+        "left_text_font_weight": "400",
+        "left_text_font_family": "inherit",
+        "left_text_line_height": "1.6",
+        "right_image": "shopify://shop_images/vecteezy_makati-manila-philippines-2023-heavily-locked-and_27142401_1.png",
+        "right_title": "SARI-SARI",
+        "right_text": "In the Philippines, the sari-sari store is more than a community convenience store. It’s a place where neighbors gather, share stories, and where every loyal customer is lovingly called “suki.”",
+        "right_bg_color": "#f7f5f2",
+        "right_bg_image": "shopify://shop_images/arte-sari-brand-texture-04_2.png",
+        "right_title_font_size": 48,
+        "right_title_color": "#686a54",
+        "right_title_font_weight": "400",
+        "right_title_font_family": "Facelio",
+        "right_title_margin_bottom": 12,
+        "right_text_font_size": 16,
+        "right_text_color": "#5d5c5a",
+        "right_text_font_weight": "400",
+        "right_text_font_family": "inherit",
+        "right_text_line_height": "1.6"
+      }
+    },
+    "about_us_stand_CJeQY3": {
+      "type": "about-us-stand",
+      "blocks": {
+        "value_xx4aXx": {
+          "type": "value",
+          "settings": {
+            "icon": "shopify://shop_images/arte-sari-brand-elements-flower-santan.png",
+            "title": "Community Empowerment",
+            "text": "Supporting small businesses and fostering the growth of Filipino SMEs, helping to build stronger, more resilient communities both locally and globally.",
+            "title_color": "#5b5b4f",
+            "title_font_size": 24,
+            "title_font_weight": 400,
+            "title_font_family": "Fraunces",
+            "title_letter_spacing": 0,
+            "text_color": "#969696",
+            "text_font_size": 16,
+            "text_font_weight": 400,
+            "text_font_family": "Fraunces",
+            "text_line_height": 1.6
+          }
+        },
+        "value_KT3EQt": {
+          "type": "value",
+          "settings": {
+            "icon": "shopify://shop_images/arte-sari-brand-elements-flower-sampaguita.png",
+            "title": "Value for Money",
+            "text": "Offering products that provide exceptional quality at accessible prices, ensuring that customers get the best balance of craftsmanship and affordability.",
+            "title_color": "#5b5b4f",
+            "title_font_size": 24,
+            "title_font_weight": 400,
+            "title_font_family": "Fraunces",
+            "title_letter_spacing": 0,
+            "text_color": "#969696",
+            "text_font_size": 16,
+            "text_font_weight": 400,
+            "text_font_family": "Fraunces",
+            "text_line_height": 1.6
+          }
+        },
+        "value_4KThHT": {
+          "type": "value",
+          "settings": {
+            "icon": "shopify://shop_images/arte-sari-brand-elements-pearl-jewelry.png",
+            "title": "Filipino Artistry",
+            "text": "Celebrating and supporting the skills and artistry of Filipino makers, ensuring culture is preserved and showcased.",
+            "title_color": "#5b5b4f",
+            "title_font_size": 24,
+            "title_font_weight": 400,
+            "title_font_family": "Fraunces",
+            "title_letter_spacing": 0,
+            "text_color": "#969696",
+            "text_font_size": 16,
+            "text_font_weight": 400,
+            "text_font_family": "Fraunces",
+            "text_line_height": 1.6
+          }
+        },
+        "value_8J3Kft": {
+          "type": "value",
+          "settings": {
+            "icon": "shopify://shop_images/arte-sari-brand-elements-flower-rafflesia.png",
+            "title": "Customer-Centric Experience",
+            "text": "Providing an exceptional and personalized shipping experience, with a focus on building meaningful relationships with customers through attentive service, easy-to-use platforms, and engaging storytelling.",
+            "title_color": "#5b5b4f",
+            "title_font_size": 24,
+            "title_font_weight": 400,
+            "title_font_family": "Fraunces",
+            "title_letter_spacing": 0,
+            "text_color": "#969696",
+            "text_font_size": 16,
+            "text_font_weight": 400,
+            "text_font_family": "Fraunces",
+            "text_line_height": 1.6
+          }
+        }
+      },
+      "block_order": [
+        "value_xx4aXx",
+        "value_KT3EQt",
+        "value_4KThHT",
+        "value_8J3Kft"
+      ],
+      "custom_css": [
+        "@media screen and (max-width: 768px) {.values {padding: 20px; }}"
+      ],
+      "name": "Values Section",
+      "settings": {
+        "heading": "WHAT WE STAND FOR",
+        "heading_color": "#5b5b4f",
+        "heading_font_size": 48,
+        "heading_font_weight": 400,
+        "heading_font_family": "Facelio",
+        "heading_letter_spacing": 0
+      }
+    },
+    "about_us_join_HiczaG": {
+      "type": "about-us-join",
+      "blocks": {
+        "bullet_mMWbX6": {
+          "type": "bullet",
+          "settings": {
+            "text": "Home Decor",
+            "bullet_symbol": "•"
+          }
+        },
+        "bullet_ANV9eH": {
+          "type": "bullet",
+          "settings": {
+            "text": "Beauty",
+            "bullet_symbol": "•"
+          }
+        },
+        "bullet_D69PmD": {
+          "type": "bullet",
+          "settings": {
+            "text": "Accessories",
+            "bullet_symbol": "•"
+          }
+        },
+        "bullet_ed7J4P": {
+          "type": "bullet",
+          "settings": {
+            "text": "Toys and Books",
+            "bullet_symbol": "•"
+          }
+        }
+      },
+      "block_order": [
+        "bullet_mMWbX6",
+        "bullet_ANV9eH",
+        "bullet_D69PmD",
+        "bullet_ed7J4P"
+      ],
+      "name": "Join Our Store",
+      "settings": {
+        "layout_order": "image-first",
+        "container_max_width": 1440,
+        "columns_gap": 40,
+        "content_max_width": 570,
+        "section_bg_color": "#ffffff",
+        "background_image": "shopify://shop_images/arte-sari-brand-texture-04_2.png",
+        "section_padding_top": 80,
+        "section_padding_bottom": 80,
+        "image": "shopify://shop_images/AS202502-17_1.png",
+        "image_border_radius": 0,
+        "eyebrow": "JOIN OUR STORE",
+        "eyebrow_font_family": "Agrandir",
+        "eyebrow_font_size": 20,
+        "eyebrow_font_weight": "normal",
+        "eyebrow_color": "#686a54",
+        "eyebrow_letter_spacing": 0,
+        "eyebrow_text_transform": "uppercase",
+        "eyebrow_margin_bottom": 12,
+        "heading": "BRING YOUR CRAFT TO THE WORLD",
+        "heading_font_family": "Facelio",
+        "heading_font_size": 48,
+        "heading_font_size_mobile": 32,
+        "heading_font_weight": "normal",
+        "heading_color": "#686a54",
+        "heading_line_height": 1.2,
+        "heading_margin_bottom": 20,
+        "text": "<p>We’d love to welcome more Filipino brands into Arte Sari. Our mission is to empower emerging producers by giving them a global stage where their creations can shine. By connecting their craft with appreciative audiences around the world, we hope to help preserve and celebrate the beauty of Filipino culture for generations to come.</p>",
+        "text_font_family": "Fraunces",
+        "text_font_size": 16,
+        "text_font_weight": "normal",
+        "text_color": "#686a54",
+        "text_line_height": 1.6,
+        "text_margin_bottom": 24,
+        "bullets_columns": 2,
+        "bullets_gap_x": 40,
+        "bullets_gap_y": 8,
+        "bullets_margin_bottom": 24,
+        "bullet_font_family": "Fraunces",
+        "bullet_font_size": 16,
+        "bullet_font_weight": "normal",
+        "bullet_color": "#686a54",
+        "bullet_line_height": 1.4,
+        "button_label": "INTRODUCE YOUR BRAND",
+        "button_link": "",
+        "button_font_family": "Agrandir",
+        "button_font_size": 14,
+        "button_font_weight": "normal",
+        "button_letter_spacing": 0.5,
+        "button_bg_color": "#686a54",
+        "button_hover_bg_color": "#3a4232",
+        "button_text_color": "#ffffff",
+        "button_hover_text_color": "#ffffff",
+        "button_padding_y": 12,
+        "button_padding_x": 20,
+        "button_border_radius": 0
+      }
+    },
+    "about_us_image_text_4FEUVw": {
+      "type": "about-us-image-text",
+      "blocks": {
+        "content_DaTwAN": {
+          "type": "content",
+          "settings": {
+            "icon": "shopify://shop_images/Screen_Shot_2025-09-28_at_9.50.12_AM_1.png",
+            "heading": "CURATED BY A FIRST  GENERATION FILIPINA",
+            "text": "Arte Sari was born out of Marcia's vision - a warm and welcoming space that connects and celebrates the Filipino community. As she carefully selects each product, she ensures that it meets high standards of quality and authenticity. She also loves to candidly share stories about the artisans behind the products, giving customers a glimpse into the lives and passions of the people who create them."
+          }
+        }
+      },
+      "block_order": [
+        "content_DaTwAN"
+      ],
+      "custom_css": [
+        "@media screen and (max-width: 768px) {.arte-curated__heading {text-align: left; } .arte-curated__icon {width: 54px; }}"
+      ],
+      "name": "About Us Image Text",
+      "settings": {
+        "section_height": 70,
+        "section_height_mobile": 60,
+        "layout": "text_first",
+        "content_width": 57,
+        "image": "shopify://shop_images/Frame_313.png",
+        "image_width": "1000",
+        "image_fit": "contain",
+        "image_position": "center",
+        "bg_color": "#8b8f78",
+        "bg_image": "shopify://shop_images/Frame_129.png",
+        "heading_size": 48,
+        "text_size": 16,
+        "icon_size": 54,
+        "heading_size_mobile": 28,
+        "text_size_mobile": 14,
+        "icon_size_mobile": 24,
+        "heading_color": "#ffffff",
+        "text_color": "#ffffff",
+        "heading_font": "Facelio",
+        "text_font": "Fraunces"
+      }
+    },
+    "about_us_recommendation_jazJFa": {
+      "type": "about-us-recommendation",
+      "blocks": {
+        "product_N7BcaB": {
+          "type": "product",
+          "settings": {
+            "product": "featured-product-2"
+          }
+        },
+        "product_NfLrGr": {
+          "type": "product",
+          "settings": {
+            "product": "featured-product-2"
+          }
+        },
+        "product_6At84L": {
+          "type": "product",
+          "settings": {
+            "product": "featured-product-2"
+          }
+        },
+        "product_cUnJee": {
+          "type": "product",
+          "settings": {
+            "product": "featured-product-2"
+          }
+        }
+      },
+      "block_order": [
+        "product_N7BcaB",
+        "product_NfLrGr",
+        "product_6At84L",
+        "product_cUnJee"
+      ],
+      "custom_css": [
+        ".favorites__grid {justify-content: center;}"
+      ],
+      "name": "About Us Recommendations",
+      "settings": {
+        "section_padding": 80,
+        "section_padding_mobile": 40,
+        "container_width": 1400,
+        "text_alignment": "center",
+        "background_image": "shopify://shop_images/arte-sari-brand-texture-04_2.png",
+        "background_color": "#ffffff",
+        "heading": "MARCIA'S FAVORITES",
+        "heading_font_size": 48,
+        "heading_font_size_tablet": 32,
+        "heading_font_size_mobile": 28,
+        "heading_color": "#686a54",
+        "heading_font_weight": "normal",
+        "heading_font_family": "Facelio",
+        "heading_letter_spacing": 1,
+        "heading_text_transform": "none",
+        "heading_margin_bottom": 40,
+        "columns_desktop": 4,
+        "columns_tablet": 2,
+        "columns_mobile": 1,
+        "grid_gap": 30,
+        "grid_margin_bottom": 40,
+        "product_title_font_size": 20,
+        "product_title_font_size_tablet": 14,
+        "product_title_font_size_mobile": 14,
+        "product_title_color": "#5d5c5a",
+        "product_title_font_weight": "normal",
+        "product_title_font_family": "Fraunces",
+        "product_title_text_transform": "none",
+        "product_title_margin_top": 12,
+        "product_title_margin_bottom": 6,
+        "price_font_size": 16,
+        "price_font_size_tablet": 14,
+        "price_font_size_mobile": 12,
+        "price_color": "#969696",
+        "price_font_weight": "bold",
+        "price_font_family": "Agrandir",
+        "price_opacity": 0.7,
+        "image_border_width": 1,
+        "image_border_color": "#ffffff",
+        "image_border_opacity": 0.6,
+        "button_label": "SHOP ALL",
+        "button_link": "shopify://collections/all",
+        "button_font_size": 14,
+        "button_font_size_tablet": 12,
+        "button_font_size_mobile": 12,
+        "button_font_weight": "normal",
+        "button_font_family": "Agrandir",
+        "button_letter_spacing": 1,
+        "button_text_transform": "uppercase",
+        "button_background_color": "#5c6552",
+        "button_text_color": "#ffffff",
+        "button_hover_background_color": "#3e4536",
+        "button_hover_text_color": "#ffffff",
+        "button_padding_x": 30,
+        "button_padding_y": 14,
+        "button_padding_x_tablet": 25,
+        "button_padding_y_tablet": 12,
+        "button_padding_x_mobile": 20,
+        "button_padding_y_mobile": 10,
+        "button_border_radius": 0,
+        "button_margin_top": 20
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "about_us_hero_WJimWB",
+    "about_us_image_text_JCFLTK",
+    "about_us_story_wJB69P",
+    "about_us_stand_CJeQY3",
+    "about_us_join_HiczaG",
+    "about_us_image_text_4FEUVw",
+    "about_us_recommendation_jazJFa"
   ]
 }

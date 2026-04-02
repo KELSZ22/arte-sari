@@ -1,0 +1,302 @@
+{% liquid
+  assign section_height = section.settings.section_height
+%}
+
+<section class="about-hero"
+  style="
+    --section-height: {{ section_height }}vh;
+    --heading-size: {{ section.settings.heading_size }}px;
+    --subheading-size: {{ section.settings.subheading_size }}px;
+    --mobile-heading-size: {{ section.settings.mobile_heading_size }}px;
+    --mobile-subheading-size: {{ section.settings.mobile_subheading_size }}px;
+    --heading-color: {{ section.settings.heading_color }};
+    --subheading-color: {{ section.settings.subheading_color }};
+    --heading-font: {{ section.settings.heading_font }};
+    --subheading-font: {{ section.settings.subheading_font }};
+    --content-width: {{ section.settings.content_width }}px;
+    --image-width: {{ section.settings.image_width }}px;
+  "
+>
+  <div class="about-hero__bg"
+    style="
+      {% if section.settings.bg_image != blank %}
+        background-image: url('{{ section.settings.bg_image | image_url: width: 2000 }}');
+      {% else %}
+        background-color: {{ section.settings.bg_color }};
+      {% endif %}
+    "
+  >
+    <div class="about-hero__container">
+
+      {% for block in section.blocks %}
+        
+        {% case block.type %}
+
+          {% when 'heading' %}
+            <h2 class="about-hero__heading">
+              {{ block.settings.text }}
+            </h2>
+
+          {% when 'subheading' %}
+            <p class="about-hero__subheading">
+              {{ block.settings.text }}
+            </p>
+
+          {% when 'image' %}
+            <div class="about-hero__media">
+              <img 
+                src="{{ block.settings.image | image_url: width: 2000 }}" 
+                class="about-hero__image"
+                alt="about image"
+              >
+            </div>
+
+        {% endcase %}
+
+      {% endfor %}
+
+    </div>
+  </div>
+</section>
+
+<style>
+  .about-hero {
+    width: 100%;
+  }
+
+  .about-hero__bg {
+    min-height: var(--section-height);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .about-hero__container {
+    width: 100%;
+    max-width: var(--content-width);
+    margin: 0 auto;
+    text-align: center;
+    padding: 60px 20px;
+  }
+
+  .about-hero__heading {
+    font-size: var(--heading-size);
+    color: var(--heading-color);
+    font-family: var(--heading-font);
+    margin-bottom: 16px;
+    letter-spacing: 1px;
+  }
+
+  .about-hero__subheading {
+    font-size: var(--subheading-size);
+    color: var(--subheading-color);
+    font-family: var(--subheading-font);
+    line-height: 1.6;
+    margin-bottom: 40px;
+  }
+
+  .about-hero__media {
+    display: flex;
+    justify-content: center;
+  }
+
+  .about-hero__image {
+    width: 100%;
+    max-width: var(--image-width);
+    height: auto;
+    object-fit: contain;
+  }
+
+  /* RESPONSIVE */
+  @media screen and (max-width: 768px) {
+    .about-hero__container {
+      padding: 40px 16px;
+    }
+
+    .about-hero__heading {
+      font-size: var(--mobile-heading-size);
+    }
+
+    .about-hero__subheading {
+      font-size: var(--mobile-subheading-size);
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "About Hero Banner",
+  "settings": [
+    {
+      "type": "range",
+      "id": "section_height",
+      "label": "Section Height (vh)",
+      "min": 40,
+      "max": 100,
+      "step": 5,
+      "default": 80
+    },
+
+    {
+      "type": "header",
+      "content": "Background"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#f5f5f5"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Background Image (overrides color)"
+    },
+
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading Size",
+      "min": 20,
+      "max": 80,
+      "step": 2,
+      "default": 42
+    },
+    {
+      "type": "range",
+      "id": "subheading_size",
+      "label": "Subheading Size",
+      "min": 14,
+      "max": 32,
+      "step": 1,
+      "default": 18
+    },
+    {
+      "type": "header",
+      "content": "Mobile Typography"
+    },
+    {
+      "type": "range",
+      "id": "mobile_heading_size",
+      "label": "Mobile Heading Size",
+      "min": 16,
+      "max": 60,
+      "step": 1,
+      "default": 34
+    },
+    {
+      "type": "range",
+      "id": "mobile_subheading_size",
+      "label": "Mobile Subheading Size",
+      "min": 12,
+      "max": 28,
+      "step": 1,
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#4a4a4a"
+    },
+    {
+      "type": "color",
+      "id": "subheading_color",
+      "label": "Subheading Color",
+      "default": "#6b6b6b"
+    },
+    {
+      "type": "text",
+      "id": "heading_font",
+      "label": "Heading Font Family",
+      "default": "serif"
+    },
+    {
+      "type": "text",
+      "id": "subheading_font",
+      "label": "Subheading Font Family",
+      "default": "sans-serif"
+    },
+
+    {
+      "type": "header",
+      "content": "Layout Control"
+    },
+    {
+      "type": "range",
+      "id": "content_width",
+      "label": "Text Container Width (px)",
+      "min": 400,
+      "max": 1200,
+      "step": 20,
+      "default": 800
+    },
+    {
+      "type": "range",
+      "id": "image_width",
+      "label": "Image Max Width (px)",
+      "min": 200,
+      "max": 1200,
+      "step": 20,
+      "default": 600
+    }
+  ],
+
+  "blocks": [
+    {
+      "type": "heading",
+      "name": "Heading",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Heading Text",
+          "default": "OUR STORY"
+        }
+      ]
+    },
+    {
+      "type": "subheading",
+      "name": "Subheading",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Subheading Text",
+          "default": "Inspired by a cultural icon symbolizing community, entrepreneurship, and accessibility."
+        }
+      ]
+    },
+    {
+      "type": "image",
+      "name": "Main Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+      ]
+    }
+  ],
+
+  "presets": [
+    {
+      "name": "About Hero Banner",
+      "blocks": [
+        { "type": "heading" },
+        { "type": "subheading" },
+        { "type": "image" }
+      ]
+    }
+  ]
+}
+{% endschema %}

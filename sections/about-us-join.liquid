@@ -1,0 +1,761 @@
+{% liquid
+  assign bg_image = section.settings.background_image
+%}
+
+<section class="join-store" style="background-color: {{ section.settings.section_bg_color }};">
+  <div class="join-store__bg">
+    {% if bg_image != blank %}
+      <img 
+        src="{{ bg_image | image_url: width: 2000 }}" 
+        alt="Background"
+        class="join-store__bg-img"
+        loading="lazy"
+      >
+    {% endif %}
+  </div>
+
+  <div class="join-store__container {% if section.settings.layout_order == 'text-first' %}join-store__container--text-first{% endif %}">
+
+    <div class="join-store__media">
+      {% if section.settings.image != blank %}
+        <img 
+          src="{{ section.settings.image | image_url: width: 900 }}" 
+          alt="Join Store"
+          class="join-store__image"
+          loading="lazy"
+        >
+      {% endif %}
+    </div>
+
+    <div class="join-store__content">
+
+      {% if section.settings.eyebrow != blank %}
+        <p class="join-store__eyebrow">
+          {{ section.settings.eyebrow }}
+        </p>
+      {% endif %}
+
+      {% if section.settings.heading != blank %}
+        <h2 class="join-store__heading">
+          {{ section.settings.heading }}
+        </h2>
+      {% endif %}
+
+      {% if section.settings.text != blank %}
+        <div class="join-store__text">
+          {{ section.settings.text }}
+        </div>
+      {% endif %}
+
+      <div class="join-store__bullets">
+        {% for block in section.blocks %}
+          {% if block.type == 'bullet' %}
+            <div class="join-store__bullet" {{ block.shopify_attributes }}>
+              {{ block.settings.bullet_symbol }} {{ block.settings.text }}
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      {% if section.settings.button_label != blank %}
+        <a href="{{ section.settings.button_link }}" class="join-store__button">
+          {{ section.settings.button_label }}
+        </a>
+      {% endif %}
+
+    </div>
+
+  </div>
+</section>
+
+{% style %}
+.join-store {
+  position: relative;
+  width: 100%;
+  padding: {{ section.settings.section_padding_top }}px 0 {{ section.settings.section_padding_bottom }}px;
+  overflow: hidden;
+  background-color: {{ section.settings.section_bg_color }};
+}
+
+.join-store__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.join-store__bg-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.join-store__container {
+  position: relative;
+  z-index: 2;
+  max-width: {{ section.settings.container_max_width }}px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: {{ section.settings.columns_gap }}px;
+  align-items: center;
+}
+
+.join-store__container--text-first .join-store__media {
+  order: 2;
+}
+
+.join-store__container--text-first .join-store__content {
+  order: 1;
+}
+
+.join-store__media {
+  width: 100%;
+}
+
+.join-store__image {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: {{ section.settings.image_border_radius }}px;
+}
+
+.join-store__content {
+  max-width: {{ section.settings.content_max_width }}px;
+}
+
+.join-store__eyebrow {
+  font-family: {{ section.settings.eyebrow_font_family }};
+  font-size: {{ section.settings.eyebrow_font_size }}px;
+  font-weight: {{ section.settings.eyebrow_font_weight }};
+  color: {{ section.settings.eyebrow_color }};
+  letter-spacing: {{ section.settings.eyebrow_letter_spacing }}px;
+  margin-bottom: {{ section.settings.eyebrow_margin_bottom }}px;
+  text-transform: {{ section.settings.eyebrow_text_transform }};
+}
+
+.join-store__heading {
+  font-family: {{ section.settings.heading_font_family }};
+  font-size: {{ section.settings.heading_font_size }}px;
+  font-weight: {{ section.settings.heading_font_weight }};
+  color: {{ section.settings.heading_color }};
+  line-height: {{ section.settings.heading_line_height }};
+  margin-bottom: {{ section.settings.heading_margin_bottom }}px;
+}
+
+.join-store__text {
+  font-family: {{ section.settings.text_font_family }};
+  font-size: {{ section.settings.text_font_size }}px;
+  font-weight: {{ section.settings.text_font_weight }};
+  color: {{ section.settings.text_color }};
+  line-height: {{ section.settings.text_line_height }};
+  margin-bottom: {{ section.settings.text_margin_bottom }}px;
+}
+
+.join-store__bullets {
+  display: grid;
+  grid-template-columns: repeat({{ section.settings.bullets_columns }}, 1fr);
+  gap: {{ section.settings.bullets_gap_y }}px {{ section.settings.bullets_gap_x }}px;
+  margin-bottom: {{ section.settings.bullets_margin_bottom }}px;
+}
+
+.join-store__bullet {
+  font-family: {{ section.settings.bullet_font_family }};
+  font-size: {{ section.settings.bullet_font_size }}px;
+  font-weight: {{ section.settings.bullet_font_weight }};
+  color: {{ section.settings.bullet_color }};
+  line-height: {{ section.settings.bullet_line_height }};
+}
+
+.join-store__button {
+  display: inline-block;
+  padding: {{ section.settings.button_padding_y }}px {{ section.settings.button_padding_x }}px;
+  background-color: {{ section.settings.button_bg_color }};
+  color: {{ section.settings.button_text_color }};
+  text-decoration: none;
+  font-family: {{ section.settings.button_font_family }};
+  font-size: {{ section.settings.button_font_size }}px;
+  font-weight: {{ section.settings.button_font_weight }};
+  letter-spacing: {{ section.settings.button_letter_spacing }}px;
+  border-radius: {{ section.settings.button_border_radius }}px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.join-store__button:hover {
+  background-color: {{ section.settings.button_hover_bg_color }};
+  color: {{ section.settings.button_hover_text_color }};
+}
+
+@media screen and (max-width: 900px) {
+  .join-store__container {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  
+  .join-store__container--text-first .join-store__media,
+  .join-store__container--text-first .join-store__content {
+    order: unset;
+  }
+
+  .join-store__content {
+    max-width: 100%;
+  }
+
+  .join-store__heading {
+    font-size: {{ section.settings.heading_font_size_mobile }}px;
+  }
+  
+  .join-store__bullets {
+    grid-template-columns: 1fr;
+  }
+}
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "Join Our Store",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "layout_order",
+      "label": "Content Layout Order",
+      "options": [
+        { "value": "image-first", "label": "Image First, Text Second" },
+        { "value": "text-first", "label": "Text First, Image Second" }
+      ],
+      "default": "image-first"
+    },
+    {
+      "type": "range",
+      "id": "container_max_width",
+      "label": "Container Max Width",
+      "min": 800,
+      "max": 1800,
+      "step": 20,
+      "default": 1440,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "columns_gap",
+      "label": "Gap Between Columns",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "default": 60,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "label": "Content Max Width",
+      "min": 300,
+      "max": 800,
+      "step": 10,
+      "default": 520,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Section Background"
+    },
+    {
+      "type": "color",
+      "id": "section_bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background Image"
+    },
+    {
+      "type": "range",
+      "id": "section_padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "default": 80,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "section_padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "default": 80,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Left Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "range",
+      "id": "image_border_radius",
+      "label": "Image Border Radius",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Eyebrow"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow Text",
+      "default": "JOIN OUR STORE"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow_font_family",
+      "label": "Font Family",
+      "default": "Helvetica, sans-serif",
+      "info": "Type any CSS font-family value, e.g. Helvetica, sans-serif or 'Times New Roman', serif"
+    },
+    {
+      "type": "range",
+      "id": "eyebrow_font_size",
+      "label": "Font Size",
+      "min": 10,
+      "max": 30,
+      "step": 1,
+      "default": 12,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "eyebrow_font_weight",
+      "label": "Font Weight",
+      "options": [
+        { "value": "normal", "label": "Normal" },
+        { "value": "bold", "label": "Bold" },
+        { "value": "500", "label": "500" },
+        { "value": "600", "label": "600" },
+        { "value": "700", "label": "700" }
+      ],
+      "default": "normal"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "eyebrow_letter_spacing",
+      "label": "Letter Spacing",
+      "min": 0,
+      "max": 5,
+      "step": 0.5,
+      "default": 1.5,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "eyebrow_text_transform",
+      "label": "Text Transform",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "uppercase", "label": "Uppercase" },
+        { "value": "lowercase", "label": "Lowercase" },
+        { "value": "capitalize", "label": "Capitalize" }
+      ],
+      "default": "uppercase"
+    },
+    {
+      "type": "range",
+      "id": "eyebrow_margin_bottom",
+      "label": "Margin Bottom",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "default": 12,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading Text",
+      "default": "BRING YOUR CRAFT TO THE WORLD"
+    },
+    {
+      "type": "text",
+      "id": "heading_font_family",
+      "label": "Font Family",
+      "default": "Helvetica, sans-serif",
+      "info": "Type any CSS font-family value"
+    },
+    {
+      "type": "range",
+      "id": "heading_font_size",
+      "label": "Font Size (Desktop)",
+      "min": 20,
+      "max": 80,
+      "step": 1,
+      "default": 42,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "heading_font_size_mobile",
+      "label": "Font Size (Mobile)",
+      "min": 20,
+      "max": 60,
+      "step": 1,
+      "default": 32,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_weight",
+      "label": "Font Weight",
+      "options": [
+        { "value": "normal", "label": "Normal" },
+        { "value": "bold", "label": "Bold" },
+        { "value": "500", "label": "500" },
+        { "value": "600", "label": "600" },
+        { "value": "700", "label": "700" }
+      ],
+      "default": "bold"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "heading_line_height",
+      "label": "Line Height",
+      "min": 1.0,
+      "max": 2.0,
+      "step": 0.1,
+      "default": 1.2
+    },
+    {
+      "type": "range",
+      "id": "heading_margin_bottom",
+      "label": "Margin Bottom",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "default": 20,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Description Text"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Description",
+      "default": "<p>We’d love to welcome more Filipino brands into Arte Sari...</p>"
+    },
+    {
+      "type": "text",
+      "id": "text_font_family",
+      "label": "Font Family",
+      "default": "Helvetica, sans-serif",
+      "info": "Type any CSS font-family value"
+    },
+    {
+      "type": "range",
+      "id": "text_font_size",
+      "label": "Font Size",
+      "min": 12,
+      "max": 30,
+      "step": 1,
+      "default": 15,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "text_font_weight",
+      "label": "Font Weight",
+      "options": [
+        { "value": "normal", "label": "Normal" },
+        { "value": "bold", "label": "Bold" },
+        { "value": "500", "label": "500" },
+        { "value": "600", "label": "600" }
+      ],
+      "default": "normal"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Color",
+      "default": "#333333"
+    },
+    {
+      "type": "range",
+      "id": "text_line_height",
+      "label": "Line Height",
+      "min": 1.2,
+      "max": 2.0,
+      "step": 0.1,
+      "default": 1.7
+    },
+    {
+      "type": "range",
+      "id": "text_margin_bottom",
+      "label": "Margin Bottom",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "default": 24,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Bullets"
+    },
+    {
+      "type": "range",
+      "id": "bullets_columns",
+      "label": "Number of Columns",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "bullets_gap_x",
+      "label": "Horizontal Gap",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "default": 40,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "bullets_gap_y",
+      "label": "Vertical Gap",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "default": 8,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "bullets_margin_bottom",
+      "label": "Margin Bottom",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "default": 24,
+      "unit": "px"
+    },
+    {
+      "type": "text",
+      "id": "bullet_font_family",
+      "label": "Font Family",
+      "default": "Helvetica, sans-serif",
+      "info": "Type any CSS font-family value"
+    },
+    {
+      "type": "range",
+      "id": "bullet_font_size",
+      "label": "Font Size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "default": 14,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "bullet_font_weight",
+      "label": "Font Weight",
+      "options": [
+        { "value": "normal", "label": "Normal" },
+        { "value": "bold", "label": "Bold" },
+        { "value": "500", "label": "500" }
+      ],
+      "default": "normal"
+    },
+    {
+      "type": "color",
+      "id": "bullet_color",
+      "label": "Color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "bullet_line_height",
+      "label": "Line Height",
+      "min": 1.0,
+      "max": 2.0,
+      "step": 0.1,
+      "default": 1.4
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label",
+      "default": "INTRODUCE YOUR BRAND"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "text",
+      "id": "button_font_family",
+      "label": "Font Family",
+      "default": "Helvetica, sans-serif",
+      "info": "Type any CSS font-family value"
+    },
+    {
+      "type": "range",
+      "id": "button_font_size",
+      "label": "Font Size",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "default": 13,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "button_font_weight",
+      "label": "Font Weight",
+      "options": [
+        { "value": "normal", "label": "Normal" },
+        { "value": "bold", "label": "Bold" },
+        { "value": "500", "label": "500" },
+        { "value": "600", "label": "600" }
+      ],
+      "default": "normal"
+    },
+    {
+      "type": "range",
+      "id": "button_letter_spacing",
+      "label": "Letter Spacing",
+      "min": 0,
+      "max": 3,
+      "step": 0.5,
+      "default": 0.5,
+      "unit": "px"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Background Color",
+      "default": "#5c6552"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_bg_color",
+      "label": "Hover Background Color",
+      "default": "#3a4232"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_text_color",
+      "label": "Hover Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "button_padding_y",
+      "label": "Padding Top/Bottom",
+      "min": 5,
+      "max": 30,
+      "step": 1,
+      "default": 12,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "button_padding_x",
+      "label": "Padding Left/Right",
+      "min": 10,
+      "max": 50,
+      "step": 2,
+      "default": 20,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "label": "Border Radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "default": 0,
+      "unit": "px"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "bullet",
+      "name": "Bullet Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Bullet Text",
+          "default": "Home Decor"
+        },
+        {
+          "type": "text",
+          "id": "bullet_symbol",
+          "label": "Bullet Symbol",
+          "default": "•",
+          "info": "Use any symbol or emoji"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Join Our Store",
+      "blocks": [
+        { "type": "bullet" },
+        { "type": "bullet" },
+        { "type": "bullet" },
+        { "type": "bullet" }
+      ]
+    }
+  ]
+}
+{% endschema %}
