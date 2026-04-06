@@ -41,7 +41,7 @@
             "max_width": 1200,
             "paper_image_mobile": "shopify://shop_images/Group_78_aa32de18-377f-4784-a2aa-d7f14905db70.png",
             "max_width_mobile": 800,
-            "heading": "experience richness of filipino Artistry",
+            "heading": "experience richness of<br> filipino Artistry",
             "heading_size": "h1",
             "heading_font_family": "ss-bruney",
             "heading_font_size": 58,
@@ -356,7 +356,7 @@
           "type": "collection_tab",
           "settings": {
             "tab_label": "RINGS",
-            "collection": ""
+            "collection": "rings"
           }
         }
       },

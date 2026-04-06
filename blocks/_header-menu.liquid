@@ -125,7 +125,12 @@
                 style="{% render 'submenu-font-styles', settings: block_settings %}"
               >
                 {% if is_shop_menu %}
-                  <div class="mega-menu mega-menu--shop section section--full-width-margin section--{{ section.settings.section_width }}">
+                  <div
+  class="mega-menu mega-menu--shop section section--full-width-margin section--{{ section.settings.section_width }}"
+  {% if settings.bg != blank %}
+    style="background-image: url({{ settings.bg | image_url: width: 2000 | json }}); background-size: cover; background-position: center; background-repeat: no-repeat;"
+  {% endif %}
+>
                     <div class="mega-menu__shop-layout">
                       <div class="mega-menu__shop-links">
                         {% for child_link in link.links %}
@@ -283,7 +288,10 @@
     </header-menu>
 {% endcase %}
 
+
+
 {% stylesheet %}
+
   .menu-list--mobile {
     &.menu-list {
       display: grid;
@@ -847,10 +855,14 @@
     margin: 0 0 18px;
     text-decoration: none;
     color: var(--color-foreground);
-    font-size: clamp(1rem, 1.1vw, 1.35rem);
+    font-size: 20px;
     line-height: 1.2;
   }
 
+a.mega-menu__shop-sublink {
+    font-family: Agrandir;
+    color: #969696;
+}
   .mega-menu__shop-sublist {
     display: grid;
     gap: 14px;
@@ -869,7 +881,7 @@
   }
 
   .mega-menu__shop-cta-wrap {
-    grid-column: 1 / -1;
+    grid-column: 3 / -1;
     margin-top: 8px;
   }
 
@@ -961,6 +973,11 @@
   "name": "t:names.menu",
   "tag": null,
   "settings": [
+    {
+      "type": "image_picker",
+      "id": "bg",
+      "label": "Background"
+    },
     {
       "type": "link_list",
       "id": "menu",

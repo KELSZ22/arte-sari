@@ -179,7 +179,16 @@
   .arte-curated__wrapper {
     flex-direction: column;
     min-height: var(--section-height-mobile);
-  }
+  } 
+
+  .arte-curated__wrapper {
+    padding: 100px 20px;
+    gap: 30px;
+}
+p.arte-curated__text {
+    text-align: left;
+}
+
 
   .arte-curated__content {
     width: 100% !important;
@@ -199,8 +208,10 @@
 
   .arte-curated__image {
     height: auto;
-    max-height: 400px;
+    max-height: 100%;
     width: 100%;
+    object-fit: cover !important;
+
   }
 
   .arte-curated__icon {

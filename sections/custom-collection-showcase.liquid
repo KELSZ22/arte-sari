@@ -291,7 +291,11 @@
     display: block;
     line-height: 1.3;
   }
-
+  @media screen and (max-width: 767px){
+      h2.custom-collection-showcase__title {
+    font-size: 28px !important;
+}
+  }
   @media screen and (max-width: 749px) {
     .custom-collection-showcase__background {
       background-image: var(--custom-collection-bg-image-mobile);
@@ -299,6 +303,7 @@
     .custom-collection-showcase__content {
       margin-top: 15vw;
     }
+  
   }
 
   @media screen and (min-width: 750px) {

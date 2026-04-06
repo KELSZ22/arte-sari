@@ -211,7 +211,7 @@ body.article-page-bg #MainContent {
   font-weight: 400;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--cafp-text-muted);
+  color: #686A54;
 }
 
 .custom-article-featured-product__share-icons {

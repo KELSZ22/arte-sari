@@ -78,6 +78,7 @@
           "type": "_header-menu",
           "static": true,
           "settings": {
+            "bg": "shopify://shop_images/arte-sari-brand-texture-04_1.webp",
             "menu": "main-menu",
             "color_scheme": "",
             "type_font_primary_size": "0.875rem",

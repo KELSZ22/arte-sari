@@ -1,5 +1,3 @@
-
-
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
 <div class="section color-{{ section.settings.color_scheme }}">
   <div
@@ -196,8 +194,10 @@
 </script>
 
 {% stylesheet %}
-  .blog-post-article-background {
-    background: #f4ece6;
+  @media screen and (min-width: 750px) {
+    .blog-post-article-background {
+      background: #f4ece6;
+    }
   }
 
   .blog-post-hero {

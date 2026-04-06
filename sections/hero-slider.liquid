@@ -145,7 +145,7 @@
 
             <div class="hero-slider__paper-content">
               {% if block.settings.heading != blank %}
-                <h2
+                <h1
                   class="hero-slider__heading {{ block.settings.heading_size }}"
                   style="
                     font-family: var(--heading-font-family);
@@ -155,7 +155,7 @@
                   "
                 >
                   {{ block.settings.heading }}
-                </h2>
+                </h1>
               {% endif %}
 
               {% if block.settings.subheading != blank %}
@@ -368,7 +368,12 @@
     display: block;
     height: 750px;
   }
+  @media screen and (max-width: 767px){
+    h1.hero-slider__heading.h1{
+      font-size: 32px !important;
+    }
 
+  }
   @media screen and (min-width: 750px) {
     .hero-slider__paper-image--desktop {
       display: block;
@@ -493,6 +498,7 @@
   }
 
   @media screen and (max-width: 768px) {
+
     .hero-slider__content-wrapper {
       padding: 0px;
     }
