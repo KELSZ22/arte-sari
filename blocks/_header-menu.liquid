@@ -125,12 +125,7 @@
                 style="{% render 'submenu-font-styles', settings: block_settings %}"
               >
                 {% if is_shop_menu %}
-                  <div
-  class="mega-menu mega-menu--shop section section--full-width-margin section--{{ section.settings.section_width }}"
-  {% if settings.bg != blank %}
-    style="background-image: url({{ settings.bg | image_url: width: 2000 | json }}); background-size: cover; background-position: center; background-repeat: no-repeat;"
-  {% endif %}
->
+                  <div class="mega-menu mega-menu--shop section section--full-width-margin section--{{ section.settings.section_width }}" style="background-image: url('https://artesariph.myshopify.com/cdn/shop/files/arte-sari-brand-texture-04_1.webp?v=1771765247&width=3840'); background-size: cover; background-position: center; background-repeat: no-repeat;">
                     <div class="mega-menu__shop-layout">
                       <div class="mega-menu__shop-links">
                         {% for child_link in link.links %}
@@ -291,7 +286,18 @@
 
 
 {% stylesheet %}
-
+  .mega-menu.mega-menu--shop.section.section--full-width-margin.section--page-width {
+    padding: 30px;
+}
+div#submenu-2 {
+    padding: 0 !important;
+}
+h3.mega-menu__shop-feature-heading {
+    font-family: 'Facelio';
+    font-size: 26px;
+    color: #686a54;
+    font-weight: normal;
+}
   .menu-list--mobile {
     &.menu-list {
       display: grid;
