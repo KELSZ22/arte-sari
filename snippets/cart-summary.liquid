@@ -269,6 +269,15 @@
     </span>
   </button>
 
+  <a
+    class="cart__continue-shopping-button button button-secondary"
+    href="{{ settings.empty_cart_button_link | default: routes.all_products_collection_url }}"
+  >
+    <span class="button-text">
+      {{ 'actions.continue_shopping' | t }}
+    </span>
+  </a>
+
   {% if additional_checkout_buttons and settings.show_accelerated_checkout_buttons %}
     <div
       class="
