@@ -206,7 +206,7 @@ body.article-page-bg #MainContent {
 
 .custom-article-featured-product__share-heading {
   margin: 0 0 var(--margin-sm);
-  font-family: var(--font-body--family);
+  font-family: Agrandir;
   font-size: var(--font-size--body-xs);
   font-weight: 400;
   letter-spacing: 0.2em;

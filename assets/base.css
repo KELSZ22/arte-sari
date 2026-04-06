@@ -389,22 +389,7 @@ p:empty {
   flex: 1;
 }
 
-/* Set up page widths & margins */
-.page-width-wide,
-.page-width-normal,
-.page-width-narrow,
-.page-width-content {
-  --page-margin: 16px;
-}
-
-@media screen and (min-width: 750px) {
-  .page-width-wide,
-  .page-width-normal,
-  .page-width-narrow,
-  .page-width-content {
-    --page-margin: 1in;
-  }
-}
+/* --page-margin: defined on :root (theme-styles-variables) for all pages; desktop 1in, mobile 16px */
 
 .page-width-wide {
   /* NOTE: This results in a page width of 2400px because of how we set up margins with grid */

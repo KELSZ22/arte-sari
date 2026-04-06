@@ -6,6 +6,20 @@
   if first_collection != blank
     assign first_url = first_collection.url
   endif
+
+  assign wfa_shop_prefix = section.settings.shop_all_prefix | strip
+  assign wfa_first_label = first_label | strip
+  assign wfa_prefix_lc = wfa_shop_prefix | downcase
+  assign wfa_label_lc = wfa_first_label | downcase
+  if wfa_first_label == blank
+    assign wfa_shop_all_text = wfa_shop_prefix
+  elsif wfa_shop_prefix == blank
+    assign wfa_shop_all_text = wfa_first_label
+  elsif wfa_prefix_lc == wfa_label_lc
+    assign wfa_shop_all_text = wfa_shop_prefix
+  else
+    assign wfa_shop_all_text = wfa_shop_prefix | append: ' ' | append: wfa_first_label
+  endif
 %}
 
 <div
@@ -133,7 +147,7 @@
             class="wfa-shop-all{% if first_url == blank %} is-hidden{% endif %}"
             data-shop-all
           >
-            {{ section.settings.shop_all_prefix }} {{ first_label }}
+            {{ wfa_shop_all_text }}
           </a>
         </div>
       {% endif %}
@@ -174,7 +188,7 @@
       z-index: 1;
       display: block;
       width: 100%;
-      padding: 260px 40px 60px;
+      padding: 260px 50px 60px;
     }
 
     #shopify-section-{{ section.id }} .wfa-content {
@@ -397,7 +411,8 @@
       background: var(--wfa-button-bg);
       color: var(--wfa-button-text);
       text-decoration: none;
-      font-size: 12px;
+      font-family: Agrandir;
+      font-size: 14px;
       line-height: 1;
       letter-spacing: 1px;
       text-transform: uppercase;
@@ -482,6 +497,10 @@
       #shopify-section-{{ section.id }} .wfa-price {
         font-size: 12px;
       }
+
+      #shopify-section-{{ section.id }} .wfa-shop-all {
+        font-size: 12px;
+      }
     }
 
     @media screen and (max-width: 500px) {
@@ -556,6 +575,15 @@
 
         if (!tabs.length) return;
 
+        function shopAllButtonText(prefix, label) {
+          var p = (prefix || '').trim();
+          var l = (label || '').trim();
+          if (!l) return p;
+          if (!p) return l;
+          if (p.toLowerCase() === l.toLowerCase()) return p;
+          return p + ' ' + l;
+        }
+
         function activateTab(tab) {
           var panelId = tab.getAttribute('data-panel');
           var label = tab.getAttribute('data-label') || '';
@@ -579,7 +607,7 @@
           if (shopAll) {
             if (url !== '') {
               shopAll.href = url;
-              shopAll.textContent = prefix + ' ' + label;
+              shopAll.textContent = shopAllButtonText(prefix, label);
               shopAll.classList.remove('is-hidden');
             } else {
               shopAll.removeAttribute('href');

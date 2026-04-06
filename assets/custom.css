@@ -1031,6 +1031,17 @@ main.content-for-layout[data-template^="product"] {
   padding-block-end: 0 !important;
 }
 
+/* PDP mobile: warm background (main + section layers; matches global mobile tint) */
+@media screen and (max-width: 749px) {
+  main.content-for-layout[data-template^="product"] {
+    background: #f4ece6 !important;
+  }
+
+  main.content-for-layout[data-template^="product"] .section-background {
+    background: #f4ece6 !important;
+  }
+}
+
 .product-recommendations .cardGalleryBorder,
 .product-recommendations .cardGalleryBorder2,
 .product-recommendations .cardGalleryBorder3 {

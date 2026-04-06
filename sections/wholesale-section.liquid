@@ -84,7 +84,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 60px 20px;
+    padding: 24px;
     font-family: 'Georgia'
     , serif;
     position: relative;
@@ -134,7 +134,7 @@
   }
 
   .as-wholesale-subtext {
-    font-size: 20px;
+    font-size: 16px;
     color: #686A54;
     text-align: center;
     max-width: 100%;
@@ -149,12 +149,13 @@
     position: relative;
     width: 100%;
     margin-bottom: 28px;
+    padding: 24px;
+    box-sizing: border-box;
+    border-radius: 4px;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 0;
-    border: 1px solid #d6cfc8;
-    border-radius: 4px;
-    overflow: hidden;
+    column-gap: 24px;
+    row-gap: 0;
     background: transparent;
   }
 
@@ -171,28 +172,23 @@
   .as-wholesale-accordion {
     position: relative;
     z-index: 1;
+  }
+
+  .as-wholesale-accordion--divider-below {
     border-bottom: 1px solid #d6cfc8;
-  }
-
-  .as-wholesale-accordion:nth-child(odd) {
-    border-right: 1px solid #d6cfc8;
-  }
-
-  .as-wholesale-accordion:nth-last-child(-n + 2) {
-    border-bottom: none;
   }
 
   .as-wholesale-accordion-trigger {
     width: 100%;
     background: none;
     border: none;
-    padding: 14px 16px;
+    padding: 14px 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
     cursor: pointer;
     font-family: 'Agrandir';
-    font-size: 20px;
+    font-size: 16px;
     letter-spacing: 0.1em;
     color: #B7A160;
     text-transform: uppercase;
@@ -200,7 +196,7 @@
   }
 
   .as-wholesale-accordion-trigger span.as-wholesale-acc-icon {
-    font-size: 24px;
+    font-size: 16px;
     font-weight: 300;
     color: #686A54;
     line-height: 1;
@@ -209,8 +205,8 @@
 
   .as-wholesale-accordion-body {
     display: none;
-    padding: 4px 16px 16px;
-    font-size: 13px;
+    padding: 4px 0 16px;
+    font-size: 16px;
     color: #686A54;
     font-family: 'Fraunces';
     line-height: 1.6;
@@ -221,7 +217,8 @@
   }
 
   .as-wholesale-accordion-body img {
-    max-width: 120px;
+    max-width: 240px;
+    width: 100%;
     margin-top: 10px;
     display: block;
     opacity: 1;
@@ -247,7 +244,7 @@
 
   .as-wholesale-gift-product__image {
     width: 100%;
-    max-width: 120px;
+    max-width: 240px;
     height: auto;
     display: block;
     border-radius: 4px;
@@ -259,7 +256,7 @@
     margin-top: 8px;
     font-family: 'Agrandir'
     , sans-serif;
-    font-size: 12px;
+    font-size: 16px;
     letter-spacing: 0.06em;
     color: #686A54;
     text-transform: uppercase;
@@ -280,7 +277,7 @@
   .as-wholesale-card {
     background: rgba(255, 255, 255, 0.65);
     border-radius: 4px;
-    padding: 36px 40px 40px;
+    padding: 24px;
     width: 100%;
     max-width: 700px;
     margin: 0 auto;
@@ -308,7 +305,7 @@
     border: 1px solid #d6cfc8;
     border-radius: 3px;
     padding: 10px 14px;
-    font-size: 14px;
+    font-size: 16px;
     color: #686A54;
     font-family: 'Fraunces';
     background-color: #FFF;
@@ -335,7 +332,7 @@
   .as-wholesale-field input::placeholder,
   .as-wholesale-field textarea::placeholder {
     color: #969696;
-    font-size: 14px;
+    font-size: 16px;
   }
 
   .as-wholesale-field input:focus,
@@ -410,7 +407,7 @@
     border: 1px solid #d6cfc8;
     border-radius: 3px;
     padding: 10px 14px;
-    font-size: 14px;
+    font-size: 16px;
     color: #969696;
     font-family: 'Georgia'
     , serif;
@@ -423,7 +420,7 @@
 
   .as-wholesale-item-row input[type="text"]::placeholder {
     color: #969696;
-    font-size: 14px;
+    font-size: 16px;
   }
 
   .as-wholesale-item-row input[type="text"]:focus {
@@ -462,7 +459,7 @@
     width: 40px;
     text-align: center;
     border: none;
-    font-size: 14px;
+    font-size: 16px;
     color: #686A54;
     font-family: 'Georgia'
     , serif;
@@ -485,7 +482,7 @@
     background: none;
     border: none;
     color: #686A54;
-    font-size: 13px;
+    font-size: 16px;
     font-family: 'Agrandir';
     cursor: pointer;
     padding: 4px 0;
@@ -529,9 +526,9 @@
     background: #f0ebe3;
     border: 1px solid #B7A160;
     color: #686A54;
-    padding: 14px 20px;
+    padding: 14px 24px;
     border-radius: 3px;
-    font-size: 14px;
+    font-size: 16px;
     text-align: center;
     margin-top: 16px;
     font-family: 'Georgia'
@@ -544,17 +541,12 @@
       max-width: 100vw;
       margin-left: calc(50% - 50vw);
       margin-right: calc(50% - 50vw);
-      padding: 40px max(16px, env(safe-area-inset-left)) 40px;
+      padding: max(24px, env(safe-area-inset-top)) max(24px, env(safe-area-inset-right)) max(24px, env(safe-area-inset-bottom)) max(24px, env(safe-area-inset-left));
       box-sizing: border-box;
     }
 
     .as-wholesale-inner {
       max-width: 100%;
-      width: 100%;
-    }
-
-    .as-wholesale-card {
-      max-width: none;
       width: 100%;
     }
 
@@ -566,40 +558,15 @@
       font-size: 32px;
     }
 
-    .as-wholesale-subtext {
-      font-size: 16px;
-    }
-
     .as-wholesale-accordions {
       grid-template-columns: 1fr;
-    }
-
-    .as-wholesale-accordion-trigger {
-      font-size: 16px;
-    }
-
-    .as-wholesale-accordion-trigger span.as-wholesale-acc-icon {
-      font-size: 20px;
-    }
-
-    .as-wholesale-gift-box-copy {
-      font-size: 14px;
-    }
-
-    .as-wholesale-accordion:nth-child(odd) {
-      border-right: none;
-    }
-
-    .as-wholesale-accordion:nth-last-child(-n + 2) {
-      border-bottom: 1px solid #d6cfc8;
-    }
-
-    .as-wholesale-accordion:last-child {
-      border-bottom: none;
+      column-gap: 0;
     }
 
     .as-wholesale-card {
-      padding: 24px 18px 28px;
+      max-width: none;
+      width: 100%;
+      padding: 24px;
     }
 
     .as-wholesale-row {
@@ -621,18 +588,6 @@
       max-width: 120px;
     }
 
-    .as-wholesale-field label {
-      font-size: 14px;
-    }
-
-    .as-wholesale-item-field-label {
-      font-size: 14px;
-    }
-
-    .as-wholesale-item-list-label span:first-child,
-    .as-wholesale-item-list-label span:last-child {
-      font-size: 14px;
-    }
   }
 </style>
 
@@ -683,7 +638,7 @@
     </div>
 
     <div class="as-wholesale-accordions">
-      <div class="as-wholesale-accordion">
+      <div class="as-wholesale-accordion as-wholesale-accordion--divider-below">
         <button
           type="button"
           class="as-wholesale-accordion-trigger"
@@ -695,7 +650,7 @@
           Enjoy tiered wholesale pricing based on your order volume.
         </div>
       </div>
-      <div class="as-wholesale-accordion">
+      <div class="as-wholesale-accordion as-wholesale-accordion--divider-below">
         <button
           type="button"
           class="as-wholesale-accordion-trigger"
@@ -762,7 +717,7 @@
           -%}
           {%- if gift_box_product != blank and gift_show_image != blank -%}
             <a class="as-wholesale-gift-product" href="{{ gift_box_product.url }}">
-              {{ gift_show_image | image_url: width: 480 | image_tag: class: 'as-wholesale-gift-product__image', loading: 'lazy', alt: gift_alt, sizes: '120px', widths: '120, 240, 360, 480' }}
+              {{ gift_show_image | image_url: width: 960 | image_tag: class: 'as-wholesale-gift-product__image', loading: 'lazy', alt: gift_alt, sizes: '(max-width: 600px) min(240px, 85vw), 240px', widths: '240, 360, 480, 640, 800, 960' }}
               {%- if gift_box_label_hidden != true and gift_box_label_text != blank -%}
                 <span class="as-wholesale-gift-product__title">{{ gift_box_label_text | escape }}</span>
               {%- endif -%}
@@ -774,7 +729,7 @@
               {%- endif -%}
             </a>
           {%- elsif gift_show_image != blank -%}
-            {{ gift_show_image | image_url: width: 480 | image_tag: class: 'as-wholesale-gift-product__image as-wholesale-gift-product__image--standalone', loading: 'lazy', alt: gift_alt, sizes: '120px', widths: '120, 240, 360, 480' }}
+            {{ gift_show_image | image_url: width: 960 | image_tag: class: 'as-wholesale-gift-product__image as-wholesale-gift-product__image--standalone', loading: 'lazy', alt: gift_alt, sizes: '(max-width: 600px) min(240px, 85vw), 240px', widths: '240, 360, 480, 640, 800, 960' }}
           {%- endif -%}
         </div>
       </div>
