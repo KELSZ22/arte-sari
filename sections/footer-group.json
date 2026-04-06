@@ -18,21 +18,21 @@
           "type": "left_link",
           "settings": {
             "label": "SHOP",
-            "link": ""
+            "link": "https://artesariph.myshopify.com/collections/all"
           }
         },
         "left_link_MPqXKU": {
           "type": "left_link",
           "settings": {
             "label": "ABOUT",
-            "link": ""
+            "link": "shopify://pages/about-us"
           }
         },
         "left_link_DaECtJ": {
           "type": "left_link",
           "settings": {
             "label": "WHOLESALE",
-            "link": ""
+            "link": "shopify://pages/wholesale"
           }
         },
         "left_link_QWyjUG": {
@@ -46,7 +46,7 @@
           "type": "right_link",
           "settings": {
             "label": "CONTACT",
-            "link": ""
+            "link": "shopify://pages/contact"
           }
         },
         "right_link_hjLUH7": {

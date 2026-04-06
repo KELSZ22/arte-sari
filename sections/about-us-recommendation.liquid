@@ -114,7 +114,7 @@
 
 .favorites__grid {
   display: grid;
-  grid-template-columns: repeat({{ section.settings.columns_desktop }}, 256px);
+  grid-template-columns: repeat({{ section.settings.columns_desktop }}, 1fr);
   gap: {{ section.settings.grid_gap }}px;
   margin-bottom: {{ section.settings.grid_margin_bottom }}px;
 }
@@ -131,7 +131,7 @@
 .favorites__image {
   width: 100%;
   display: block;
-  height: 256px;
+  height: 340px;
   object-fit: cover;
 }
 

@@ -282,6 +282,7 @@
         "tab_YgAdEa",
         "tab_iYU6Dp"
       ],
+      "disabled": true,
       "custom_css": [],
       "name": "Collection tabs grid",
       "settings": {
@@ -311,6 +312,77 @@
         "color_scheme": "",
         "padding-block-start": 200,
         "padding-block-end": 76
+      }
+    },
+    "weaving_filipino_artistry_q6merL": {
+      "type": "weaving-filipino-artistry",
+      "blocks": {
+        "collection_tab_QD4ihk": {
+          "type": "collection_tab",
+          "settings": {
+            "tab_label": "SHOP ALL",
+            "collection": "all-items"
+          }
+        },
+        "collection_tab_wAT6xx": {
+          "type": "collection_tab",
+          "settings": {
+            "tab_label": "BAGS",
+            "collection": "bags"
+          }
+        },
+        "collection_tab_aJYWKX": {
+          "type": "collection_tab",
+          "settings": {
+            "tab_label": "EARRINGS",
+            "collection": "earrings"
+          }
+        },
+        "collection_tab_yiTjtG": {
+          "type": "collection_tab",
+          "settings": {
+            "tab_label": "NECKLACES",
+            "collection": "necklaces"
+          }
+        },
+        "collection_tab_NnrXHT": {
+          "type": "collection_tab",
+          "settings": {
+            "tab_label": "BRACELETS",
+            "collection": "bracelets"
+          }
+        },
+        "collection_tab_pDNzDf": {
+          "type": "collection_tab",
+          "settings": {
+            "tab_label": "RINGS",
+            "collection": ""
+          }
+        }
+      },
+      "block_order": [
+        "collection_tab_QD4ihk",
+        "collection_tab_wAT6xx",
+        "collection_tab_aJYWKX",
+        "collection_tab_yiTjtG",
+        "collection_tab_NnrXHT",
+        "collection_tab_pDNzDf"
+      ],
+      "name": "Weaving product tabs",
+      "settings": {
+        "heading": "WEAVING FILIPINO ARTISTRY",
+        "bg_image": "shopify://shop_images/Frame_122_7ec705b6-546b-4e9e-bdc8-f22e87477586.png",
+        "shop_all_prefix": "SHOP ALL",
+        "quick_view_label": "QUICK VIEW",
+        "sale_badge_text": "SALE",
+        "products_to_show": 8,
+        "show_vendor": true,
+        "text_color": "#6c6654",
+        "muted_color": "#a59c89",
+        "accent_color": "#b9a56a",
+        "card_border_color": "#d6ccb6",
+        "button_bg": "#7e7a61",
+        "button_text": "#ffffff"
       }
     },
     "featured_artisan_kHHehy": {
@@ -577,6 +649,7 @@
     "hero_slider_C7Jiew",
     "custom_collection_showcase_bC9icm",
     "custom_collection_tabs_grid_hrtEch",
+    "weaving_filipino_artistry_q6merL",
     "featured_artisan_kHHehy",
     "image_content_split_E8rT73",
     "marquee_MyFQTC",

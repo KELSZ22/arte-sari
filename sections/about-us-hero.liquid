@@ -33,9 +33,9 @@
         {% case block.type %}
 
           {% when 'heading' %}
-            <h2 class="about-hero__heading">
+            <h1 class="about-hero__heading">
               {{ block.settings.text }}
-            </h2>
+            </h1>
 
           {% when 'subheading' %}
             <p class="about-hero__subheading">
@@ -81,7 +81,7 @@
     margin: 0 auto;
     text-align: center;
     /* Top: modest; main already clears sticky header + gap. Keep stronger bottom for image rhythm. */
-    padding: var(--gap-2xl, 2rem) 20px 60px;
+    padding: var(--gap-3xl, 2rem) 20px 60px;
   }
 
   .about-hero__heading {
@@ -115,7 +115,7 @@
   /* RESPONSIVE */
   @media screen and (max-width: 768px) {
     .about-hero__container {
-      padding: var(--gap-xl, 1.25rem) 16px 40px;
+      padding: var(--gap-3xl, 1.25rem) 16px 40px;
     }
 
     .about-hero__heading {
