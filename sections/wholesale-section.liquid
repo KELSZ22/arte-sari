@@ -415,6 +415,7 @@
     outline: none;
     width: 100%;
     box-sizing: border-box;
+    min-height: 42px;
   }
 
   .as-wholesale-item-row input[type="text"]::placeholder {
@@ -428,18 +429,19 @@
 
   .as-wholesale-qty-wrap {
     display: flex;
-    align-items: center;
+    align-items: stretch;
     border: 1px solid #d6cfc8;
     border-radius: 3px;
     overflow: hidden;
     background-color: #FFF;
+    min-height: 42px;
   }
 
   .as-wholesale-qty-btn {
     background: none;
     border: none;
-    width: 32px;
-    height: 38px;
+    width: 36px;
+    min-height: 42px;
     font-size: 18px;
     color: #686A54;
     cursor: pointer;
@@ -448,10 +450,31 @@
     justify-content: center;
     flex-shrink: 0;
     transition: background 0.15s;
+    padding: 0;
+    box-sizing: border-box;
   }
 
   .as-wholesale-qty-btn:hover {
     background: #f4ece6;
+  }
+
+  .as-wholesale-qty-btn__icon--trash {
+    display: none;
+    line-height: 0;
+  }
+
+  .as-wholesale-qty-btn__icon--trash svg {
+    display: block;
+  }
+
+  .as-wholesale-qty-wrap.is-at-min .as-wholesale-qty-btn__icon--minus {
+    display: none;
+  }
+
+  .as-wholesale-qty-wrap.is-at-min .as-wholesale-qty-btn__icon--trash {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .as-wholesale-qty-input {
@@ -462,13 +485,14 @@
     color: #686A54;
     font-family: 'Georgia'
     , serif;
-    padding: 0;
-    height: 38px;
+    padding: 10px 0;
+    min-height: 42px;
     box-sizing: border-box;
     outline: none;
     background-color: #FFF;
     background-image: none;
     -moz-appearance: textfield;
+    align-self: stretch;
   }
 
   .as-wholesale-qty-input::-webkit-outer-spin-button,
@@ -810,7 +834,7 @@
 
         <div class="as-wholesale-item-list-label">
           <span>ITEM LIST</span>
-          <span>Min. no. of items: 5</span>
+          <span>Min. quantity: 1</span>
         </div>
 
         <div id="as-wholesale-items">
@@ -824,21 +848,30 @@
             </div>
             <div class="as-wholesale-item-cell as-wholesale-item-cell--qty">
               <span class="as-wholesale-item-field-label">Qty</span>
-              <div class="as-wholesale-qty-wrap">
+              <div class="as-wholesale-qty-wrap is-at-min">
                 <button
                   type="button"
-                  class="as-wholesale-qty-btn"
-                  onclick="asWsQty(this,-1)">−</button>
+                  class="as-wholesale-qty-btn as-wholesale-qty-btn--decrease"
+                  onclick="asWsQtyChange(this, -1)"
+                  aria-label="Decrease quantity">
+                  <span class="as-wholesale-qty-btn__icon as-wholesale-qty-btn__icon--minus" aria-hidden="true">−</span>
+                  <span class="as-wholesale-qty-btn__icon as-wholesale-qty-btn__icon--trash" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                      <path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M10 11v6M14 11v6"/>
+                    </svg>
+                  </span>
+                </button>
                 <input
                   type="number"
                   class="as-wholesale-qty-input"
                   name="contact[qty_1]"
-                  value="5"
+                  value="1"
                   min="1">
                 <button
                   type="button"
                   class="as-wholesale-qty-btn"
-                  onclick="asWsQty(this,1)">+</button>
+                  onclick="asWsQtyChange(this, 1)"
+                  aria-label="Increase quantity">+</button>
               </div>
             </div>
           </div>
@@ -852,21 +885,30 @@
             </div>
             <div class="as-wholesale-item-cell as-wholesale-item-cell--qty">
               <span class="as-wholesale-item-field-label">Qty</span>
-              <div class="as-wholesale-qty-wrap">
+              <div class="as-wholesale-qty-wrap is-at-min">
                 <button
                   type="button"
-                  class="as-wholesale-qty-btn"
-                  onclick="asWsQty(this,-1)">−</button>
+                  class="as-wholesale-qty-btn as-wholesale-qty-btn--decrease"
+                  onclick="asWsQtyChange(this, -1)"
+                  aria-label="Decrease quantity">
+                  <span class="as-wholesale-qty-btn__icon as-wholesale-qty-btn__icon--minus" aria-hidden="true">−</span>
+                  <span class="as-wholesale-qty-btn__icon as-wholesale-qty-btn__icon--trash" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                      <path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M10 11v6M14 11v6"/>
+                    </svg>
+                  </span>
+                </button>
                 <input
                   type="number"
                   class="as-wholesale-qty-input"
                   name="contact[qty_2]"
-                  value="5"
+                  value="1"
                   min="1">
                 <button
                   type="button"
                   class="as-wholesale-qty-btn"
-                  onclick="asWsQty(this,1)">+</button>
+                  onclick="asWsQtyChange(this, 1)"
+                  aria-label="Increase quantity">+</button>
               </div>
             </div>
           </div>
@@ -880,21 +922,30 @@
             </div>
             <div class="as-wholesale-item-cell as-wholesale-item-cell--qty">
               <span class="as-wholesale-item-field-label">Qty</span>
-              <div class="as-wholesale-qty-wrap">
+              <div class="as-wholesale-qty-wrap is-at-min">
                 <button
                   type="button"
-                  class="as-wholesale-qty-btn"
-                  onclick="asWsQty(this,-1)">−</button>
+                  class="as-wholesale-qty-btn as-wholesale-qty-btn--decrease"
+                  onclick="asWsQtyChange(this, -1)"
+                  aria-label="Decrease quantity">
+                  <span class="as-wholesale-qty-btn__icon as-wholesale-qty-btn__icon--minus" aria-hidden="true">−</span>
+                  <span class="as-wholesale-qty-btn__icon as-wholesale-qty-btn__icon--trash" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                      <path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M10 11v6M14 11v6"/>
+                    </svg>
+                  </span>
+                </button>
                 <input
                   type="number"
                   class="as-wholesale-qty-input"
                   name="contact[qty_3]"
-                  value="5"
+                  value="1"
                   min="1">
                 <button
                   type="button"
                   class="as-wholesale-qty-btn"
-                  onclick="asWsQty(this,1)">+</button>
+                  onclick="asWsQtyChange(this, 1)"
+                  aria-label="Increase quantity">+</button>
               </div>
             </div>
           </div>
@@ -944,6 +995,7 @@
     });
   
     var itemCount = 3;
+    asWsInitQtyRows();
     var addBtn = document.getElementById('as-ws-add-item');
     if (addBtn) {
       addBtn.addEventListener('click', function() {
@@ -958,21 +1010,89 @@
           '</div>' +
           '<div class="as-wholesale-item-cell as-wholesale-item-cell--qty">' +
             '<span class="as-wholesale-item-field-label">Qty</span>' +
-            '<div class="as-wholesale-qty-wrap">' +
-              '<button type="button" class="as-wholesale-qty-btn" onclick="asWsQty(this,-1)">−</button>' +
-              '<input type="number" class="as-wholesale-qty-input" name="contact[qty_' + itemCount + ']" value="5" min="1">' +
-              '<button type="button" class="as-wholesale-qty-btn" onclick="asWsQty(this,1)">+</button>' +
+            '<div class="as-wholesale-qty-wrap is-at-min">' +
+              '<button type="button" class="as-wholesale-qty-btn as-wholesale-qty-btn--decrease" onclick="asWsQtyChange(this, -1)" aria-label="Remove item">' +
+                '<span class="as-wholesale-qty-btn__icon as-wholesale-qty-btn__icon--minus" aria-hidden="true">−</span>' +
+                '<span class="as-wholesale-qty-btn__icon as-wholesale-qty-btn__icon--trash" aria-hidden="true">' +
+                  '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">' +
+                    '<path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M10 11v6M14 11v6"/>' +
+                  '</svg>' +
+                '</span>' +
+              '</button>' +
+              '<input type="number" class="as-wholesale-qty-input" name="contact[qty_' + itemCount + ']" value="1" min="1">' +
+              '<button type="button" class="as-wholesale-qty-btn" onclick="asWsQtyChange(this, 1)" aria-label="Increase quantity">+</button>' +
             '</div>' +
           '</div>';
         container.appendChild(row);
+        asWsUpdateDecreaseState(row.querySelector('.as-wholesale-qty-wrap'));
       });
     }
   })();
-  
-  function asWsQty(btn, delta) {
-    var input = btn.parentElement.querySelector('.as-wholesale-qty-input');
-    var val = parseInt(input.value) || 1;
+
+  function asWsUpdateDecreaseState(wrap) {
+    if (!wrap) return;
+    var input = wrap.querySelector('.as-wholesale-qty-input');
+    var decBtn = wrap.querySelector('.as-wholesale-qty-btn--decrease');
+    if (!input || !decBtn) return;
+    var val = parseInt(input.value, 10);
+    if (isNaN(val) || val < 1) {
+      input.value = '1';
+      val = 1;
+    }
+    if (val === 1) {
+      wrap.classList.add('is-at-min');
+      decBtn.setAttribute('aria-label', 'Remove item');
+    } else {
+      wrap.classList.remove('is-at-min');
+      decBtn.setAttribute('aria-label', 'Decrease quantity');
+    }
+  }
+
+  function asWsRemoveItemRow(wrap) {
+    var row = wrap.closest('.as-wholesale-item-row');
+    var container = document.getElementById('as-wholesale-items');
+    if (!row || !container) return;
+    var rows = container.querySelectorAll('.as-wholesale-item-row');
+    if (rows.length <= 1) {
+      var textInp = row.querySelector('input[type="text"]');
+      if (textInp) textInp.value = '';
+      var qInp = wrap.querySelector('.as-wholesale-qty-input');
+      if (qInp) qInp.value = '1';
+      asWsUpdateDecreaseState(wrap);
+      return;
+    }
+    row.remove();
+  }
+
+  function asWsQtyChange(btn, delta) {
+    var wrap = btn.closest('.as-wholesale-qty-wrap');
+    if (!wrap) return;
+    var input = wrap.querySelector('.as-wholesale-qty-input');
+    var val = parseInt(input.value, 10) || 1;
+    if (delta < 0 && val === 1) {
+      asWsRemoveItemRow(wrap);
+      return;
+    }
     val = Math.max(1, val + delta);
-    input.value = val;
+    input.value = String(val);
+    asWsUpdateDecreaseState(wrap);
+  }
+
+  function asWsInitQtyRows() {
+    var container = document.getElementById('as-wholesale-items');
+    if (!container) return;
+    container.querySelectorAll('.as-wholesale-qty-wrap').forEach(function(w) {
+      asWsUpdateDecreaseState(w);
+    });
+    container.addEventListener('input', function(e) {
+      if (e.target.classList && e.target.classList.contains('as-wholesale-qty-input')) {
+        asWsUpdateDecreaseState(e.target.closest('.as-wholesale-qty-wrap'));
+      }
+    });
+    container.addEventListener('change', function(e) {
+      if (e.target.classList && e.target.classList.contains('as-wholesale-qty-input')) {
+        asWsUpdateDecreaseState(e.target.closest('.as-wholesale-qty-wrap'));
+      }
+    });
   }
 </script>
