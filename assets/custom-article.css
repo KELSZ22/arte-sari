@@ -1,6 +1,16 @@
+/* Blog post page surface (solid cream; no mobile wallpaper tile) */
 body.article-page-bg,
 body.article-page-bg #MainContent {
-  background: #f4ece6;
+  background-color: #f4ece6;
+  background-image: none;
+}
+
+@media screen and (max-width: 749px) {
+  body.article-page-bg #MainContent .shopify-section > .section-background,
+  body.article-page-bg #MainContent .shopify-section > .section {
+    background-color: #f4ece6 !important;
+    background-image: none !important;
+  }
 }
 
 /* Fonts for blog featured product card (blog templates may not load other sections’ @font-face) */

@@ -29,10 +29,9 @@
     background-image: none !important;
   }
 
-  /* Mobile-only: same wallpaper on body for other templates; main stays transparent there */
+  /* Mobile-only: wallpaper on body for non-article templates. Article uses solid #f4ece6 (custom-article.css). */
   @media screen and (max-width: 749px) {
-    body,
-    body.article-page-bg {
+    body:not(.article-page-bg) {
       background-color: #f4ece6;
       background-image: url({{ 'mobile-bg.png' | asset_url }});
       background-repeat: repeat;
@@ -40,20 +39,6 @@
     }
 
     main.content-for-layout {
-      background: transparent !important;
-    }
-
-    /*
-      Blog post (article): section + inner wrapper use flat #f4ece6, which hides the repeating pattern.
-      Let the wallpaper show through like other mobile pages.
-    */
-    body.article-page-bg #MainContent .shopify-section > .section-background,
-    body.article-page-bg #MainContent .shopify-section > .section {
-      background-color: transparent !important;
-      background-image: none !important;
-    }
-
-    body.article-page-bg #MainContent .blog-post-article-background {
       background: transparent !important;
     }
   }
