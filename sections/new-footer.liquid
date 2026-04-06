@@ -1,119 +1,142 @@
 {% schema %}
-{
-  "name": "Arte Sari Footer",
-  "settings": [
-    {
-      "type": "image_picker",
-      "id": "background_image",
-      "label": "Background Image"
-    },
-    {
-      "type": "color",
-      "id": "background_color",
-      "label": "Background Color (fallback)",
-      "default": "#C8B87A"
-    },
-    {
-      "type": "color",
-      "id": "text_color",
-      "label": "Text Color",
-      "default": "#686A54"
-    },
-    {
-      "type": "image_picker",
-      "id": "logo",
-      "label": "Logo"
-    },
-    {
-      "type": "range",
-      "id": "logo_size",
-      "label": "Logo Size",
-      "min": 40,
-      "max": 200,
-      "step": 5,
-      "default": 90,
-      "unit": "px"
-    },
-    {
-      "type": "text",
-      "id": "tagline",
-      "label": "Tagline",
-      "default": "Weaving Filipino Artistry"
-    },
-    {
-      "type": "richtext",
-      "id": "description",
-      "label": "Description",
-      "default": "<p>Arte Sari is a platform that brings thoughtfully curated Filipino products to the US and global market. Born from a deep love for Filipino culture and a commitment to preserving its rich heritage, it seeks to house unique and diverse local products from all over the Philippines.</p>"
-    },
-    {
-      "type": "text",
-      "id": "copyright_text",
-      "label": "Copyright Text",
-      "default": "ALL RIGHTS RESERVED. WEBSITE BY: DAYDREAM BRANDING STUDIO"
-    },
-    {
-      "type": "url",
-      "id": "facebook_url",
-      "label": "Facebook URL"
-    },
-    {
-      "type": "url",
-      "id": "instagram_url",
-      "label": "Instagram URL"
-    }
-  ],
-  "blocks": [
-    {
-      "type": "left_link",
-      "name": "Left Nav Link",
-      "settings": [
-        {
-          "type": "text",
-          "id": "label",
-          "label": "Label",
-          "default": "SHOP"
-        },
-        {
-          "type": "url",
-          "id": "link",
-          "label": "Link"
-        }
-      ]
-    },
-    {
-      "type": "right_link",
-      "name": "Right Nav Link",
-      "settings": [
-        {
-          "type": "text",
-          "id": "label",
-          "label": "Label",
-          "default": "CONTACT"
-        },
-        {
-          "type": "url",
-          "id": "link",
-          "label": "Link"
-        }
-      ]
-    }
-  ],
-  "presets": [
-    {
-      "name": "Arte Sari Footer",
-      "blocks": [
-        { "type": "left_link", "settings": { "label": "SHOP" } },
-        { "type": "left_link", "settings": { "label": "ABOUT" } },
-        { "type": "left_link", "settings": { "label": "WHOLESALE" } },
-        { "type": "left_link", "settings": { "label": "FAQ" } },
-        { "type": "right_link", "settings": { "label": "CONTACT" } },
-        { "type": "right_link", "settings": { "label": "PRIVACY POLICY" } },
-        { "type": "right_link", "settings": { "label": "REFUND POLICY" } }
-      ]
-    }
-  ]
-}
+  {
+    "name": "Arte Sari Footer",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "background_image",
+        "label": "Background Image"
+      },
+      {
+        "type": "color",
+        "id": "background_color",
+        "label": "Background Color (fallback)",
+        "default": "#C8B87A"
+      },
+      {
+        "type": "color",
+        "id": "text_color",
+        "label": "Text Color",
+        "default": "#686A54"
+      },
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Logo"
+      }, {
+        "type": "range",
+        "id": "logo_size",
+        "label": "Logo Size",
+        "min": 40,
+        "max": 200,
+        "step": 5,
+        "default": 90,
+        "unit": "px"
+      }, {
+        "type": "text",
+        "id": "tagline",
+        "label": "Tagline",
+        "default": "Weaving Filipino Artistry"
+      }, {
+        "type": "richtext",
+        "id": "description",
+        "label": "Description",
+        "default": "<p>Arte Sari is a platform that brings thoughtfully curated Filipino products to the US and global market. Born from a deep love for Filipino culture and a commitment to preserving its rich heritage, it seeks to house unique and diverse local products from all over the Philippines.</p>"
+      }, {
+        "type": "text",
+        "id": "copyright_text",
+        "label": "Copyright Text",
+        "default": "ALL RIGHTS RESERVED. WEBSITE BY: DAYDREAM BRANDING STUDIO"
+      }, {
+        "type": "url",
+        "id": "facebook_url",
+        "label": "Facebook URL"
+      }, {
+        "type": "url",
+        "id": "instagram_url",
+        "label": "Instagram URL"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "left_link",
+        "name": "Left Nav Link",
+        "settings": [
+          {
+            "type": "text",
+            "id": "label",
+            "label": "Label",
+            "default": "SHOP"
+          }, {
+            "type": "url",
+            "id": "link",
+            "label": "Link"
+          }
+        ]
+      }, {
+        "type": "right_link",
+        "name": "Right Nav Link",
+        "settings": [
+          {
+            "type": "text",
+            "id": "label",
+            "label": "Label",
+            "default": "CONTACT"
+          }, {
+            "type": "url",
+            "id": "link",
+            "label": "Link"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Arte Sari Footer",
+        "blocks": [
+          {
+            "type": "left_link",
+            "settings": {
+              "label": "SHOP"
+            }
+          },
+          {
+            "type": "left_link",
+            "settings": {
+              "label": "ABOUT"
+            }
+          },
+          {
+            "type": "left_link",
+            "settings": {
+              "label": "WHOLESALE"
+            }
+          },
+          {
+            "type": "left_link",
+            "settings": {
+              "label": "FAQ"
+            }
+          }, {
+            "type": "right_link",
+            "settings": {
+              "label": "CONTACT"
+            }
+          }, {
+            "type": "right_link",
+            "settings": {
+              "label": "PRIVACY POLICY"
+            }
+          }, {
+            "type": "right_link",
+            "settings": {
+              "label": "REFUND POLICY"
+            }
+          }
+        ]
+      }
+    ]
+  }
 {% endschema %}
 
 <style>
@@ -126,11 +149,20 @@
       background-position: center;
       background-repeat: no-repeat;
     {% endif %}
-    font-family: 'Cinzel', 'Trajan Pro', Georgia, serif;
+    font-family: 'Cinzel'
+    , 'Trajan Pro'
+    , Georgia
+    , serif;
     color: {{ section.settings.text_color }};
   }
 
-  #shopify-section-{{ section.id }} .as-footer__main {
+  #shopify-section-{{ section.id }}
+  .as-footer a {
+    letter-spacing: 0.1;
+  }
+
+  #shopify-section-{{ section.id }}
+  .as-footer__main {
     display: grid;
     grid-template-columns: 1fr 2fr 1fr;
     align-items: center;
@@ -140,7 +172,8 @@
     gap: 20px;
   }
 
-  #shopify-section-{{ section.id }} .as-footer__nav {
+  #shopify-section-{{ section.id }}
+  .as-footer__nav {
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -148,28 +181,30 @@
     margin-top: 140px;
   }
 
-  #shopify-section-{{ section.id }} .as-footer__nav--right {
+  #shopify-section-{{ section.id }}
+  .as-footer__nav--right {
     text-align: right;
   }
 
-  #shopify-section-{{ section.id }} .as-footer__nav a {
+  #shopify-section-{{ section.id }}
+  .as-footer__nav a {
     display: block;
     color: {{ section.settings.text_color }};
     text-decoration: none;
     font-size: 20px;
     font-weight: 400;
-    letter-spacing: 0.12em;
     line-height: 1.8;
     transition: color 0.2s ease;
     font-family: 'Fraunces';
   }
 
-  #shopify-section-{{ section.id }} .as-footer__nav a:hover {
+  #shopify-section-{{ section.id }}.as-footer__nav a:hover {
     text-decoration: underline !important;
     color: #686A54 !important;
   }
 
-  #shopify-section-{{ section.id }} .as-footer__center {
+  #shopify-section-{{ section.id }}
+  .as-footer__center {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -177,52 +212,65 @@
     gap: 16px;
   }
 
-  #shopify-section-{{ section.id }} .as-footer__logo-wrap {
+  #shopify-section-{{ section.id }}
+  .as-footer__logo-wrap {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 6px;
   }
 
-  #shopify-section-{{ section.id }} .as-footer__logo-wrap img {
+  #shopify-section-{{ section.id }}
+  .as-footer__logo-wrap img {
     width: {{ section.settings.logo_size }}px;
     height: auto;
   }
 
-  #shopify-section-{{ section.id }} .as-footer__brand-name {
+  #shopify-section-{{ section.id }}
+  .as-footer__brand-name {
     font-size: 22px;
     font-weight: 700;
     letter-spacing: 0.25em;
     color: {{ section.settings.text_color }};
     margin: 0;
-    font-family: 'Cinzel', Georgia, serif;
+    font-family: 'Cinzel'
+    , Georgia
+    , serif;
   }
 
-  #shopify-section-{{ section.id }} .as-footer__tagline {
+  #shopify-section-{{ section.id }}
+  .as-footer__tagline {
     font-size: 10px;
     letter-spacing: 0.18em;
     color: {{ section.settings.text_color }};
     margin: 0;
-    font-family: 'Cinzel', Georgia, serif;
+    font-family: 'Cinzel'
+    , Georgia
+    , serif;
     font-style: italic;
   }
 
-  #shopify-section-{{ section.id }} .as-footer__description {
+  #shopify-section-{{ section.id }}
+  .as-footer__description {
     font-size: 16px;
     line-height: 1.85;
     color: {{ section.settings.text_color }};
     max-width: 580px;
     margin: 0;
-    font-family: Georgia, 'Times New Roman', serif;
+    font-family: Georgia
+    , 'Times New Roman'
+    , serif;
     font-weight: 400;
   }
 
-  #shopify-section-{{ section.id }} .as-footer__description p {
+  #shopify-section-{{ section.id }}
+  .as-footer__description p {
     margin: 0;
     color: #F4ECE6;
   }
 
-  #shopify-section-{{ section.id }} .as-footer__socials {
+  #shopify-section-{{ section.id }}
+  .as-footer__socials {
     display: flex;
     gap: 18px;
     align-items: center;
@@ -230,7 +278,8 @@
     margin-top: 4px;
   }
 
-  #shopify-section-{{ section.id }} .as-footer__socials a {
+  #shopify-section-{{ section.id }}
+  .as-footer__socials a {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -242,19 +291,22 @@
   }
 
 
-  #shopify-section-{{ section.id }} .as-footer__socials svg {
+  #shopify-section-{{ section.id }}
+  .as-footer__socials svg {
     width: 24px;
     height: 24px;
   }
 
-  #shopify-section-{{ section.id }} .as-footer__bottom {
+  #shopify-section-{{ section.id }}
+  .as-footer__bottom {
     border-top: 1px solid rgba(104, 106, 84, 0.3);
     text-align: center;
     padding: 14px 40px;
     background: #DAAE7C;
   }
 
-  #shopify-section-{{ section.id }} .as-footer__copyright {
+  #shopify-section-{{ section.id }}
+  .as-footer__copyright {
     font-size: 12px;
     letter-spacing: 0.14em;
     color: #926532;
@@ -262,7 +314,8 @@
     font-family: 'Agrandir';
   }
 
-  #shopify-section-{{ section.id }} .as-footer__daydream-break {
+  #shopify-section-{{ section.id }}
+  .as-footer__daydream-break {
     display: none;
   }
 
@@ -273,44 +326,53 @@
       gap: 36px;
     }
 
-    #shopify-section-{{ section.id }} .as-footer__nav {
+    #shopify-section-{{ section.id }}
+    .as-footer__nav {
       display: flex;
       grid-template-columns: 1fr 1fr;
       gap: 4px 16px;
-      margin-top: 0px;
+      margin-top: 0;
       align-items: center;
     }
 
-    #shopify-section-{{ section.id }} .as-footer__nav--right {
+    #shopify-section-{{ section.id }}
+    .as-footer__nav--right {
       text-align: left;
     }
 
-    #shopify-section-{{ section.id }} .as-footer__nav a {
+    #shopify-section-{{ section.id }}
+    .as-footer__nav a {
       font-size: 16px;
     }
 
-    #shopify-section-{{ section.id }} .as-footer__center {
+    #shopify-section-{{ section.id }}
+    .as-footer__center {
       order: -1;
     }
 
-    #shopify-section-{{ section.id }} .as-footer__bottom {
+    #shopify-section-{{ section.id }}
+    .as-footer__bottom {
       padding: 14px 24px;
     }
 
-    #shopify-section-{{ section.id }} .as-footer__copyright {
+    #shopify-section-{{ section.id }}
+    .as-footer__copyright {
       font-size: 12px;
       padding-right: 20px;
       letter-spacing: 0;
     }
-    #shopify-section-{{ section.id }} .as-footer__description {
+    #shopify-section-{{ section.id }}
+    .as-footer__description {
       font-size: 14px;
     }
 
-    #shopify-section-{{ section.id }} .as-footer__description p {
-    font-size: 14px !important;
+    #shopify-section-{{ section.id }}
+    .as-footer__description p {
+      font-size: 14px !important;
     }
 
-    #shopify-section-{{ section.id }} .as-footer__daydream-break {
+    #shopify-section-{{ section.id }}
+    .as-footer__daydream-break {
       display: block;
     }
   }
@@ -320,11 +382,13 @@
       font-size: 18px;
     }
 
-    #shopify-section-{{ section.id }} .as-footer__description {
+    #shopify-section-{{ section.id }}
+    .as-footer__description {
       font-size: 12px;
     }
-    #shopify-section-{{ section.id }} .as-footer__description p {
-    font-size: 14px !important;
+    #shopify-section-{{ section.id }}
+    .as-footer__description p {
+      font-size: 14px !important;
     }
   }
 
@@ -362,18 +426,56 @@
 
       <div class="as-footer__socials">
         {% if section.settings.facebook_url != blank %}
-          <a href="{{ section.settings.facebook_url }}" target="_blank" rel="noopener" aria-label="Facebook">
-          <svg width="13" height="22" viewBox="0 0 13 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M11.65 0.650391H8.64999C7.32391 0.650391 6.05214 1.17717 5.11446 2.11486C4.17678 3.05254 3.64999 4.32431 3.64999 5.65039V8.65039H0.649994V12.6504H3.64999V20.6504H7.64999V12.6504H10.65L11.65 8.65039H7.64999V5.65039C7.64999 5.38517 7.75535 5.13082 7.94289 4.94328C8.13042 4.75575 8.38478 4.65039 8.64999 4.65039H11.65V0.650391Z" stroke="#F4ECE6" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
+          <a
+            href="{{ section.settings.facebook_url }}"
+            target="_blank"
+            rel="noopener"
+            aria-label="Facebook">
+            <svg
+              width="13"
+              height="22"
+              viewBox="0 0 13 22"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M11.65 0.650391H8.64999C7.32391 0.650391 6.05214 1.17717 5.11446 2.11486C4.17678 3.05254 3.64999 4.32431 3.64999 5.65039V8.65039H0.649994V12.6504H3.64999V20.6504H7.64999V12.6504H10.65L11.65 8.65039H7.64999V5.65039C7.64999 5.38517 7.75535 5.13082 7.94289 4.94328C8.13042 4.75575 8.38478 4.65039 8.64999 4.65039H11.65V0.650391Z"
+                stroke="#F4ECE6"
+                stroke-width="1.3"
+                stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
           </a>
         {% endif %}
         {% if section.settings.instagram_url != blank %}
-          <a href="{{ section.settings.instagram_url }}" target="_blank" rel="noopener" aria-label="Instagram">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M17 2H7C4.23858 2 2 4.23858 2 7V17C2 19.7614 4.23858 22 7 22H17C19.7614 22 22 19.7614 22 17V7C22 4.23858 19.7614 2 17 2Z" stroke="#F4ECE6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M16 11.3703C16.1234 12.2025 15.9813 13.0525 15.5938 13.7993C15.2063 14.5461 14.5931 15.1517 13.8416 15.53C13.0901 15.9082 12.2384 16.0399 11.4078 15.9062C10.5771 15.7726 9.80976 15.3804 9.21484 14.7855C8.61991 14.1905 8.22773 13.4232 8.09406 12.5925C7.9604 11.7619 8.09206 10.9102 8.47032 10.1587C8.84858 9.40716 9.45418 8.79404 10.201 8.40654C10.9478 8.01904 11.7978 7.87689 12.63 8.0003C13.4789 8.12619 14.2648 8.52176 14.8717 9.12861C15.4785 9.73545 15.8741 10.5214 16 11.3703Z" stroke="#F4ECE6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M17.5 6.5H17.51" stroke="#F4ECE6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <a
+            href="{{ section.settings.instagram_url }}"
+            target="_blank"
+            rel="noopener"
+            aria-label="Instagram">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M17 2H7C4.23858 2 2 4.23858 2 7V17C2 19.7614 4.23858 22 7 22H17C19.7614 22 22 19.7614 22 17V7C22 4.23858 19.7614 2 17 2Z"
+                stroke="#F4ECE6"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round" />
+              <path
+                d="M16 11.3703C16.1234 12.2025 15.9813 13.0525 15.5938 13.7993C15.2063 14.5461 14.5931 15.1517 13.8416 15.53C13.0901 15.9082 12.2384 16.0399 11.4078 15.9062C10.5771 15.7726 9.80976 15.3804 9.21484 14.7855C8.61991 14.1905 8.22773 13.4232 8.09406 12.5925C7.9604 11.7619 8.09206 10.9102 8.47032 10.1587C8.84858 9.40716 9.45418 8.79404 10.201 8.40654C10.9478 8.01904 11.7978 7.87689 12.63 8.0003C13.4789 8.12619 14.2648 8.52176 14.8717 9.12861C15.4785 9.73545 15.8741 10.5214 16 11.3703Z"
+                stroke="#F4ECE6"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round" />
+              <path
+                d="M17.5 6.5H17.51"
+                stroke="#F4ECE6"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round" />
             </svg>
           </a>
         {% endif %}
@@ -391,8 +493,8 @@
 
   <div class="as-footer__bottom">
     {% assign copyright_mobile = section.settings.copyright_text
-      | replace: 'Daydream ', 'Daydream<br class="as-footer__daydream-break">'
-      | replace: 'DAYDREAM ', 'DAYDREAM<br class="as-footer__daydream-break">'
+ | replace: 'Daydream ', 'Daydream<br class="as-footer__daydream-break">'
+ | replace: 'DAYDREAM ', 'DAYDREAM<br class="as-footer__daydream-break">'
     %}
     <p class="as-footer__copyright">{{ copyright_mobile }}</p>
   </div>

@@ -1492,16 +1492,32 @@ html .card-gallery .cardGalleryBorderInner,
   font-family: Agrandir;
 }
 
-main.content-for-layout[data-template^="collection"]
-  .product-card
-  a
-  .text-block,
-main.content-for-layout[data-template^="collection"]
-  .product-card
-  product-price.text-block,
-main.content-for-layout[data-template^="collection"]
-  .product-card
-  product-price
-  .price {
-  font-size: 16px !important;
+/* Collection PLP: category / title / price sizes — mobile only */
+@media screen and (max-width: 749px) {
+  main.content-for-layout[data-template^="collection"]
+    .product-card
+    .product_metafield_category,
+  main.content-for-layout[data-template^="collection"]
+    .product-card
+    .product_metafield_category
+    p {
+    font-size: 12px !important;
+  }
+
+  main.content-for-layout[data-template^="collection"]
+    .product-card
+    a
+    .text-block {
+    font-size: 16px !important;
+  }
+
+  main.content-for-layout[data-template^="collection"]
+    .product-card
+    product-price,
+  main.content-for-layout[data-template^="collection"]
+    .product-card
+    product-price.custom-font-size
+    > * {
+    font-size: 12px !important;
+  }
 }
