@@ -8,8 +8,23 @@
 
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
 <aside
-  class="announcement-bar spacing-style section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }}"
-  style="{% render 'spacing-padding', settings: section.settings %}; --border-bottom-width: {{ section.settings.divider_width }}px;"
+  class="announcement-bar spacing-style section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }} announcement-bar--{{ section.settings.position_mode }}"
+  style="
+    {% render 'spacing-padding', settings: section.settings %};
+    --border-bottom-width: {{ section.settings.divider_width }}px;
+    {% if section.settings.position_mode == 'fixed' %}
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: var(--color-background);
+      z-index: 100;
+    {% elsif section.settings.position_mode == 'sticky' %}
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    {% endif %}
+  "
 >
   {% liquid
     assign autoplay = false
@@ -39,6 +54,17 @@
 {% stylesheet %}
   .announcement-bar {
     border-block-end: var(--border-bottom-width) solid var(--color-border);
+    transition: transform 0.2s ease;
+  }
+
+  .announcement-bar--sticky {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .announcement-bar--sticky.hide-on-scroll {
+    transform: translateY(-100%);
   }
 
   .announcement-bar__slider {
@@ -132,6 +158,54 @@
   }
 {% endstylesheet %}
 
+<script>
+  (function() {
+    function adjustHeaderPosition() {
+      const announcementBar = document.querySelector('.announcement-bar--fixed, .announcement-bar--sticky');
+      const header = document.querySelector('header, .header, [data-header]'); 
+      
+      if (!announcementBar || !header) return;
+      
+      const announcementBarHeight = announcementBar.offsetHeight;
+      
+      if (announcementBar.classList.contains('announcement-bar--fixed')) {
+
+        header.style.marginTop = `${announcementBarHeight}px`;
+        document.body.style.paddingTop = '0';
+      } else if (announcementBar.classList.contains('announcement-bar--sticky')) {
+
+        header.style.marginTop = '0';
+        
+        let lastScrollTop = 0;
+        const scrollThreshold = 10;
+        
+        window.addEventListener('scroll', function() {
+          const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+          
+          if (Math.abs(lastScrollTop - scrollTop) <= scrollThreshold) return;
+          
+          if (scrollTop > lastScrollTop && scrollTop > announcementBarHeight) {
+         
+            announcementBar.classList.add('hide-on-scroll');
+          } else {
+            announcementBar.classList.remove('hide-on-scroll');
+          }
+          
+          lastScrollTop = scrollTop;
+        });
+      }
+    }
+    
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', adjustHeaderPosition);
+    } else {
+      adjustHeaderPosition();
+    }
+    
+    window.addEventListener('resize', adjustHeaderPosition);
+  })();
+</script>
+
 {% schema %}
 {
   "name": "t:names.announcement_bar",
@@ -144,6 +218,27 @@
     "groups": ["header"]
   },
   "settings": [
+    {
+      "type": "select",
+      "id": "position_mode",
+      "label": "Position mode",
+      "info": "Choose how the announcement bar behaves on scroll",
+      "options": [
+        {
+          "value": "static",
+          "label": "Static (scrolls with page)"
+        },
+        {
+          "value": "sticky",
+          "label": "Sticky (sticks to top, hides on scroll down)"
+        },
+        {
+          "value": "fixed",
+          "label": "Fixed (always visible at top)"
+        }
+      ],
+      "default": "static"
+    },
     {
       "type": "range",
       "id": "speed",

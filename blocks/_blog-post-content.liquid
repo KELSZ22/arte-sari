@@ -11,6 +11,68 @@
     max-width: var(--normal-content-width);
     margin: 0 auto;
   }
+
+  /* Pull quote: use “Quote” / blockquote in the article rich text editor */
+  .blog-post-content blockquote {
+    margin: clamp(1.75rem, 4vw, 2.5rem) 0;
+    padding: 24px;
+    border: 0;
+    background: #ff9e7d;
+    color: #fff;
+    display: grid;
+    grid-template-columns: 2px 1fr;
+    column-gap: var(--gap-md);
+    align-items: start;
+  }
+
+  .blog-post-content blockquote::before {
+    content: '';
+    grid-column: 1;
+    grid-row: 1 / -1;
+    width: 2px;
+    align-self: stretch;
+    min-height: 2.5rem;
+    background: #fff;
+  }
+
+  .blog-post-content blockquote > * {
+    grid-column: 2;
+    min-width: 0;
+    margin: 0;
+    color: inherit;
+    font-family: "Fraunces", var(--font-heading--family), serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: var(--line-height--body-loose, 1.6);
+    text-align: start;
+    letter-spacing: normal;
+    text-transform: none;
+  }
+
+  .blog-post-content blockquote > * + * {
+    margin-top: 0.75rem;
+  }
+
+  .blog-post-content blockquote cite {
+    display: block;
+    margin-top: 0.75rem;
+    font-size: 0.9em;
+    font-style: normal;
+    opacity: 0.92;
+  }
+
+  @media screen and (min-width: 750px) {
+    .blog-post-content {
+      font-size: 16px;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .blog-post-content blockquote > * {
+      font-size: 14px;
+    }
+  }
 {% endstylesheet %}
 
 {% schema %}

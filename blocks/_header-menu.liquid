@@ -1,4 +1,3 @@
-
 {%- doc -%}
   Renders a header menu block.
 
@@ -65,7 +64,6 @@
         assign color_scheme_classes = ' color-' | append: current_color_scheme
       endif
 
-      # Check if header and menu colors match. This is used to apply different padding styles in css
       if parent_color_scheme.settings.background.rgb == current_color_scheme.settings.background.rgb
         assign color_scheme_classes = color_scheme_classes | append: ' color-scheme-matches-parent'
       endif
@@ -75,13 +73,31 @@
       elsif block_settings.menu_style == 'featured_products'
         assign ratio = block_settings.featured_products_aspect_ratio
       endif
+
+      assign featured_product_1 = blank
+      assign featured_product_2 = blank
+
+      if block_settings.shop_feature_product_1 != blank
+        assign featured_product_1 = all_products[block_settings.shop_feature_product_1]
+      endif
+
+      if block_settings.shop_feature_product_2 != blank
+        assign featured_product_2 = all_products[block_settings.shop_feature_product_2]
+      endif
     %}
 
     {% capture children %}
       {% for link in block_settings.menu.links %}
+          {% liquid
+            assign is_shop_menu = false
+            assign link_title_downcase = link.title | downcase
+            if link_title_downcase == 'shop'
+              assign is_shop_menu = true
+            endif
+          %}
         <li
           role="presentation"
-          class="menu-list__list-item"
+          class="menu-list__list-item{% if is_shop_menu %} menu-list__list-item--shop{% endif %}"
           on:focus="/activate"
           on:blur="/deactivate"
           on:pointerenter="/activate"
@@ -100,37 +116,127 @@
           >
             <span class="menu-list__link-title">{{- link.title -}}</span>
           </a>
+
           {%- if link.links != blank -%}
-            <div class="menu-list__submenu{{ color_scheme_classes }}" ref="submenu[]">
+            <div class="menu-list__submenu{% if is_shop_menu %} menu-list__submenu--shop{% endif %}{{ color_scheme_classes }}" ref="submenu[]">
               <div
                 id="submenu-{{ forloop.index }}"
                 class="menu-list__submenu-inner"
                 style="{% render 'submenu-font-styles', settings: block_settings %}"
               >
-                {% assign list_id = 'MegaMenuList-' | append: forloop.index %}
-                <div class="mega-menu section section--full-width-margin section--{{ section.settings.section_width }}">
-                  <div
-                    class="mega-menu__grid"
-                    data-menu-grid-id="{{ list_id }}"
-                  >
-                    {% render 'mega-menu-list',
-                      parent_link: link,
-                      id: list_id,
-                      section: section,
-                      grid_columns_count: 6,
-                      grid_columns_count_tablet: 4,
-                      grid_columns_count_collection_images: 8,
-                      menu_content_type: menu_content_type,
-                      content_aspect_ratio: ratio,
-                      image_border_radius: image_border_radius
-                    %}
+                {% if is_shop_menu %}
+                  <div class="mega-menu mega-menu--shop section section--full-width-margin section--{{ section.settings.section_width }}">
+                    <div class="mega-menu__shop-layout">
+                      <div class="mega-menu__shop-links">
+                        {% for child_link in link.links %}
+                          <div class="mega-menu__shop-column">
+                            <a href="{{ child_link.url }}" class="mega-menu__shop-heading">
+                              {{ child_link.title }}
+                            </a>
+
+                            {% if child_link.links != blank %}
+                              <ul class="mega-menu__shop-sublist list-unstyled" role="list">
+                                {% for grandchild_link in child_link.links %}
+                                  <li>
+                                    <a href="{{ grandchild_link.url }}" class="mega-menu__shop-sublink">
+                                      {{ grandchild_link.title }}
+                                    </a>
+                                  </li>
+                                {% endfor %}
+                              </ul>
+                            {% endif %}
+                          </div>
+                        {% endfor %}
+
+                        {% if block_settings.shop_all_label != blank and block_settings.shop_all_link != blank %}
+                          <div class="mega-menu__shop-cta-wrap">
+                            <a href="{{ block_settings.shop_all_link }}" class="mega-menu__shop-cta button">
+                              {{ block_settings.shop_all_label }}
+                            </a>
+                          </div>
+                        {% endif %}
+                      </div>
+
+                      <div class="mega-menu__shop-feature">
+                        {% if block_settings.shop_feature_heading != blank %}
+                          <h3 class="mega-menu__shop-feature-heading">
+                            {{ block_settings.shop_feature_heading }}
+                          </h3>
+                        {% endif %}
+
+                        <div class="mega-menu__shop-feature-frame">
+                          <div class="mega-menu__shop-feature-products">
+                            {% if featured_product_1 != blank %}
+                              <a href="{{ featured_product_1.url }}" class="mega-menu__feature-card">
+                                <div class="mega-menu__feature-card-image-wrap">
+                                  {% if featured_product_1.featured_image != blank %}
+                                    {{
+                                      featured_product_1.featured_image
+                                      | image_url: width: 600
+                                      | image_tag:
+                                        loading: 'lazy',
+                                        class: 'mega-menu__feature-card-image',
+                                        alt: featured_product_1.title
+                                    }}
+                                  {% endif %}
+                                </div>
+                                <span class="mega-menu__feature-card-title">
+                                  {{ featured_product_1.title }}
+                                </span>
+                              </a>
+                            {% endif %}
+
+                            {% if featured_product_2 != blank %}
+                              <a href="{{ featured_product_2.url }}" class="mega-menu__feature-card">
+                                <div class="mega-menu__feature-card-image-wrap">
+                                  {% if featured_product_2.featured_image != blank %}
+                                    {{
+                                      featured_product_2.featured_image
+                                      | image_url: width: 600
+                                      | image_tag:
+                                        loading: 'lazy',
+                                        class: 'mega-menu__feature-card-image',
+                                        alt: featured_product_2.title
+                                    }}
+                                  {% endif %}
+                                </div>
+                                <span class="mega-menu__feature-card-title">
+                                  {{ featured_product_2.title }}
+                                </span>
+                              </a>
+                            {% endif %}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                </div>
+                {% else %}
+                  {% assign list_id = 'MegaMenuList-' | append: forloop.index %}
+                  <div class="mega-menu section section--full-width-margin section--{{ section.settings.section_width }}">
+                    <div
+                      class="mega-menu__grid"
+                      data-menu-grid-id="{{ list_id }}"
+                    >
+                      {% render 'mega-menu-list',
+                        parent_link: link,
+                        id: list_id,
+                        section: section,
+                        grid_columns_count: 6,
+                        grid_columns_count_tablet: 4,
+                        grid_columns_count_collection_images: 8,
+                        menu_content_type: menu_content_type,
+                        content_aspect_ratio: ratio,
+                        image_border_radius: image_border_radius
+                      %}
+                    </div>
+                  </div>
+                {% endif %}
               </div>
             </div>
           {%- endif -%}
         </li>
       {% endfor %}
+
       <li
         class="menu-list__list-item"
         role="presentation"
@@ -214,7 +320,6 @@
     padding-block: var(--padding-2xs);
   }
 
-  /* Drawer menu featured content */
   .menu-drawer__featured-content {
     z-index: var(--layer-base);
     container-type: inline-size;
@@ -304,8 +409,34 @@
   }
 
   .menu-list__link-title {
+    position: relative;
     padding-inline: calc(var(--gap-xl) / 2);
   }
+
+  .menu-list__link-title::after {
+    content: '';
+    position: absolute;
+    left: calc(var(--gap-xl) / 2);
+    right: calc(var(--gap-xl) / 2);
+    bottom: -8px;
+    height: 1px;
+    background-color: currentColor;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.32s ease;
+  }
+
+  .menu-list__list-item:hover .menu-list__link-title::after,
+  .menu-list__list-item:focus-within .menu-list__link-title::after,
+  .menu-list__link[aria-expanded='true'] .menu-list__link-title::after {
+    transform: scaleX(1);
+    transform-origin: left center;
+  }
+
+  .menu-list__list-item:not(:hover):not(:focus-within) .menu-list__link-title::after {
+    transform-origin: right center;
+  }
+
   [slot='overflow'] .menu-list__link-title {
     padding-inline: 0;
   }
@@ -313,6 +444,7 @@
   .menu-list__list-item:not([slot='overflow']) {
     flex-direction: column;
   }
+
   .menu-list__list-item:not([slot='overflow'])::after {
     content: '';
     width: 100%;
@@ -324,20 +456,14 @@
     content: none;
   }
 
-  /*
-        High specificity selectors to subdue non-hovered links without javascript.
-        If the need for js-generated `hovered` and `focused` classes arises for another reason we can simplify these.
-      */
   .menu-list:where(:has(.menu-list__list-item:hover)),
   .menu-list:where(:has(.menu-list__list-item:focus-within)),
   .menu-list:where(:has(.menu-list__list-item:not([aria-hidden='true']) .menu-list__link--active)) {
     .menu-list__link {
-      /* color: rgb(var(--menu-top-level-font-color-rgb) / var(--opacity-subdued-text)); */
-      color: #686A54 
+      color: #686A54;
     }
   }
 
-  /* stylelint-disable-next-line selector-max-specificity */
   .menu-list:not(:has(.menu-list__list-item:hover)) .menu-list__link--active,
   .menu-list .menu-list__list-item:where(:hover, :focus-within) .menu-list__link,
   .menu-list .menu-list__list-item[slot='overflow'] .menu-list__link[aria-expanded='true'] {
@@ -345,7 +471,6 @@
   }
 
   .overflow-menu::part(list) {
-    /* Make sure focus outline is not cut off by overflow hidden */
     --focus-outline-size: calc(var(--focus-outline-offset) + var(--focus-outline-width));
 
     gap: 0;
@@ -358,7 +483,6 @@
     margin: calc(-1 * var(--focus-outline-size));
   }
 
-  /* the submenu background element to animate */
   .overflow-menu::after {
     content: '';
     position: absolute;
@@ -368,14 +492,13 @@
     height: var(--submenu-height);
     background-color: var(--color-background);
     box-shadow: var(--shadow-popover);
-    clip-path: inset(0.5px 0 -100px 0); /* stylelint-disable-line */
+    clip-path: inset(0.5px 0 -100px 0);
     opacity: var(--submenu-opacity, 1);
     transition: height var(--submenu-animation-speed) var(--ease-out-cubic),
       opacity var(--animation-speed-slow) var(--ease-out-cubic) var(--animation-speed-fast);
     z-index: calc(var(--layer-header-menu) - 1);
   }
 
-  /** mega menu **/
   .menu-list__submenu,
   .overflow-menu::part(overflow) {
     --submenu-padding-block-start: var(--padding-3xl);
@@ -397,6 +520,9 @@
     --submenu-content-animation: opacity calc(var(--submenu-animation-speed) * 0.75) var(--animation-easing);
 
     visibility: hidden;
+    opacity: 0;
+    transform: translateY(18px);
+    pointer-events: none;
     background-color: var(--color-background);
     position: absolute;
     width: 100%;
@@ -404,20 +530,23 @@
     top: calc(100% - 1px + var(--border-bottom-width));
     z-index: var(--layer-header-menu);
     padding-inline: var(--padding-inline);
-    clip-path: rect(0 100% var(--submenu-height) 0); /* stylelint-disable-line */
-    transition: clip-path var(--submenu-animation-speed) var(--ease-out-cubic);
+    clip-path: rect(0 100% var(--submenu-height) 0);
+    transition:
+      clip-path var(--submenu-animation-speed) var(--ease-out-cubic),
+      opacity 0.28s ease,
+      transform 0.28s ease;
   }
 
-  /* Show the submenus on hover */
   .menu-list__list-item:has([aria-expanded='true']) > .menu-list__submenu,
-  /* Show the overflow menu when a menu item is hovered */
   .overflow-menu:has([slot="overflow"] [aria-expanded='true'])::part(overflow),
-  /* Keep the submenus open when they are hovered */
   .menu-list__submenu:is(:hover),
   .overflow-menu::part(overflow):hover {
     --submenu-content-opacity: 1;
 
     visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
   }
 
   .menu-list__submenu-inner,
@@ -446,7 +575,6 @@
     grid-gap: 0;
   }
 
-  /* Make overflow menu scrollable when content exceeds viewport */
   .menu-list__submenu-inner,
   .overflow-menu::part(overflow-list) {
     max-height: calc(80vh - var(--header-height));
@@ -495,6 +623,7 @@
   .header-menu {
     height: 100%;
   }
+
   .header-menu[data-overflow-expanded='true'] .menu-list__list-item:where([slot='overflow']) .menu-list__link {
     --submenu-content-opacity: 1;
   }
@@ -563,9 +692,6 @@
     border-radius: var(--menu-image-border-radius);
   }
 
-  /* Fix alignment for collection image mode links without images */
-
-  /* Target only top-level links (direct children of column > div) in collection image mode */
   .mega-menu__grid:has(.mega-menu__link-image)
     .mega-menu__column
     > div
@@ -682,7 +808,6 @@
     white-space: normal;
   }
 
-  /* mega more menu */
   .mega-menu__more-list {
     --menu-child-font-size: var(--font-size--xl);
 
@@ -690,8 +815,141 @@
   }
 
   .mega-menu__submenu {
-    /* preserves the inherited grid layout when this submenu wrapper is used */
     display: contents;
+  }
+
+  /* Custom Shop Mega Menu */
+  .mega-menu--shop {
+    width: 100%;
+  }
+
+  .mega-menu__shop-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(340px, 0.95fr);
+    gap: clamp(32px, 4vw, 72px);
+    align-items: start;
+    width: 100%;
+  }
+
+  .mega-menu__shop-links {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(140px, 1fr));
+    gap: 24px 36px;
+    align-items: start;
+  }
+
+  .mega-menu__shop-column {
+    min-width: 0;
+  }
+
+  .mega-menu__shop-heading {
+    display: inline-block;
+    margin: 0 0 18px;
+    text-decoration: none;
+    color: var(--color-foreground);
+    font-size: clamp(1rem, 1.1vw, 1.35rem);
+    line-height: 1.2;
+  }
+
+  .mega-menu__shop-sublist {
+    display: grid;
+    gap: 14px;
+  }
+
+  .mega-menu__shop-sublink {
+    text-decoration: none;
+    color: rgb(var(--color-foreground-rgb) / 0.68);
+    font-size: clamp(0.95rem, 1vw, 1.15rem);
+    line-height: 1.25;
+    transition: color 0.2s ease;
+  }
+
+  .mega-menu__shop-sublink:hover {
+    color: var(--color-foreground);
+  }
+
+  .mega-menu__shop-cta-wrap {
+    grid-column: 1 / -1;
+    margin-top: 8px;
+  }
+
+  .mega-menu__shop-cta {
+    min-width: 180px;
+    justify-content: center;
+  }
+
+  .mega-menu__shop-feature {
+    min-width: 0;
+  }
+
+  .mega-menu__shop-feature-heading {
+    margin: 0 0 18px;
+    color: var(--color-foreground);
+    font-size: clamp(1.35rem, 1.7vw, 2rem);
+    line-height: 1.05;
+    text-wrap: balance;
+  }
+
+  .mega-menu__shop-feature-frame {
+    background: var(--shop-feature-frame-bg, #c8b36d);
+    padding: clamp(18px, 2vw, 32px);
+  }
+
+  .mega-menu__shop-feature-products {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+  }
+
+  .mega-menu__feature-card {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    text-decoration: none;
+    color: var(--color-background);
+  }
+
+  .mega-menu__feature-card-image-wrap {
+    background: rgba(255, 255, 255, 0.78);
+    padding: 10px;
+  }
+
+  .mega-menu__feature-card-image {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    background: #f4f4f4;
+  }
+
+  .mega-menu__feature-card-title {
+    font-size: clamp(1rem, 1vw, 1.2rem);
+    line-height: 1.2;
+    color: #fff;
+  }
+
+  @media screen and (max-width: 1199px) {
+    .mega-menu__shop-layout {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+
+    .mega-menu__shop-feature {
+      max-width: 760px;
+    }
+  }
+
+  @media screen and (max-width: 989px) {
+    .mega-menu__shop-links {
+      grid-template-columns: repeat(2, minmax(140px, 1fr));
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .mega-menu__shop-links,
+    .mega-menu__shop-feature-products {
+      grid-template-columns: 1fr;
+    }
   }
 {% endstylesheet %}
 
@@ -886,6 +1144,39 @@
       "default": 0,
       "visible_if": "{{ block.settings.menu_style != 'text' }}"
     },
+
+    {
+      "type": "header",
+      "content": "Custom shop mega menu"
+    },
+    {
+      "type": "text",
+      "id": "shop_feature_heading",
+      "label": "Feature heading",
+      "default": "Weaving Filipino Artistry"
+    },
+    {
+      "type": "product",
+      "id": "shop_feature_product_1",
+      "label": "Featured product 1"
+    },
+    {
+      "type": "product",
+      "id": "shop_feature_product_2",
+      "label": "Featured product 2"
+    },
+    {
+      "type": "url",
+      "id": "shop_all_link",
+      "label": "Shop all button link"
+    },
+    {
+      "type": "text",
+      "id": "shop_all_label",
+      "label": "Shop all button label",
+      "default": "SHOP ALL"
+    },
+
     {
       "type": "header",
       "content": "t:content.mobile_layout"

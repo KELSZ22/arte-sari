@@ -749,10 +749,16 @@
     grid-area: auto;
   }
 
-  /* Mobile thumbnails styling */
+  /* Mobile thumbnails styling (below main media; not controls-on-media) */
   @media screen and (max-width: 749px) {
     .media-gallery__mobile-controls[thumbnails] {
       --thumbnail-width: 44px;
+      margin-block-start: var(--padding-sm);
+      justify-content: flex-start;
+    }
+
+    .media-gallery__mobile-controls[thumbnails] .slideshow-controls__thumbnails {
+      margin-inline: 0;
     }
 
     .media-gallery__mobile-controls[thumbnails] .slideshow-controls__thumbnail {

@@ -11,11 +11,10 @@ body {
   background: var(--color-background);
   display: flex;
   flex-direction: column;
-  margin: 0;
+  margin: 0px;
   min-height: 100svh;
   font-variation-settings: 'slnt' 0;
 }
-
 
 :root {
   --hover-lift-amount: 4px;

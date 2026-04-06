@@ -153,18 +153,30 @@
       "disabled": true,
       "name": "Contact Section",
       "settings": {
-        "heading": "WHOLESALE",
+        "heading": "",
         "subtext": "Arte Sari offers wholesale partnerships for gifting, retail, and specialty collections. If you’d like to carry our products in your store or place bulk orders, we’d be delighted to work with you for bulk pricing and share Filipino artistry to your community.",
-        "email_recipient": "artesari.wfa@gmail.com"
+        "email_recipient": "artesari.wfa@gmail.com",
+        "content_width": "page",
+        "content_max_width": 0,
+        "padding_top": 60,
+        "padding_bottom": 60,
+        "padding_top_mobile": 40,
+        "padding_bottom_mobile": 40
       }
     },
     "wholesale_section_Am9tCV": {
       "type": "wholesale-section",
       "name": "Wholesale Section",
       "settings": {
-        "heading": "WHOLESALE",
+        "heading": "wholesAle",
         "subtext": "Arte Sari offers wholesale partnerships for gifting, retail, and specialty collections. If you'd like to carry our products in your store or place bulk orders, we'd be delighted to work with you for bulk pricing and share Filipino artistry to your community.",
-        "email_recipient": "artesari.wfa@gmail.com"
+        "email_recipient": "artesari.wfa@gmail.com",
+        "gift_box_product": "10-gift-box",
+        "gift_box_hide_label": true,
+        "gift_box_custom_label": "",
+        "background_color": "#f4ece6",
+        "show_background_pattern": true,
+        "background_image": "shopify://shop_images/Pattern_Background_d1098fe6-5b76-4277-9461-888224bb5587.png"
       }
     }
   },

@@ -3,9 +3,25 @@
   {% assign product_title = '<p>' | append: text | append: '</p>' %}
   {% render 'text', fallback_text: product_title, block: block %}
 {% else %}
-  {% assign collection_label = closest.product.metafields.custom.category.value %}
+  {% assign category_metafield = closest.product.metafields.custom.category %}
+  {% assign collection_label = category_metafield.value %}
+  {% comment %}
+    “Others also bought” uses the Section Rendering API; template.name is often not `product` during that request.
+    Hide category only for that section, or when this block uses the OAB title class from product.json.
+  {% endcomment %}
   {% if collection_label != blank %}
-    {% comment %} <p class="product-card__collection-label">{{ collection_label }}</p> {% endcomment %}
+    {% liquid
+      assign hide_metafield_category_on_card = false
+      if section.type == 'product-recommendations'
+        assign hide_metafield_category_on_card = true
+      endif
+      if block.settings.custom_class != blank and block.settings.custom_class contains 'recommended-products--title'
+        assign hide_metafield_category_on_card = true
+      endif
+    %}
+    {% unless hide_metafield_category_on_card %}
+      <p class="product_metafield_category">{{ collection_label }}</p>
+    {% endunless %}
   {% endif %}
   {% assign product_title = '<p>' | append: closest.product.title | append: '</p>' %}
   

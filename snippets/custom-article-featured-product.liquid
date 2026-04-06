@@ -85,26 +85,33 @@
         href="https://www.facebook.com/sharer/sharer.php?u={{ blog_post_share_url | url_encode }}"
         target="_blank"
         rel="noopener noreferrer"
-        class="custom-article-featured-product__share-link"
+        class="custom-article-featured-product__share-link custom-article-featured-product__share-link--facebook"
         aria-label="{{ 'blogs.article.share_facebook' | t }}"
       >
-        <svg aria-hidden="true" focusable="false" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-          {%- render 'icon', icon: 'facebook' -%}
+        <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24">
+          <path
+            d="M14 9h3V6h-3c-2.21 0-4 1.79-4 4v2H7v3h3v6h3v-6h3l1-3h-4v-2c0-.55.45-1 1-1Z"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          ></path>
         </svg>
       </a>
-      {% if instagram_url != blank %}
-        <a
-          href="{{ instagram_url }}"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="custom-article-featured-product__share-link"
-          aria-label="{{ 'blogs.article.share_instagram' | t }}"
-        >
-          <svg aria-hidden="true" focusable="false" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-            {%- render 'icon', icon: 'instagram' -%}
-          </svg>
-        </a>
-      {% endif %}
+      <a
+        href="{{ instagram_url | default: 'https://instagram.com' }}"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="custom-article-featured-product__share-link"
+        aria-label="{{ 'blogs.article.share_instagram' | t }}"
+      >
+        <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24">
+          <rect x="3.5" y="3.5" width="17" height="17" rx="5" ry="5" fill="none" stroke="currentColor" stroke-width="1.8"></rect>
+          <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.8"></circle>
+          <circle cx="17.2" cy="6.8" r="0.9" fill="currentColor"></circle>
+        </svg>
+      </a>
     </div>
   </div>
 </div>

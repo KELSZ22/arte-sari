@@ -87,9 +87,9 @@
           "type": "contact-form",
           "settings": {
             "width": "custom",
-            "custom_width": 50,
+            "custom_width": 32,
             "width_mobile": "custom",
-            "custom_width_mobile": 100,
+            "custom_width_mobile": 60,
             "inherit_color_scheme": true,
             "color_scheme": "",
             "padding-block-start": 0,
@@ -150,11 +150,20 @@
     },
     "new_contact_CHYiCH": {
       "type": "new-contact",
+      "custom_css": [
+        ".as-contact-header {margin-bottom: 50px;}"
+      ],
       "name": "Contact Section",
       "settings": {
         "heading": "contAct",
         "subtext": "Feel free to reach out to us whether this is about an order inquiry or a collaboration idea, we'd love to hear it! Alternatively, you may reach us at artesari.wfa@gmail.com",
-        "email_recipient": "artesari.wfa@gmail.com"
+        "email_recipient": "artesari.wfa@gmail.com",
+        "content_width": "page",
+        "content_max_width": 0,
+        "padding_top": 60,
+        "padding_bottom": 60,
+        "padding_top_mobile": 40,
+        "padding_bottom_mobile": 40
       }
     },
     "contact_details_PMqnyY": {
