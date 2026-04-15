@@ -22,7 +22,7 @@
         "type": "textarea",
         "id": "description",
         "label": "Description",
-        "default": "We'd love to hear from you. Reach out to us for any inquiries or collaborations."
+        "default": "Arte Sari is run mostly by the founder with a small team, and we do our best to reply and process orders within our business hours."
       }, {
         "type": "text",
         "id": "hours_label",
@@ -137,20 +137,31 @@
   }
 
   .asc-right-heading {
-    font-size: 18px;
+    font-size: 20px;
     letter-spacing: 0.1px;
     color: #5D5C5A;
     font-weight: 400;
+    letter-spacing: 1.25;
     margin: 0 0 24px;
     font-family: 'Fraunces';
+    line-height: 1.25;
+
   }
 
   .asc-right-desc {
-    font-size: 14px;
+    font-size: 20px;
     color: #969696;
     line-height: 1.7;
-    margin: 0 0 36px;
+    margin: 0 0 28px;
     font-family: 'Fraunces';
+  }
+
+  .asc-intro-details-separator {
+    border: none;
+    height: 1px;
+    margin: 0 0 28px;
+    background: #d6cfc8;
+    flex-shrink: 0;
   }
 
   .asc-detail-list {
@@ -202,6 +213,11 @@
     line-height: 1.6;
   }
 
+  .asc-detail-text--hours .asc-detail-label,
+  .asc-detail-text--hours .asc-detail-value {
+    letter-spacing: 0;
+  }
+
   @media (max-width: 768px) {
     .asc-section {
       grid-template-columns: 1fr;
@@ -216,7 +232,11 @@
     }
 
     .asc-right-heading {
-      font-size: 22px;
+      font-size: 16px;
+    }
+
+    .asc-right-desc {
+      font-size: 16px;
     }
 
     .asc-detail-label,
@@ -235,12 +255,7 @@
     }
 
     .asc-right-heading {
-      font-size: 20px;
-    }
-
-    .asc-right-desc {
-      font-size: 13px;
-      margin-bottom: 28px;
+      font-size: 16px;
     }
 
     .asc-detail-item {
@@ -298,6 +313,20 @@
         <p class="asc-right-desc">{{ section.settings.description }}</p>
       {%- endif -%}
 
+      {%- liquid
+        assign asc_has_intro = false
+        if section.settings.heading != blank or section.settings.description != blank
+          assign asc_has_intro = true
+        endif
+        assign asc_has_details = false
+        if section.settings.hours_label != blank or section.settings.hours_value != blank or section.settings.location_label != blank or section.settings.location_value != blank
+          assign asc_has_details = true
+        endif
+      -%}
+      {%- if asc_has_intro and asc_has_details -%}
+        <hr class="asc-intro-details-separator" role="presentation">
+      {%- endif -%}
+
       {%- assign normalized_hours_label = section.settings.hours_label | replace: 'Business Hours', 'Business Schedule' -%}
       <div class="asc-detail-list">
         {%- if section.settings.hours_label != blank or section.settings.hours_value != blank -%}
@@ -317,7 +346,7 @@
                   stroke-linejoin="round" />
               </svg>
             </div>
-            <div class="asc-detail-text">
+            <div class="asc-detail-text asc-detail-text--hours">
               <span class="asc-detail-label">{{ normalized_hours_label }}</span>
               <span class="asc-detail-value">{{ section.settings.hours_value }}</span>
             </div>

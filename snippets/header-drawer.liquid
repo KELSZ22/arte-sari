@@ -10,7 +10,32 @@
   @example
   {% render 'header-drawer', linklist: section.settings.menu, class: 'header-drawer--mobile' %}
 {%- enddoc -%}
+{% liquid
+  assign block_settings = block.settings
+  assign max_featured_items = 4
+  assign image_border_radius = block_settings.image_border_radius
+  assign featured_product_1 = blank
+  assign featured_product_2 = blank
 
+  if block_settings.shop_feature_product_1 != blank
+    assign featured_product_1 = all_products[block_settings.shop_feature_product_1]
+  endif
+
+  if block_settings.shop_feature_product_2 != blank
+    assign featured_product_2 = all_products[block_settings.shop_feature_product_2]
+  endif
+
+  if block_settings.menu_style == 'featured_collections'
+    assign ratio = block_settings.featured_collections_aspect_ratio
+  elsif block_settings.menu_style == 'featured_products'
+    assign ratio = block_settings.featured_products_aspect_ratio
+  endif
+
+  assign eager_loading = false
+  if section.index == blank
+    assign eager_loading = true
+  endif
+%}
 {% liquid
   assign block_settings = block.settings
   assign max_featured_items = 4
@@ -278,7 +303,7 @@
                       id="link-{{ link.handle | escape }}"
                       class="menu-drawer__submenu has-submenu"
                       tabindex="-1"
-                      style="--menu-drawer-animation-index: {{ animation_index }};"
+                      style="--menu-drawer-animation-index: {{ animation_index }}; background-image: url('https://artesariph.myshopify.com/cdn/shop/files/arte-sari-brand-texture-04_1.webp?v=1771765247&width=3840'); background-size: cover; background-position: center; background-repeat: no-repeat;"
                     >
                       <div class="menu-drawer__inner-submenu">
                         <div class="menu-drawer__nav-buttons">
@@ -488,6 +513,64 @@
                             </li>
                           {%- endfor -%}
                         </ul>
+                        <div class="mega-menu__shop-cta-wrap">
+                            <a href="{{ block_settings.shop_all_link }}" class="mega-menu__shop-cta button">
+                              {{ block_settings.shop_all_label }}
+                            </a>
+                          </div>
+                          <div class="mega-menu__shop-feature">
+                        {% if block_settings.shop_feature_heading != blank %}
+                          <h3 class="mega-menu__shop-feature-heading">
+                            {{ block_settings.shop_feature_heading }}
+                          </h3>
+                        {% endif %}
+
+                        <div class="mega-menu__shop-feature-frame">
+                          <div class="mega-menu__shop-feature-products">
+                            {% if featured_product_1 != blank %}
+                              <a href="{{ featured_product_1.url }}" class="mega-menu__feature-card">
+                                <div class="mega-menu__feature-card-image-wrap" style="position: relative;">
+                                   <div class="cardGalleryBorderInner"></div>
+                                  {% if featured_product_1.featured_image != blank %}
+                                    {{
+                                      featured_product_1.featured_image
+                                      | image_url: width: 600
+                                      | image_tag:
+                                        loading: 'lazy',
+                                        class: 'mega-menu__feature-card-image',
+                                        alt: featured_product_1.title
+                                    }}
+                                  {% endif %}
+                                </div>
+                                <span class="mega-menu__feature-card-title">
+                                  {{ featured_product_1.title }}
+                                </span>
+                              </a>
+                            {% endif %}
+
+                            {% if featured_product_2 != blank %}
+                              <a href="{{ featured_product_2.url }}" class="mega-menu__feature-card">
+                                <div class="mega-menu__feature-card-image-wrap" style="position: relative;">
+                                  <div class="cardGalleryBorderInner"></div>
+                                  {% if featured_product_2.featured_image != blank %}
+                                    {{
+                                      featured_product_2.featured_image
+                                      | image_url: width: 600
+                                      | image_tag:
+                                        loading: 'lazy',
+                                        class: 'mega-menu__feature-card-image',
+                                        alt: featured_product_2.title
+                                    }}
+                                  {% endif %}
+                                </div>
+                                <span class="mega-menu__feature-card-title">
+                                  {{ featured_product_2.title }}
+                                </span>
+                              </a>
+                            {% endif %}
+                          </div>
+                        </div>
+                      </div>
                         {% liquid
                           if eager_loading
                             if block_settings.menu_style == 'featured_collections'
@@ -756,6 +839,24 @@
 </header-drawer>
 
 {% stylesheet %}
+
+
+
+details#Details-menu-drawer-menu-item-2 .mega-menu__shop-feature {
+    margin-top: 50px;
+    padding-bottom: 50px;
+}
+  
+.menu-drawer__inner-submenu {
+    padding: 0 16px;
+}
+ul.menu-drawer__menu.menu-drawer__menu--childlist {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    flex-grow: 0;
+    padding: 0;
+}
   .header__icon--menu {
     position: initial;
   }
@@ -770,7 +871,7 @@
 
   .header__icon--summary .header-drawer-icon {
     margin: auto;
-    width: var(--icon-size-xs);
+    width: 40px;
     height: var(--icon-size-xs);
   }
 
@@ -821,6 +922,37 @@
     @media screen and (min-width: 750px) {
       display: flex;
     }
+  }
+  @media screen and (max-width: 749px){
+    details#Details-menu-drawer-menu-item-2 a.mega-menu__feature-card {
+    width: 261px;
+    margin: 0 auto;
+}
+.menu-drawer__submenu.has-submenu{
+    
+  padding: 45px 0;
+}
+.menu-drawer__inner-submenu {
+    padding: 20px 16px;
+}
+.menu-drawer__menu-item.menu-drawer__menu-item--child.focus-inset span.menu-drawer__menu-item-text.wrap-text {
+    font-family: Agrandir;
+    font-size: 16px;
+    color: #969696;
+}
+span.svg-wrapper.icon-caret.icon-caret--backward {
+    display: none;
+}
+button.button.menu-drawer__back-button.focus-inset span.menu-drawer__menu-item-text.wrap-text {
+    display: none;
+}
+.menu-drawer__menu-item.menu-drawer__menu-item--parent.focus-inset span.menu-drawer__menu-item-text.wrap-text{
+  font-family: unset;
+  font-size: 20px;
+}
+.menu-drawer__inner-submenu{
+  ba
+}
   }
 
   .menu-drawer {

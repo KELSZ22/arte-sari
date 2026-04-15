@@ -100,7 +100,7 @@
 }
 
 .values__item {
-  padding: 0 20px;
+  padding: 0 10px;
   position: relative;
 }
 
@@ -146,10 +146,15 @@
     display: none;
   }
 }
+@media screen and (max-width: 767px){
+  #shopify-section-template--20090176667846__about_us_stand_CJeQY3 .values {
+    padding: 50px 20px !important;
+    background: #fff !important;
+}
 
 @media screen and (max-width: 600px) {
   .values__grid {
-    grid-template-columns: minmax(200px, 280px) !important;
+    grid-template-columns: minmax(200px, 1fr) !important;
   }
 }
 </style>

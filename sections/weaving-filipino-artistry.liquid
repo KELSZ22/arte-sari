@@ -1,0 +1,769 @@
+{% liquid
+  assign first_block = section.blocks.first
+  assign first_label = first_block.settings.tab_label | default: 'Collection'
+  assign first_collection = first_block.settings.collection
+  assign first_url = ''
+  if first_collection != blank
+    assign first_url = first_collection.url
+  endif
+
+  assign wfa_shop_prefix = section.settings.shop_all_prefix | strip
+  assign wfa_first_label = first_label | strip
+  assign wfa_prefix_lc = wfa_shop_prefix | downcase
+  assign wfa_label_lc = wfa_first_label | downcase
+  if wfa_first_label == blank
+    assign wfa_shop_all_text = wfa_shop_prefix
+  elsif wfa_shop_prefix == blank
+    assign wfa_shop_all_text = wfa_first_label
+  elsif wfa_prefix_lc == wfa_label_lc
+    assign wfa_shop_all_text = wfa_shop_prefix
+  else
+    assign wfa_shop_all_text = wfa_shop_prefix | append: ' ' | append: wfa_first_label
+  endif
+%}
+
+<div
+  class="wfa-section"
+  style="
+    --wfa-text: {{ section.settings.text_color }};
+    --wfa-muted: {{ section.settings.muted_color }};
+    --wfa-accent: {{ section.settings.accent_color }};
+    --wfa-card-border: {{ section.settings.card_border_color }};
+    --wfa-button-bg: {{ section.settings.button_bg }};
+    --wfa-button-text: {{ section.settings.button_text }};
+    --wfa-product-count: {{ section.settings.products_to_show }};
+  "
+>
+  {% if section.settings.bg_image != blank %}
+    <div
+      class="wfa-bg"
+      style="background-image: url('{{ section.settings.bg_image | image_url: width: 2000 }}');"
+    ></div>
+  {% endif %}
+
+  <div class="wfa-inner">
+    <div class="wfa-content">
+      {% if section.settings.heading != blank %}
+        <h2 class="wfa-heading">{{ section.settings.heading }}</h2>
+      {% endif %}
+
+      {% if section.blocks.size > 0 %}
+        <div class="wfa-tabs" role="tablist" aria-label="{{ section.settings.heading | escape }}">
+          {% for block in section.blocks %}
+            {% assign tab_label = block.settings.tab_label | default: block.settings.collection.title | default: 'Collection' %}
+            {% assign tab_collection = block.settings.collection %}
+            <button
+              type="button"
+              class="wfa-tab{% if forloop.first %} is-active{% endif %}"
+              role="tab"
+              aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+              aria-controls="wfa-panel-{{ section.id }}-{{ block.id }}"
+              id="wfa-tab-{{ section.id }}-{{ block.id }}"
+              data-panel="wfa-panel-{{ section.id }}-{{ block.id }}"
+              data-label="{{ tab_label | escape }}"
+              data-url="{% if tab_collection != blank %}{{ tab_collection.url }}{% endif %}"
+              {{ block.shopify_attributes }}
+            >
+              {{ tab_label }}
+            </button>
+          {% endfor %}
+        </div>
+
+        <div class="wfa-panels">
+          {% for block in section.blocks %}
+            {% assign collection = block.settings.collection %}
+            {% assign tab_label = block.settings.tab_label | default: collection.title | default: 'Collection' %}
+
+            <div
+              id="wfa-panel-{{ section.id }}-{{ block.id }}"
+              class="wfa-panel{% if forloop.first %} is-active{% endif %}"
+              role="tabpanel"
+              aria-labelledby="wfa-tab-{{ section.id }}-{{ block.id }}"
+            >
+              {% if collection != blank and collection.products_count > 0 %}
+                <div class="wfa-grid">
+                  {% for product in collection.products limit: section.settings.products_to_show %}
+                    <div class="wfa-card">
+                      <div class="wfa-image-wrap">
+                        <a href="{{ product.url }}" class="wfa-image-link">
+                          <div class="cardGalleryBorderInner"></div>
+                          {% if product.featured_image != blank %}
+                            <img
+                              src="{{ product.featured_image | image_url: width: 900 }}"
+                              alt="{{ product.featured_image.alt | default: product.title | escape }}"
+                              class="wfa-image"
+                              loading="lazy"
+                              width="{{ product.featured_image.width }}"
+                              height="{{ product.featured_image.height }}"
+                            >
+                          {% else %}
+                            {{ 'product-1' | placeholder_svg_tag: 'wfa-image wfa-image--placeholder' }}
+                          {% endif %}
+                        </a>
+
+                        <div class="wfa-quick-view-slot">
+                          {% render 'custom-quick-view-cta', product: product %}
+                        </div>
+                      </div>
+
+                      <a href="{{ product.url }}" class="wfa-card-link">
+                        <div class="wfa-card-meta">
+                          {% if product.metafields.custom.category != blank %}
+                            <div class="wfa-vendor">{{ product.metafields.custom.category.value }}</div>
+                          {% endif %}
+
+                          <div class="wfa-title">{{ product.title }}</div>
+
+                          <div class="wfa-price-row">
+                            <div class="wfa-price-group">
+                              <span class="wfa-price">{{ product.price | money }}</span>
+
+                              {% if product.compare_at_price > product.price %}
+                                <span class="wfa-compare">{{ product.compare_at_price | money }}</span>
+                              {% endif %}
+                            </div>
+
+                            {% if product.compare_at_price > product.price %}
+                              <span class="wfa-badge">{{ section.settings.sale_badge_text }}</span>
+                            {% endif %}
+                          </div>
+                        </div>
+                      </a>
+                    </div>
+                  {% endfor %}
+                </div>
+              {% else %}
+                <div class="wfa-empty">
+                  Select a collection for <strong>{{ tab_label }}</strong> in the section settings.
+                </div>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+
+        <div class="wfa-footer">
+          <a
+            href="{{ first_url }}"
+            class="wfa-shop-all{% if first_url == blank %} is-hidden{% endif %}"
+            data-shop-all
+          >
+            {{ wfa_shop_all_text }}
+          </a>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <style>
+    section#shopify-section-{{ section.id }} {
+      display: block !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      grid-column: 1 / -1 !important;
+      float: none !important;
+    }
+
+    #shopify-section-{{ section.id }} .wfa-section {
+      position: relative;
+      display: block !important;
+      width: 100%;
+      max-width: 100%;
+      color: var(--wfa-text);
+      overflow: hidden;
+      background: transparent !important;
+    }
+
+    #shopify-section-{{ section.id }} .wfa-bg {
+      position: absolute;
+      inset: 0;
+      background-position: center top;
+      background-repeat: no-repeat;
+      background-size: cover;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    #shopify-section-{{ section.id }} .wfa-inner {
+      position: relative;
+      z-index: 1;
+      display: block;
+      width: 100%;
+      padding: 260px 60px 60px;
+    }
+
+    #shopify-section-{{ section.id }} .wfa-content {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 1440px;
+      margin: 0 auto;
+      box-sizing: border-box;
+    }
+
+    #shopify-section-{{ section.id }} .wfa-heading {
+      margin: 0 0 20px;
+      text-align: center;
+      font-size: 48px;
+      line-height: 1.1;
+      font-weight: 400;
+      text-transform: uppercase;
+      color: var(--wfa-text);
+      font-family: 'Facelio';
+    }
+
+    #shopify-section-{{ section.id }} .wfa-tabs {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 22px;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+    }
+
+    #shopify-section-{{ section.id }} .wfa-tab {
+      appearance: none;
+      background: transparent;
+      border: 0;
+      padding: 0;
+      cursor: pointer;
+      font-size: 16px;
+      line-height: 1.2;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: #969696;
+      transition: color 0.2s ease, opacity 0.2s ease;
+      font-family: Agrandir;
+    }
+
+    #shopify-section-{{ section.id }} .wfa-tab:hover,
+    #shopify-section-{{ section.id }} .wfa-tab.is-active {
+      color: var(--wfa-accent);
+      font-weight: 600;
+    }
+
+    #shopify-section-{{ section.id }} .wfa-panels {
+      position: relative;
+    }
+
+    #shopify-section-{{ section.id }} .wfa-panel {
+      display: none;
+    }
+
+    #shopify-section-{{ section.id }} .wfa-panel.is-active {
+      display: block;
+    }
+
+    #shopify-section-{{ section.id }} .wfa-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    #shopify-section-{{ section.id }} .wfa-card {
+      min-width: 0;
+    }
+
+    #shopify-section-{{ section.id }} .wfa-card-link {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    #shopify-section-{{ section.id }} .wfa-image-link {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      position: relative;
+    }
+
+    #shopify-section-{{ section.id }} .wfa-image-wrap {
+      position: relative;
+      background: #ffffff;
+      padding: 3px;
+      overflow: hidden;
+    }
+
+    #shopify-section-{{ section.id }} .cardGalleryBorderInner {
+      position: absolute;
+      inset: 20px;
+      border: 1px solid #fff;
+      pointer-events: none;
+      z-index: 2;
+      box-sizing: border-box;
+    }
+
+    #shopify-section-{{ section.id }} .wfa-image {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 0.82 / 1;
+      object-fit: cover;
+      transition: transform 0.35s ease;
+      background: #f5f2eb;
+    }
+
+    #shopify-section-{{ section.id }} .wfa-card:hover .wfa-image {
+      transform: scale(1.03);
+    }
+
+    #shopify-section-{{ section.id }} .wfa-quick-view-slot {
+      position: absolute;
+      left: 20px;
+      right: 20px;
+      bottom: 20px;
+      z-index: 4;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(10px);
+      transition: all 0.25s ease;
+      pointer-events: none;
+    }
+
+    #shopify-section-{{ section.id }} .wfa-card:hover .wfa-quick-view-slot,
+    #shopify-section-{{ section.id }} .wfa-image-wrap:hover .wfa-quick-view-slot {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    #shopify-section-{{ section.id }} .custom-quick-view{
+        display: block;
+    }
+
+    #shopify-section-{{ section.id }} .wfa-card-meta {
+      padding: 8px 2px 0;
+    }
+
+    #shopify-section-{{ section.id }} .wfa-vendor {
+      margin-bottom: 4px;
+      font-size: 16px;
+      line-height: 1.2;
+      text-transform: uppercase;
+      color: var(--wfa-muted);
+      letter-spacing: 1px;
+      font-family: Agrandir;
+    }
+
+    #shopify-section-{{ section.id }} .wfa-title {
+      font-size: 20px;
+      line-height: 1.35;
+      color: var(--wfa-text);
+      margin-bottom: 5px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    #shopify-section-{{ section.id }} .wfa-price-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      font-family: Agrandir;
+    }
+
+    #shopify-section-{{ section.id }} .wfa-price-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    #shopify-section-{{ section.id }} .wfa-price {
+      font-size: 16px;
+      line-height: 1.2;
+      color: #969696;
+    }
+
+    #shopify-section-{{ section.id }} .wfa-compare {
+      font-size: 11px;
+      line-height: 1.2;
+      color: #9a927c;
+      text-decoration: line-through;
+    }
+
+    #shopify-section-{{ section.id }} .wfa-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 3px 7px;
+      border-radius: 999px;
+      background: #d6a06a;
+      color: #ffffff;
+      font-size: 9px;
+      line-height: 1;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    #shopify-section-{{ section.id }} .wfa-footer {
+      margin-top: 30px;
+      text-align: center;
+    }
+
+    #shopify-section-{{ section.id }} .wfa-shop-all {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 26px;
+      background: var(--wfa-button-bg);
+      color: var(--wfa-button-text);
+      text-decoration: none;
+      font-family: Agrandir;
+      font-size: 14px;
+      line-height: 1;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    #shopify-section-{{ section.id }} .wfa-shop-all:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    #shopify-section-{{ section.id }} .wfa-shop-all.is-hidden {
+      display: none;
+    }
+
+    #shopify-section-{{ section.id }} .wfa-empty {
+      text-align: center;
+      padding: 40px 20px;
+      border: 1px solid var(--wfa-card-border);
+      background: transparent;
+      color: var(--wfa-muted);
+    }
+    @media screen and (max-width: 1024px) {
+ 
+
+  #shopify-section-{{ section.id }} .custom-quick-view,
+  #shopify-section-{{ section.id }} .custom-quick-view-cta {
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+}
+    @media screen and (max-width: 989px) {
+      #shopify-section-{{ section.id }} .wfa-inner {
+        padding: 260px 16px 60px ;
+      }
+
+      #shopify-section-{{ section.id }} .wfa-heading {
+        font-size: 28px;
+      }
+
+      #shopify-section-{{ section.id }} .wfa-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+      }
+    }
+    @media screen and (max-width: 768px){
+        .custom-quick-view-cta {
+            font-size: 12px;
+            width: unset;
+            margin: 0px;
+        }
+    }
+    @media screen and (max-width: 749px) {
+        #shopify-section-{{ section.id }} .cardGalleryBorderInner{
+                inset: 10px;
+        }
+
+      #shopify-section-{{ section.id }} .wfa-heading {
+        font-size: 24px;
+        margin-bottom: 16px;
+      }
+
+      #shopify-section-{{ section.id }} .wfa-tabs {
+        gap: 14px;
+        margin-bottom: 22px;
+      }
+
+      #shopify-section-{{ section.id }} .wfa-tab {
+        font-size: 11px;
+      }
+
+      #shopify-section-{{ section.id }} .wfa-title {
+        font-size: 14px;
+      }
+
+      #shopify-section-{{ section.id }} .wfa-price {
+        font-size: 12px;
+      }
+
+      #shopify-section-{{ section.id }} .wfa-shop-all {
+        font-size: 12px;
+      }
+    }
+    @media screen and (max-width: 600px) {
+      #shopify-section-{{ section.id }} .wfa-inner{
+        padding: 180px 16px 60px;
+  }
+    }
+    @media screen and (max-width: 500px) {
+  #shopify-section-{{ section.id }} .wfa-tabs {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    gap: 14px;
+    padding-bottom: 6px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  #shopify-section-{{ section.id }} .wfa-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  #shopify-section-{{ section.id }} .wfa-tab {
+    flex: 0 0 auto;
+    white-space: nowrap;
+  }
+  #shopify-section-{{ section.id }} .wfa-inner{
+    padding: 180px 16px 60px;
+  }
+}
+
+    @media screen and (max-width: 480px) {
+      #shopify-section-{{ section.id }} .wfa-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      #shopify-section-{{ section.id }} .wfa-quick-view-slot {
+        left: 12px;
+        right: 12px;
+        bottom: 12px;
+      }
+
+      #shopify-section-{{ section.id }} .wfa-quick-view-slot > *,
+      #shopify-section-{{ section.id }} .wfa-quick-view-slot .custom-quick-view,
+      #shopify-section-{{ section.id }} .wfa-quick-view-slot .custom-quick-view-cta,
+      #shopify-section-{{ section.id }} .wfa-quick-view-slot a,
+      #shopify-section-{{ section.id }} .wfa-quick-view-slot button {
+        min-height: 36px;
+        padding: 8px 12px;
+        font-size: 12px !important;
+        left: 0;
+        right: 0;
+      }
+
+      #shopify-section-{{ section.id }} .wfa-title {
+        min-height: 36px;
+      }
+
+      #shopify-section-{{ section.id }} .wfa-shop-all {
+        width: 100%;
+        max-width: 260px;
+      }
+    }
+  </style>
+
+  <script>
+    (function() {
+      function initWfaTabs(sectionId) {
+        var section = document.getElementById('shopify-section-' + sectionId);
+        if (!section) return;
+
+        var tabs = section.querySelectorAll('.wfa-tab');
+        var panels = section.querySelectorAll('.wfa-panel');
+        var shopAll = section.querySelector('[data-shop-all]');
+        var prefix = {{ section.settings.shop_all_prefix | json }};
+
+        if (!tabs.length) return;
+
+        function shopAllButtonText(prefix, label) {
+          var p = (prefix || '').trim();
+          var l = (label || '').trim();
+          if (!l) return p;
+          if (!p) return l;
+          if (p.toLowerCase() === l.toLowerCase()) return p;
+          return p + ' ' + l;
+        }
+
+        function activateTab(tab) {
+          var panelId = tab.getAttribute('data-panel');
+          var label = tab.getAttribute('data-label') || '';
+          var url = tab.getAttribute('data-url') || '';
+
+          tabs.forEach(function(item) {
+            item.classList.remove('is-active');
+            item.setAttribute('aria-selected', 'false');
+          });
+
+          panels.forEach(function(panel) {
+            panel.classList.remove('is-active');
+          });
+
+          tab.classList.add('is-active');
+          tab.setAttribute('aria-selected', 'true');
+
+          var activePanel = section.querySelector('#' + panelId);
+          if (activePanel) activePanel.classList.add('is-active');
+
+          if (shopAll) {
+            if (url !== '') {
+              shopAll.href = url;
+              shopAll.textContent = shopAllButtonText(prefix, label);
+              shopAll.classList.remove('is-hidden');
+            } else {
+              shopAll.removeAttribute('href');
+              shopAll.classList.add('is-hidden');
+            }
+          }
+        }
+
+        tabs.forEach(function(tab) {
+          tab.addEventListener('click', function() {
+            activateTab(tab);
+          });
+        });
+      }
+
+      initWfaTabs('{{ section.id }}');
+
+      document.addEventListener('shopify:section:load', function(event) {
+        if (event.detail && event.detail.sectionId === '{{ section.id }}') {
+          initWfaTabs('{{ section.id }}');
+        }
+      });
+    })();
+  </script>
+</div>
+
+{% schema %}
+{
+  "name": "Weaving product tabs",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "WEAVING FILIPINO ARTISTRY"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Background image"
+    },
+    {
+      "type": "text",
+      "id": "shop_all_prefix",
+      "label": "Shop all button prefix",
+      "default": "SHOP ALL"
+    },
+    {
+      "type": "text",
+      "id": "quick_view_label",
+      "label": "Quick view label",
+      "default": "QUICK VIEW"
+    },
+    {
+      "type": "text",
+      "id": "sale_badge_text",
+      "label": "Sale badge text",
+      "default": "SALE"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 4,
+      "max": 12,
+      "step": 1,
+      "label": "Products to show",
+      "default": 8
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "label": "Show vendor",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#6c6654"
+    },
+    {
+      "type": "color",
+      "id": "muted_color",
+      "label": "Muted text color",
+      "default": "#a59c89"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "default": "#b9a56a"
+    },
+    {
+      "type": "color",
+      "id": "card_border_color",
+      "label": "Card border color",
+      "default": "#d6ccb6"
+    },
+    {
+      "type": "color",
+      "id": "button_bg",
+      "label": "Button background",
+      "default": "#7e7a61"
+    },
+    {
+      "type": "color",
+      "id": "button_text",
+      "label": "Button text color",
+      "default": "#ffffff"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection_tab",
+      "name": "Collection tab",
+      "settings": [
+        {
+          "type": "text",
+          "id": "tab_label",
+          "label": "Tab label",
+          "default": "NECKLACES"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "Weaving product tabs",
+      "blocks": [
+        {
+          "type": "collection_tab"
+        },
+        {
+          "type": "collection_tab"
+        },
+        {
+          "type": "collection_tab"
+        },
+        {
+          "type": "collection_tab"
+        },
+        {
+          "type": "collection_tab"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

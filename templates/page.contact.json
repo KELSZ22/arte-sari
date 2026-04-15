@@ -168,7 +168,9 @@
     },
     "contact_details_PMqnyY": {
       "type": "contact-details",
-      "custom_css": [],
+      "custom_css": [
+        ".asc-detail-label{letter-spacing: 0}"
+      ],
       "name": "Contact Details",
       "settings": {
         "left_image": "shopify://shop_images/202506_ASDelRay-21_1.png",

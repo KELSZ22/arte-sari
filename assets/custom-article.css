@@ -1,6 +1,16 @@
+/* Blog post page surface (solid cream; no mobile wallpaper tile) */
 body.article-page-bg,
 body.article-page-bg #MainContent {
-  background: #f4ece6;
+  background-color: #f4ece6;
+  background-image: none;
+}
+
+@media screen and (max-width: 749px) {
+  body.article-page-bg #MainContent .shopify-section > .section-background,
+  body.article-page-bg #MainContent .shopify-section > .section {
+    background-color: #f4ece6 !important;
+    background-image: none !important;
+  }
 }
 
 /* Fonts for blog featured product card (blog templates may not load other sections’ @font-face) */
@@ -196,12 +206,12 @@ body.article-page-bg #MainContent {
 
 .custom-article-featured-product__share-heading {
   margin: 0 0 var(--margin-sm);
-  font-family: var(--font-body--family);
+  font-family: Agrandir;
   font-size: var(--font-size--body-xs);
   font-weight: 400;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--cafp-text-muted);
+  color: #686A54;
 }
 
 .custom-article-featured-product__share-icons {

@@ -39,7 +39,7 @@
       src="{{ 'dialog.js' | asset_url }}"
       type="module"
     ></script>
-
+      <button type="button" class="header st-wishlist-details-button st-wishlist-details-button--bottom_right st-initialized" aria-label="Open Wishlist Details" title="Open Wishlist Details" data-type="floating" style="border-radius: 8px; background-color: rgb(17, 17, 17); color: rgb(255, 255, 255); --icon-color: #dc2626;">  <svg width="20" height="20" class="st-wishlist-icon"> <use xlink:href="#st_details_icon"></use> </svg> <span class="st-label st-js-label">My Wishlist</span> <span class="st-number st-js-number st-none" data-count="0" style="--color: #fff; --bg-color: #FF0001;">0</span> </button>
     <anchored-popover-component
       data-close-on-resize="true"
       class="account-popover mobile:hidden"
@@ -122,7 +122,7 @@
         </div>
       </div>
     {% endcapture %}
-
+  
     <cart-drawer-component
       class="cart-drawer"
       {{ block.shopify_attributes }}
@@ -133,6 +133,8 @@
       <template id="empty-cart-template">
         {{ empty_cart_drawer_content }}
       </template>
+      <div class="custom-header-icon-container">
+        
       <button
         class="button header-actions__action button-unstyled"
         on:click="/open"
@@ -143,7 +145,8 @@
       >
         {{ cart_icon }}
       </button>
-
+      
+    </div>
       <dialog
         ref="dialog"
         class="cart-drawer__dialog dialog-modal dialog-drawer color-{{ settings.drawer_color_scheme }}{% if cart.empty? %} cart-drawer--empty{%endif%}"
@@ -222,6 +225,10 @@
 </header-actions>
 
 {% stylesheet %}
+  .custom-header-icon-container {
+    display: flex;
+}
+
   .account-popover {
     --account-popover-min-width: 22rem;
     --account-actions-max-width: 22rem;

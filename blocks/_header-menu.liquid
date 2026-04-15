@@ -17,7 +17,12 @@
       data-hydration-key="header-drawer-mobile"
       {{ block.shopify_attributes }}
     >
-      {% render 'header-drawer', linklist: block_settings.menu, data_header_drawer_type: 'mobile-drawer' %}
+      {% render 'header-drawer',
+  linklist: block_settings.menu,
+  data_header_drawer_type: 'mobile-drawer',
+  block: block,
+  section: section
+%}
     </div>
 
   {% when 'navigation_bar' %}
@@ -125,7 +130,7 @@
                 style="{% render 'submenu-font-styles', settings: block_settings %}"
               >
                 {% if is_shop_menu %}
-                  <div class="mega-menu mega-menu--shop section section--full-width-margin section--{{ section.settings.section_width }}">
+                  <div class="mega-menu mega-menu--shop section section--full-width-margin section--{{ section.settings.section_width }}" style="background-image: url('https://artesariph.myshopify.com/cdn/shop/files/arte-sari-brand-texture-04_1.webp?v=1771765247&width=3840'); background-size: cover; background-position: center; background-repeat: no-repeat;">
                     <div class="mega-menu__shop-layout">
                       <div class="mega-menu__shop-links">
                         {% for child_link in link.links %}
@@ -168,7 +173,8 @@
                           <div class="mega-menu__shop-feature-products">
                             {% if featured_product_1 != blank %}
                               <a href="{{ featured_product_1.url }}" class="mega-menu__feature-card">
-                                <div class="mega-menu__feature-card-image-wrap">
+                                <div class="mega-menu__feature-card-image-wrap" style="position: relative;">
+                                   <div class="cardGalleryBorderInner"></div>
                                   {% if featured_product_1.featured_image != blank %}
                                     {{
                                       featured_product_1.featured_image
@@ -188,7 +194,8 @@
 
                             {% if featured_product_2 != blank %}
                               <a href="{{ featured_product_2.url }}" class="mega-menu__feature-card">
-                                <div class="mega-menu__feature-card-image-wrap">
+                                <div class="mega-menu__feature-card-image-wrap" style="position: relative;">
+                                  <div class="cardGalleryBorderInner"></div>
                                   {% if featured_product_2.featured_image != blank %}
                                     {{
                                       featured_product_2.featured_image
@@ -283,7 +290,29 @@
     </header-menu>
 {% endcase %}
 
+
+
 {% stylesheet %}
+#shopify-section-{{ section.id }} .cardGalleryBorderInner {
+      position: absolute;
+      inset: 20px;
+      border: 1px solid #fff;
+      pointer-events: none;
+      z-index: 2;
+      box-sizing: border-box;
+    }
+  .mega-menu.mega-menu--shop.section.section--full-width-margin.section--page-width {
+    padding: 30px;
+}
+div#submenu-2 {
+    padding: 0 !important;
+}
+h3.mega-menu__shop-feature-heading {
+    font-family: 'Facelio';
+    font-size: 26px;
+    color: #686a54;
+    font-weight: normal;
+}
   .menu-list--mobile {
     &.menu-list {
       display: grid;
@@ -847,10 +876,18 @@
     margin: 0 0 18px;
     text-decoration: none;
     color: var(--color-foreground);
-    font-size: clamp(1rem, 1.1vw, 1.35rem);
+    font-size: 20px;
     line-height: 1.2;
   }
 
+a.mega-menu__shop-sublink {
+    font-family: Agrandir;
+    color: #686A54;
+    transition: all 0.01ms ease;
+}
+a.mega-menu__shop-sublink:hover {
+  font-weight: 600;
+}
   .mega-menu__shop-sublist {
     display: grid;
     gap: 14px;
@@ -869,13 +906,16 @@
   }
 
   .mega-menu__shop-cta-wrap {
-    grid-column: 1 / -1;
+    grid-column: 3 / -1;
     margin-top: 8px;
   }
 
   .mega-menu__shop-cta {
     min-width: 180px;
     justify-content: center;
+    background: #686A54;
+    border-radius: 0px;
+    font-family: 'Agrandir Regular';
   }
 
   .mega-menu__shop-feature {
@@ -891,7 +931,7 @@
   }
 
   .mega-menu__shop-feature-frame {
-    background: var(--shop-feature-frame-bg, #c8b36d);
+    background: url('https://artesariph.myshopify.com/cdn/shop/files/Frame_145.webp?v=1771765247&width=3840');
     padding: clamp(18px, 2vw, 32px);
   }
 
@@ -958,6 +998,11 @@
   "name": "t:names.menu",
   "tag": null,
   "settings": [
+    {
+      "type": "image_picker",
+      "id": "bg",
+      "label": "Background"
+    },
     {
       "type": "link_list",
       "id": "menu",

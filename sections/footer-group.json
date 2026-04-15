@@ -18,21 +18,21 @@
           "type": "left_link",
           "settings": {
             "label": "SHOP",
-            "link": ""
+            "link": "https://artesariph.myshopify.com/collections/all"
           }
         },
         "left_link_MPqXKU": {
           "type": "left_link",
           "settings": {
             "label": "ABOUT",
-            "link": ""
+            "link": "shopify://pages/about-us"
           }
         },
         "left_link_DaECtJ": {
           "type": "left_link",
           "settings": {
             "label": "WHOLESALE",
-            "link": ""
+            "link": "shopify://pages/wholesale"
           }
         },
         "left_link_QWyjUG": {
@@ -46,7 +46,7 @@
           "type": "right_link",
           "settings": {
             "label": "CONTACT",
-            "link": ""
+            "link": "shopify://pages/contact"
           }
         },
         "right_link_hjLUH7": {
@@ -82,9 +82,9 @@
         "logo_size": 200,
         "tagline": "",
         "description": "<p>Arte Sari is a platform that brings thoughtfully curated Filipino products to the US and global market. Born from a deep love for Filipino culture and a commitment to preserving its rich heritage, it seeks to house unique and diverse local products from all over the Philippines.</p>",
-        "copyright_text": "ALL RIGHTS RESERVED. WEBSITE BY: DAYDREAM BRANDING STUDIO",
+        "copyright_text": "ALL RIGHTS RESERVED. WEBSITE BY:",
         "facebook_url": "https://web.facebook.com/artsarisariph",
-        "instagram_url": "https://web.facebook.com/artsarisariph"
+        "instagram_url": "https://www.instagram.com/artesari.shop"
       }
     },
     "footer_m9NzUG": {

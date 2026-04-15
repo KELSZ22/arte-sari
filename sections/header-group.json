@@ -78,6 +78,7 @@
           "type": "_header-menu",
           "static": true,
           "settings": {
+            "bg": "shopify://shop_images/arte-sari-brand-texture-04_1.webp",
             "menu": "main-menu",
             "color_scheme": "",
             "type_font_primary_size": "0.875rem",
@@ -88,7 +89,7 @@
             "featured_products_aspect_ratio": "4 / 5",
             "featured_collections_aspect_ratio": "16 / 9",
             "image_border_radius": 0,
-            "shop_feature_heading": "Weaving Filipino Artistry",
+            "shop_feature_heading": "WEAVING FILIPINO ARTISTRY",
             "shop_feature_product_1": "featured-product-2",
             "shop_feature_product_2": "featured-product-2",
             "shop_all_link": "shopify://collections/all",

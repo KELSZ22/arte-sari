@@ -1,0 +1,116 @@
+/**
+ * Cart drawer + cart page: checkout CTAs and cart typography (Facelio / Agrandir).
+ */
+@font-face {
+  font-family: Facelio;
+  src: url("https://cdn.shopify.com/s/files/1/0728/1321/5942/files/Facelio.woff2?v=1771643523")
+    format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Agrandir;
+  src: url("https://cdn.shopify.com/s/files/1/0728/1321/5942/files/Agrandir-Regular.woff2?v=1771643523")
+    format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+
+/* Drawer + page: main “Cart” title */
+.cart-drawer__heading.h4,
+.cart-drawer__heading.cart-drawer__heading--empty {
+  font-family: Facelio, serif;
+  font-size: 32px;
+  text-transform: uppercase;
+  font-weight:400;
+}
+
+.cart-title h1 {
+  font-family: Facelio, serif;
+  font-size: 32px;
+  text-transform: uppercase;
+}
+
+/* Count badge: keep readable vs. large title */
+.cart-drawer__heading .cart-bubble__text {
+  font-family: Agrandir, sans-serif;
+  font-size: var(--font-size--xs);
+}
+
+/* Line item meta (variants, properties, etc.) */
+.cart-items__variants,
+.cart-items__variants *,
+.cart-items__properties,
+.cart-items__properties *,
+.cart-items__bundle,
+.cart-items__bundle *,
+.cart-items__details > p:not(:has(.cart-items__title)),
+.cart-items__details > ul[role="list"] li {
+  font-family: Agrandir, sans-serif;
+  font-size: 16px;
+}
+
+/* Cart-level discounts + discount code accordion */
+.cart-discounts,
+.cart-discounts *,
+.cart-discount .cart-primary-typography,
+.cart-discount__summary,
+.cart-discount__content,
+.cart-discount__form,
+.cart-discount__input,
+.cart-discount__pill,
+.cart-discount__pill-code,
+.cart-discount__error-text {
+  font-family: Agrandir, sans-serif;
+  font-size: 16px;
+}
+
+/* Estimated total: label + price */
+.cart-totals__total .cart-totals__total-label,
+.cart-totals__total .cart-totals__total-value,
+.cart-totals__total text-component.cart-totals__total-value {
+  font-family: Fraunces, serif;
+  font-size: 16px;
+}
+
+/* Taxes / shipping note (tax-info) */
+.cart-totals__tax-note,
+.cart-totals__tax-note small {
+  font-family: Agrandir, sans-serif;
+  font-size: 14px;
+}
+
+/* Continue shopping */
+.cart__ctas .cart__continue-shopping-button.button {
+  width: 100%;
+  height: clamp(25px, var(--height-buy-buttons), 55px);
+  padding-inline: var(--padding-4xl);
+  border-radius: 0;
+  border: 0;
+  font-family: Agrandir, sans-serif;
+  font-size: 14px;
+  text-transform: uppercase;
+  box-shadow: none;
+  --button-border-width: 0;
+}
+
+.cart__ctas .cart__continue-shopping-button.button:hover {
+  box-shadow: none;
+  font-family: Agrandir, sans-serif;
+}
+
+/* Checkout + discount apply (same primary treatment) */
+.cart__checkout-button.button,
+.cart-discount__button.button {
+  --color-primary-button-background: #686a54;
+  --color-primary-button-border: #686a54;
+  --color-primary-button-text: #fff;
+  --color-primary-button-hover-background: #5a5c47;
+  --color-primary-button-hover-border: #5a5c47;
+  --color-primary-button-hover-text: #fff;
+
+  border-radius: 0;
+  font-family: Agrandir, sans-serif;
+  font-size: 14px;
+  text-transform: uppercase;
+}
