@@ -1,26 +1,27 @@
+/*
 import { yieldToMainThread } from '@theme/utilities';
 import { Component } from '@theme/component';
 
 /**
  * FlyToCart custom element for animating product images to cart
  * This component creates a visual effect of a product "flying" to the cart when added
- */
+ * /
 class FlyToCart extends Component {
-  /** @type {Element} */
+  /** @type {Element} * /
   source;
 
-  /** @type {boolean} */
+  /** @type {boolean} * /
   useSourceSize = false;
 
-  /** @type {Element} */
+  /** @type {Element} * /
   destination;
 
   connectedCallback() {
     super.connectedCallback();
     const intersectionObserver = new IntersectionObserver((entries) => {
-      /** @type {DOMRectReadOnly | null} */
+      /** @type {DOMRectReadOnly | null} * /
       let sourceRect = null;
-      /** @type {DOMRectReadOnly | null} */
+      /** @type {DOMRectReadOnly | null} * /
       let destinationRect = null;
 
       entries.forEach((entry) => {
@@ -45,7 +46,7 @@ class FlyToCart extends Component {
    * Animates the flying thingy along the bezier curve.
    * @param {DOMRectReadOnly} sourceRect - The bounding client rect of the source.
    * @param {DOMRectReadOnly} destinationRect - The bounding client rect of the destination.
-   */
+   * /
   #animate = async (sourceRect, destinationRect) => {
     //Define bezier curve points
     const startPoint = {
@@ -78,3 +79,4 @@ class FlyToCart extends Component {
 if (!customElements.get('fly-to-cart')) {
   customElements.define('fly-to-cart', FlyToCart);
 }
+*/

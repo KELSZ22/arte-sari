@@ -151,7 +151,8 @@
     "new_contact_CHYiCH": {
       "type": "new-contact",
       "custom_css": [
-        ".as-contact-header {margin-bottom: 50px;}"
+        ".as-contact-header {margin-bottom: 50px;}",
+        ".as-contact-field--inquiry {max-width: 100%;}"
       ],
       "name": "Contact Section",
       "settings": {
@@ -169,7 +170,7 @@
     "contact_details_PMqnyY": {
       "type": "contact-details",
       "custom_css": [
-        ".asc-detail-label{letter-spacing: 0}"
+        ".asc-detail-label {letter-spacing: 0;}"
       ],
       "name": "Contact Details",
       "settings": {
