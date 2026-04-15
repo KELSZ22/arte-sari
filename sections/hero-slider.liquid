@@ -9,7 +9,7 @@
 
 <div
   id="HeroSlider-{{ section.id }}"
-  class="hero-slider color-{{ section.settings.color_scheme }}"
+  class="hero-zoom-pop hero-slider color-{{ section.settings.color_scheme }}"
   data-hero-slider
   data-autoplay-delay="{{ section.settings.autoplay_delay | times: 1000 }}"
   data-autoplay-enabled="{{ section.settings.enable_autoplay }}"
@@ -143,7 +143,7 @@
               }}
             {% endif %}
 
-            <div class="hero-slider__paper-content">
+            <div class="text-fade-up hero-slider__paper-content">
               {% if block.settings.heading != blank %}
                 <h1
                   class="hero-slider__heading {{ block.settings.heading_size }}"
@@ -369,10 +369,19 @@
     height: 750px;
   }
   @media screen and (max-width: 767px){
-    h1.hero-slider__heading.h1{
+    .hero-slider__paper-content h1.hero-slider__heading.h1{
       font-size: 32px !important;
     }
 
+  }
+
+  @media screen and (max-width: 989px) {
+    .hero-slider__content-wrapper.page-width {
+      padding: 0;
+  }
+    h1.hero-slider__heading.h1 {
+    font-size: 40px !important;
+}
   }
   @media screen and (min-width: 750px) {
     .hero-slider__paper-image--desktop {
@@ -407,7 +416,7 @@
   .hero-slider__heading.h1 {
     font-size: 2.5rem;
     line-height: 1.2;
-    max-width: 700px;
+    max-width: 750px;
     margin: auto;
   }
 

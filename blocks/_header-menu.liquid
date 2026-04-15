@@ -17,7 +17,12 @@
       data-hydration-key="header-drawer-mobile"
       {{ block.shopify_attributes }}
     >
-      {% render 'header-drawer', linklist: block_settings.menu, data_header_drawer_type: 'mobile-drawer' %}
+      {% render 'header-drawer',
+  linklist: block_settings.menu,
+  data_header_drawer_type: 'mobile-drawer',
+  block: block,
+  section: section
+%}
     </div>
 
   {% when 'navigation_bar' %}
@@ -168,7 +173,8 @@
                           <div class="mega-menu__shop-feature-products">
                             {% if featured_product_1 != blank %}
                               <a href="{{ featured_product_1.url }}" class="mega-menu__feature-card">
-                                <div class="mega-menu__feature-card-image-wrap">
+                                <div class="mega-menu__feature-card-image-wrap" style="position: relative;">
+                                   <div class="cardGalleryBorderInner"></div>
                                   {% if featured_product_1.featured_image != blank %}
                                     {{
                                       featured_product_1.featured_image
@@ -188,7 +194,8 @@
 
                             {% if featured_product_2 != blank %}
                               <a href="{{ featured_product_2.url }}" class="mega-menu__feature-card">
-                                <div class="mega-menu__feature-card-image-wrap">
+                                <div class="mega-menu__feature-card-image-wrap" style="position: relative;">
+                                  <div class="cardGalleryBorderInner"></div>
                                   {% if featured_product_2.featured_image != blank %}
                                     {{
                                       featured_product_2.featured_image
@@ -286,6 +293,14 @@
 
 
 {% stylesheet %}
+#shopify-section-{{ section.id }} .cardGalleryBorderInner {
+      position: absolute;
+      inset: 20px;
+      border: 1px solid #fff;
+      pointer-events: none;
+      z-index: 2;
+      box-sizing: border-box;
+    }
   .mega-menu.mega-menu--shop.section.section--full-width-margin.section--page-width {
     padding: 30px;
 }
@@ -867,7 +882,11 @@ h3.mega-menu__shop-feature-heading {
 
 a.mega-menu__shop-sublink {
     font-family: Agrandir;
-    color: #969696;
+    color: #686A54;
+    transition: all 0.01ms ease;
+}
+a.mega-menu__shop-sublink:hover {
+  font-weight: 600;
 }
   .mega-menu__shop-sublist {
     display: grid;
@@ -912,7 +931,7 @@ a.mega-menu__shop-sublink {
   }
 
   .mega-menu__shop-feature-frame {
-    background: var(--shop-feature-frame-bg, #c8b36d);
+    background: url('https://artesariph.myshopify.com/cdn/shop/files/Frame_145.webp?v=1771765247&width=3840');
     padding: clamp(18px, 2vw, 32px);
   }
 

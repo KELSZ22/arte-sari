@@ -3235,7 +3235,7 @@ label:has(input[type='checkbox']:disabled) {
 .cart-bubble__background {
   position: absolute;
   inset: 0;
-  background-color: var(--color-primary-button-background);
+  background-color: #686a54;
   border-radius: var(--style-border-radius-lg);
 }
 
@@ -4945,6 +4945,78 @@ product-recommendations:has([data-has-recommendations='false']) {
     display: none !important;
   }
   .header__columns .search-action {
-    display: none;
+    display: ;
   }
+}
+main#MainContent {
+    overflow: hidden;
+}
+span.st-label {
+    display: none;
+}
+button.st-wishlist-details-button.st-wishlist-details-button--bottom_right.st-initialized {
+    position: relative;
+    bottom: 0;
+    right: 0;
+    background: transparent !important;
+    box-shadow: none !important;
+        height: 44px;
+    
+}
+button.header.st-wishlist-details-button.st-wishlist-details-button--bottom_right.st-initialized svg.st-wishlist-icon {
+    color: #DAAE7C !important;
+}
+
+span.st-number.st-js-number {
+    position: absolute;
+    top: 15px!important;
+    bottom: 0;
+    left: 37px!important;
+    background-color: #686a54;
+    height: 20px!important;
+    width: 20px!important;
+    font-size: 10px !important;
+}
+.st-h3.h2 {
+    font-family: Facelio !important;
+}
+ul.st-wishlist-shares.st-list-style-none.st-flex.st-gap-20.st-justify-center {
+    display: none !important;
+}
+.st-product-card_title a {
+    font-family: Facelio;
+    font-size: 25px;
+}
+.st-wishlist-details_wrapper .st-product-card_group.st-product-card_group--quantity button.st-atc-button {
+    background: #686a54 !important;
+    font-family: 'Agrandir';
+}
+product-card button.st-wishlist-button.right_top.st-initialized {
+    display: none;
+}
+button.st-wishlist-button.full-width.st-initialized.st-is-added svg.st-wishlist-icon, button.st-wishlist-button.full-width.st-initialized svg.st-wishlist-icon {
+    width: 44px !important;
+    height: 44px !important;
+    color: #DAAE7C !important;
+}
+button.st-wishlist-button.full-width.st-initialized.st-is-added, button.st-wishlist-button.full-width.st-initialized {
+    width: 65px !important;
+    border: 0 !important;
+    right: 40px !important;
+    position: absolute;
+    background: transparent !important;
+    z-index: 3;
+}
+button.st-wishlist-details-button.st-wishlist-details-button--bottom_right.st-initialized {
+    display: none;
+}
+button.header.st-wishlist-details-button.st-wishlist-details-button--bottom_right.st-initialized {
+    display: block;
+}
+nav.as-footer__nav.as-footer__nav--left a:hover, nav.as-footer__nav.as-footer__nav--right a:hover {
+    text-decoration: underline !important;
+}
+a.st-atc-button {
+    background: #686a54!important;
+    font-family: Agrandir !important;
 }

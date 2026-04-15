@@ -366,7 +366,7 @@
         "bullet_color": "#686a54",
         "bullet_line_height": 1.4,
         "button_label": "INTRODUCE YOUR BRAND",
-        "button_link": "",
+        "button_link": "shopify://pages/contact",
         "button_font_family": "Agrandir",
         "button_font_size": 14,
         "button_font_weight": "normal",
