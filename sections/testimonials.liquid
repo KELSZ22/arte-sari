@@ -4,7 +4,7 @@
 
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
 <section
-  class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }} testimonials spacing-style"
+  class="hero-zoom-pop section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }} testimonials spacing-style"
   style="
     {% render 'spacing-style', settings: section.settings %}
     --testimonials-heading-color: {{ section.settings.heading_color }};
@@ -21,7 +21,7 @@
     {% endif %}
 
     {% if testimonial_blocks.size > 0 %}
-      <div class="testimonials__grid">
+      <div class="testimonials__grid slide-up-animation">
         {% for block in testimonial_blocks %}
           <div class="testimonials__item" {{ block.shopify_attributes }}>
             <div class="testimonials__card">

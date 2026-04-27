@@ -275,7 +275,7 @@
   }
 </style>
 
-<section class="gc-section" id="gc-section-{{ section.id }}">
+<section class="hero-zoom-pop gc-section" id="gc-section-{{ section.id }}">
   {% if section.settings.background_image != blank %}
     <div class="gc-section__bg" style="background-image: url('{{ section.settings.background_image | image_url: width: 1920 }}');"></div>
   {% endif %}
@@ -288,7 +288,7 @@
       {% endif %}
     </div>
 
-    <div class="gc-grid">
+    <div class="gc-grid slide-up-animation">
       {% for block in section.blocks %}
         {% if block.type == 'grid_item' %}
           <div class="gc-grid__item" {{ block.shopify_attributes }}>

@@ -125,7 +125,146 @@
     {% if settings.quick_add or settings.mobile_quick_add %}
       {% render 'quick-add-modal' %}
     {% endif %}
+    {% comment %}
+    popup effect
+{% endcomment %}
+<script>
+  const animatedSections = new WeakSet();
+  const animatedStandaloneItems = new WeakSet();
 
+  function prepareSlideUpAnimation(root) {
+    const slideGroups = root.querySelectorAll('.slide-up-animation');
+
+    slideGroups.forEach(function (group) {
+      Array.from(group.children).forEach(function (item, index) {
+        item.style.setProperty('--slide-up-index', index);
+      });
+    });
+  }
+
+  function showTextFadeUp(root) {
+    const textGroups = root.querySelectorAll('.text-fade-up');
+
+    textGroups.forEach(function (text) {
+      text.classList.add('is-visible');
+    });
+  }
+
+  function showSlideUpAnimation(root) {
+    const slideGroups = root.querySelectorAll('.slide-up-animation');
+
+    slideGroups.forEach(function (group) {
+      group.classList.add('is-visible');
+    });
+  }
+
+  function animateSection(section) {
+    if (animatedSections.has(section)) return;
+
+    animatedSections.add(section);
+
+    prepareSlideUpAnimation(section);
+
+    section.classList.add('is-loaded');
+
+    setTimeout(function () {
+      showTextFadeUp(section);
+      showSlideUpAnimation(section);
+    }, 900);
+  }
+
+  function animateStandaloneItem(item) {
+    if (animatedStandaloneItems.has(item)) return;
+
+    animatedStandaloneItems.add(item);
+
+    if (item.classList.contains('slide-up-animation')) {
+      Array.from(item.children).forEach(function (child, index) {
+        child.style.setProperty('--slide-up-index', index);
+      });
+    }
+
+    item.classList.add('is-visible');
+  }
+
+  function initHeroAnimations(root) {
+    const heroes = root.querySelectorAll('.hero-zoom-pop');
+
+    const observer = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            animateSection(entry.target);
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.3
+      }
+    );
+
+    heroes.forEach(function (hero) {
+      hero.classList.remove('is-loaded');
+
+      hero.querySelectorAll('.text-fade-up').forEach(function (text) {
+        text.classList.remove('is-visible');
+      });
+
+      hero.querySelectorAll('.slide-up-animation').forEach(function (group) {
+        group.classList.remove('is-visible');
+      });
+
+      observer.observe(hero);
+    });
+  }
+
+  function initStandaloneAnimations(root) {
+    const standaloneItems = root.querySelectorAll('.text-fade-up, .slide-up-animation');
+
+    const observer = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            animateStandaloneItem(entry.target);
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.25,
+        rootMargin: '0px 0px -60px 0px'
+      }
+    );
+
+    standaloneItems.forEach(function (item) {
+      if (item.closest('.hero-zoom-pop')) return;
+
+      item.classList.remove('is-visible');
+
+      if (item.classList.contains('slide-up-animation')) {
+        Array.from(item.children).forEach(function (child, index) {
+          child.style.setProperty('--slide-up-index', index);
+        });
+      }
+
+      observer.observe(item);
+    });
+  }
+
+  function initAnimations(root) {
+    initHeroAnimations(root);
+    initStandaloneAnimations(root);
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    initAnimations(document);
+  });
+
+  document.addEventListener('shopify:section:load', function (event) {
+    initAnimations(event.target);
+  });
+</script>
 
   </body>
 </html>

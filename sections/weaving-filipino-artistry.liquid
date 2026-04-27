@@ -36,7 +36,7 @@
 >
   {% if section.settings.bg_image != blank %}
     <div
-      class="wfa-bg"
+      class="wfa-bg hero-zoom-pop"
       style="background-image: url('{{ section.settings.bg_image | image_url: width: 2000 }}');"
     ></div>
   {% endif %}
@@ -81,7 +81,7 @@
               aria-labelledby="wfa-tab-{{ section.id }}-{{ block.id }}"
             >
               {% if collection != blank and collection.products_count > 0 %}
-                <div class="wfa-grid">
+                <div class="wfa-grid slide-up-animation">
                   {% for product in collection.products limit: section.settings.products_to_show %}
                     <div class="wfa-card">
                       <div class="wfa-image-wrap">

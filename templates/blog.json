@@ -360,8 +360,6 @@
       "custom_css": [],
       "settings": {
         "color_scheme": "",
-        "enable_custom_background": true,
-        "background_color": "#ffffff",
         "background_image": "shopify://shop_images/Pattern_Background_d1098fe6-5b76-4277-9461-888224bb5587.png",
         "padding-block-start": 0,
         "padding-block-end": 80

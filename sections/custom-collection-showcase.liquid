@@ -31,9 +31,9 @@
   endif
 %}
 
-<div class="ccs section-background color-{{ section.settings.color_scheme }}"></div>
+<div class="  ccs section-background color-{{ section.settings.color_scheme }}"></div>
 <section
-  class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }} custom-collection-showcase spacing-style"
+  class="hero-zoom-pop section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }} custom-collection-showcase spacing-style"
   style="
     {% render 'spacing-style', settings: section.settings %}
     --custom-collection-columns: {{ section.settings.columns }};
@@ -100,7 +100,7 @@
   </div>
 
   <div class="custom-collection-showcase__products-wrap">
-    <ul class="custom-collection-showcase__products" role="list">
+    <ul class="custom-collection-showcase__products slide-up-animation" role="list">
       {% if selected_collection != blank and selected_collection.products_count > 0 %}
         {% for product in selected_collection.products limit: section.settings.products_to_show %}
           <li class="custom-collection-showcase__item">
