@@ -6,17 +6,27 @@ import { Component } from '@theme/component';
  * This component creates a visual effect of a product "flying" to the cart when added
  */
 class FlyToCart extends Component {
-  /** @type {Element} */
-  source;
+  /** @type {Element | null} */
+  source = null;
 
   /** @type {boolean} */
   useSourceSize = false;
 
-  /** @type {Element} */
-  destination;
+  /** @type {Element | null} */
+  destination = null;
 
   connectedCallback() {
     super.connectedCallback();
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) {
+      this.remove();
+      return;
+    }
+    if (!this.source || !this.destination) {
+      this.remove();
+      return;
+    }
+
     const intersectionObserver = new IntersectionObserver((entries) => {
       /** @type {DOMRectReadOnly | null} */
       let sourceRect = null;
@@ -57,6 +67,11 @@ class FlyToCart extends Component {
       x: destinationRect.left + destinationRect.width / 2,
       y: destinationRect.top + destinationRect.height / 2,
     };
+    const travelDistance = Math.hypot(endPoint.x - startPoint.x, endPoint.y - startPoint.y);
+
+    // Keep motion subtle by adapting duration/offset to travel distance.
+    const duration = Math.min(650, Math.max(420, travelDistance * 0.65));
+    const offsetY = Math.min(10, Math.max(4, travelDistance * 0.015));
 
     // Position the flying thingy back to the start point
     if (this.useSourceSize) {
@@ -67,6 +82,8 @@ class FlyToCart extends Component {
     this.style.setProperty('--start-y', `${startPoint.y}px`);
     this.style.setProperty('--travel-x', `${endPoint.x - startPoint.x}px`);
     this.style.setProperty('--travel-y', `${endPoint.y - startPoint.y}px`);
+    this.style.setProperty('--offset-y', `${offsetY}px`);
+    this.style.animationDuration = `${duration}ms`;
 
     await yieldToMainThread();
 
